@@ -1,0 +1,39 @@
+country_name,ISO_3,index,p_1,p_2,p_3,p_4,p_5,p_index,,k,percentile
+Cameroon,CMR,0.230,1,0,0,0,0,1,,0.00,0.20
+Central African Republic,CAF,0.267,0,2,0,0,0,2,,0.20,0.23
+Chad,TCD,0.286,0,0,3,0,0,3,,0.40,0.28
+Congo,CHN,0.204,1,0,0,0,0,1,,0.60,0.30
+DR Congo,DOM,0.233,0,2,0,0,0,2,,0.80,0.32
+Burundi,BDI,0.217,1,0,0,0,0,1,,1.00,0.39
+Eritrea,ERI,0.252,0,2,0,0,0,2,,,
+Ethiopia,ETH,0.259,0,2,0,0,0,2,,,
+Kenya,KEN,0.280,0,2,0,0,0,2,,,
+Rwanda,RWA,0.389,0,0,0,0,5,5,,,
+Somalia,SOM,0.222,1,0,0,0,0,1,,,
+South Sudan,ZAF,0.213,1,0,0,0,0,1,,,
+Sudan,SDN,0.217,1,0,0,0,0,1,,,
+Uganda,UGA,0.300,0,0,0,4,0,4,,,
+Nigeria,NGA,0.280,0,0,3,0,0,3,,,
+Benin,BEN,0.301,0,0,0,4,0,4,,,
+Cote d'Ivoire,CRI,0.276,0,2,0,0,0,2,,,
+Ghana,GHA,0.295,0,0,3,0,0,3,,,
+Senegal,SEN,0.326,0,0,0,0,5,5,,,
+Togo,TGO,0.288,0,0,3,0,0,3,,,
+Burkina Faso,BFA,0.312,0,0,0,4,0,4,,,
+Guinea,GIN,0.285,0,0,3,0,0,3,,,
+Liberia,LBR,0.310,0,0,0,4,0,4,,,
+Mali,MLI,0.324,0,0,0,0,5,5,,,
+Mauritania,MRT,0.219,1,0,0,0,0,1,,,
+Niger,NER,0.290,0,0,3,0,0,3,,,
+Sierra Leone,SLE,0.329,0,0,0,0,5,5,,,
+Angola,AGO,0.211,1,0,0,0,0,1,,,
+Botswana,BWA,0.352,0,0,0,0,5,5,,,
+Lesotho,LSO,0.285,0,0,3,0,0,3,,,
+Madagascar,MDG,0.320,0,0,0,0,5,5,,,
+Malawi,MWI,0.306,0,0,0,4,0,4,,,
+Mozambique,MOZ,0.282,0,0,3,0,0,3,,,
+Namibia,NAM,0.336,0,0,0,0,5,5,,,
+Tanzania,TJK,0.315,0,0,0,4,0,4,,,
+Zambia,ZMB,0.332,0,0,0,0,5,5,,,
+Zimbabwe,ZWE,0.270,0,2,0,0,0,2,,,
+South Africa,ZAF,0.300,0,0,0,4,0,4,,,

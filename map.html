@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>MapboxGL & D3.js - dpolygon</title>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        html,
+        body,
+        #wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #map {
+            position: relative;
+            width: 100%;
+            height: 70%;
+            margin: auto auto;
+        }
+
+        #map svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+
+        .default_label {
+            color: blue !important;
+        }
+
+        .matrix_btn>div {
+            display: inline-block;
+        }
+
+        .rect:hover,
+        .tick:hover {
+            cursor: pointer;
+        }
+
+        .x_mouseovered {
+            font-size: 1.3em !important;
+            fill: blue !important;
+        }
+    </style>
+    <script src="./data.js"></script>
+    <script src="./jquery.js"></script>
+    <script src="./materialize_v1.js"></script>
+    <link rel="stylesheet" href="./materialize.min.css">
+
+
+
+    <script src='//unpkg.com/d3@5.0.0/dist/d3.min.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="map"></div>
+        <div id="matrix">
+            <div class='matrix_btn'>
+
+                <div><a class="waves-effect waves-light btn-small environmental">Environmental</a></div>
+                <div><a class="waves-effect waves-light btn-small social">Social</a></div>
+                <div><a class="waves-effect waves-light btn-small financial">Financial</a></div>
+            </div>
+        </div>
+        <div class="heatmap"></div>
+    </div>
+
+
+    <script>
+        var y_elements = ['environmental', 'social', 'political', 'financial'];
+        var environmental_arr = [];
+        var social_arr = [];
+        var political_arr = [];
+        var financial_arr = [];
+        var mouseovered_path = {}
+
+
+        //  d3.json("ken.geojson").then(mapDraw);
+        d3.json("custom.geo.json").then(mapDraw);
+
+
+        function mapDraw(geojson) {
+            console.log(geojson)
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpbWl6dSIsImEiOiJjam95MDBhamYxMjA1M2tyemk2aHMwenp5In0.i2kMIJulhyPLwp3jiLlpsA'
+
+
+            var all_data = level_1.features.map(function (d) {
+                return {
+                    country: d.country,
+                    data: d.data
+                };
+            });
+
+            var countries_arr = level_1.features.map(function (d) {
+                return d.iso_code;
+            });
+            var index_arr = level_1.features.map(function (d) {
+                return d.data.index;
+            });
+
+            var x_elements = countries_arr;
+
+            level_1.features.forEach(function (d) {
+
+                for (var index in d.data) {
+                    console.warn(d.code)
+                    var arr = window[index + '_arr'];
+                    arr.push({
+                        country: d.country,
+
+                        _code: d.iso_code,
+                        index_type: index,
+                        index_value: d.data[index],
+                        color: null
+                    })
+                }
+            });
+
+
+            console.log(financial_arr)
+            financial_arr_values = financial_arr.map(function (d) {
+                return d.index_value;
+            })
+
+            var all_data_plot = environmental_arr.concat(social_arr).concat(political_arr).concat(financial_arr);
+            console.log(all_data_plot)
+
+            var buckets = x_elements.length;
+            var max_width = 900;
+            console.log(countries_arr)
+
+            var xScale = d3.scaleBand()
+                .domain(x_elements)
+                .range([0, 900])
+                .padding(0.05)
+
+            var xAxis = d3.axisBottom()
+                //d3.svg.axis()
+                .scale(xScale)
+                .tickFormat(function (d) {
+                    console.warn(d)
+                    return d;
+                })
+            // .orient("top")
+
+
+            var yScale = d3.scaleBand()
+                //d3.scaleBand()
+                .domain(y_elements)
+                .range([0, y_elements.length * xScale.bandwidth()])
+                .padding(0.05)
+
+            var yAxis = d3.axisLeft()
+                .scale(yScale)
+                .tickFormat(function (d) {
+                    return d;
+                })
+            // .orient("left");
+
+            cellSize = xScale.bandwidth(),
+                margin = {
+                    top: 30,
+                    right: 120,
+                    bottom: 2,
+                    left: 50
+                };
+            console.log(level_1.features.length)
+            var width = (cellSize * buckets) - margin.right - margin.left,
+                height = 500 - margin.top - margin.bottom;
+            console.log(width)
+            //theroy:535, real: 821
+            console.log(height)
+            // var colorScale = d3.scale.threshold()
+            var colorScale = d3.scaleThreshold()
+                //.domain([0, 0.2])
+                .domain(d3.range(0, 0.1, 0.1 / 4))
+                //.domain(d3.range(d3.min(financial_arr_values), d3.max(financial_arr_values), d3.max(financial_arr_values) / 4))
+
+                .range(["#8bc34a", "#3f51b5", "#e91e63", "#ffeb3b"]);
+
+
+            // Three function that change the tooltip when user hover / move / leave a cell
+            var mouseover = function (d) {
+                console.log(d)
+                tooltip.style("opacity", 1)
+            }
+            var mousemove = function (d) {
+                tooltip
+                    .html("The exact value of<br>this cell is: " + d.value)
+                    .style("left", (d3.mouse(this)[0] + 70) + "px")
+                    .style("top", (d3.mouse(this)[1]) + "px")
+            }
+            var mouseleave = function (d) {
+                tooltip.style("opacity", 0)
+            }
+
+            var svg = d3.select('.heatmap')
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            var cells = svg.selectAll('rect')
+
+            cells.data(all_data_plot)
+
+                .enter().append('g').classed('g_classed', true)
+                .append('rect')
+                .attr('class', 'cell')
+                .attr('width', cellSize)
+                .attr('height', cellSize)
+
+                // .attr("width", x.bandwidth())
+                //     .attr("height", y.bandwidth())
+
+                .attr('y', function (d) {
+                    //  return yScale(d.data.political);
+                    console.info(d)
+                    return yScale(d.index_type);
+                })
+                .attr('x', function (d) {
+                    return xScale(d._code);
+                })
+                .attr('fill', function (d) {
+                    d.color = colorScale(d.index_value);
+                    geojson.features.forEach(function (item) {
+
+                        if (item.properties.code == d._code) {
+                            console.log(item)
+                            item.properties.color = d.color;
+                        }
+                    })
+
+                    return d.color;
+                })
+                // .on('mouseover', function (d) {
+                //     console.log(d.index)
+                // })
+
+                .attr("value", function (d) {
+                    return d.environmental;
+                })
+
+            var rects = d3.selectAll('rect');
+            var mouseover_label = function (d) {
+                //console.warn(d)
+                //code
+                $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered')
+                console.info($(d3.event.target))
+                $(d3.event.target).addClass('x_mouseovered');
+
+                rects.style("opacity", 0.2);
+                rects.filter(function (data) {
+                    return data._code == d;
+                }).style("opacity", 1);
+                // .mouseovered_country
+                // {
+                //     fill
+                // }
+                var t = 'path[code=' + d + ']';
+                console.log($('path[code=' + d + ']'))
+                console.info($(t))
+                var sel_path = d3.selectAll("path[code=" + d + "]")
+                mouseovered_path.ori_color = sel_path.attr('fill')
+                mouseovered_path.sel_path = sel_path;
+
+                sel_path.transition()
+                    .duration(200)
+                    .attr('fill', '#ea24d2')
+
+            }
+
+            var mouseout_label = function (d) {
+
+                mouseovered_path.sel_path.transition()
+                    .duration(400)
+                    .attr('fill', mouseovered_path.ori_color)
+            }
+
+            svg.selectAll('g.g_classed').on('mouseover', mouseover)
+                .on('mousemove', mousemove)
+                .on("mouseleave", mouseleave)
+
+            //.on('mousemove', mousemove_label)
+            //.on("mouseleave", mouseleave_label)
+
+
+
+            var tooltip = d3.select(".heatmap")
+                .append("div")
+                .style("opacity", 1)
+                .attr("class", "tooltip")
+                .style("background-color", "white")
+                .style("border", "solid")
+                .style("border-width", "2px")
+                .style("border-radius", "5px")
+                .style("padding", "5px")
+
+
+
+            // cells.on('mouseover', mouseover)
+            //     .on('mousemove', mousemove)
+            //     .on("mouseleave", mouseleave)
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .selectAll('text')
+                .attr('font-weight', 'normal');
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .call(xAxis)
+                .selectAll('text')
+                .classed('default_label', true)
+                .attr('font-weight', 'normal')
+                .style("text-anchor", "start")
+                .attr("dx", ".8em")
+                .attr("dy", ".5em")
+                .attr("transform", function (d) {
+                    return "rotate(-65)";
+                });
+
+            console.warn(d3.selectAll('.tick'))
+            d3.selectAll('.tick').on('mouseover', mouseover_label).on('mouseout', mouseout_label)
+
+
+            //Setup mapbox-gl map
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                style: 'mapbox://styles/mapbox/streets-v8',
+                center: [19, -1],
+                //center: [141.15448379999998, 39.702053　],
+                zoom: 3,
+            })
+
+            map.addControl(new mapboxgl.NavigationControl());
+
+            var container = map.getCanvasContainer()
+            var svg = d3.select(container).append("svg")
+
+
+            var transform = d3.geoTransform({
+                point: projectPoint
+            });
+            var path = d3.geoPath().projection(transform);
+
+            var featureElement = svg.selectAll("path")
+                .data(geojson.features)
+                .enter()
+                .append("path")
+                .attr("stroke", "white")
+                .attr("fill", "#34bffd")
+                .attr("fill-opacity", 0.9)
+                .attr("code", function (d) {
+
+                    return d.properties.code;
+                })
+
+
+            function update() {
+                featureElement.attr("d", path);
+            }
+
+            //
+            map.on("viewreset", update)
+            map.on("movestart", function () {
+                svg.classed("hidden", true);
+            });
+            map.on("rotate", function () {
+                svg.classed("hidden", true);
+            });
+            map.on("moveend", function () {
+                update()
+                svg.classed("hidden", false);
+            })
+
+
+            update();
+            var map_paths = d3.selectAll("#map path");
+
+            function get_color(d, param) {
+
+                //d comes from the geojson
+                //param: environmental, etc.
+                //if (d.properties.code==)
+
+
+                var color;
+                window[param + '_arr'].forEach(function (data) {
+                    if (data._code == d.properties.code) {
+                        color = data.color;
+                    }
+                })
+                return color;
+            }
+
+            function update_by_index(param) {
+                map_paths
+                    .transition()
+                    .duration(150)
+                    .delay(function (d, i) {
+                        return i * 10;
+                    })
+                    // .attr("delay", function(d, i) {
+                    //     return 100 * i
+                    // })
+
+                    .attr('fill', function (d) {
+                        console.log(get_color(d, param))
+                        return get_color(d, param)
+
+                        //return d.properties.color;
+
+                    })
+            }
+            setTimeout(function () {
+
+                update_by_index('financial');
+
+                $('.matrix_btn').click(function (e) {
+                    if ($(e.target).hasClass('environmental')) {
+                        update_by_index('environmental');
+                    }
+                    if ($(e.target).hasClass('social')) {
+                        update_by_index('social');
+                    }
+                    if ($(e.target).hasClass('financial')) {
+                        update_by_index('financial');
+                    }
+                    if ($(e.target).hasClass('political')) {
+                        update_by_index('political');
+                    }
+                })
+
+
+
+                // $('path[code=MLI]').animate({
+                //         'fill-opacity': 0.6,
+                //         'fill': 'blue'
+                //     }, 500)
+                //  animate({height: "20px"}, 500)
+                // d3.selectAll("path[code=MLI]").transition()
+                //     .duration(1500)
+                //     .attr('fill', '#ffeb3b')
+
+                // environmental_arr.forEach(function(d) {
+                //     var index=d.code;
+
+                // })
+            }, 200)
+
+
+            function projectPoint(lon, lat) {
+                var point = map.project(new mapboxgl.LngLat(lon, lat));
+                this.stream.point(point.x, point.y);
+            }
+
+
+        }
+    </script>
+</body>
