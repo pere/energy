@@ -615,6 +615,11 @@
                 update_by_index('main_index_class');
 
                 $('.matrix_btn').click(function (e) {
+                    $('.btn-small.selected').removeClass('selected');
+
+                    if ($(e.target).hasClass('btn-small'))
+                        $(e.target).addClass('selected')
+
                     if ($(e.target).hasClass('environmental')) {
                         update_by_index('financial_index_class');
                     }
