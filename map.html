@@ -3,9 +3,60 @@
 <head>
     <meta charset="utf-8">
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <title>MapboxGL & D3.js - dpolygon</title>
+    <title>JRC Energy</title>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        /* cyrillic-ext */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WRhyzbi.woff2) format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2) format('woff2');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* vietnamese */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WZhyzbi.woff2) format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
         html,
         body,
         #wrapper {
@@ -13,6 +64,7 @@
             height: 100%;
             padding: 0px;
             margin: 0px;
+            font-family: 'Montserrat'
         }
 
         #map {
@@ -20,12 +72,77 @@
             width: 100%;
             height: 70%;
             margin: auto auto;
+            top: -40px;
         }
 
         #map svg {
             position: absolute;
             width: 100%;
             height: 100%;
+        }
+
+        .heatmap {
+            /* margin-left: 50px; */
+            position: relative;
+            top: -81px;
+        }
+
+        .btn-small.selected {
+            background-color: #9acd32;
+        }
+
+        .overlay_layers_collection .collection-item .title {
+            display: flex;
+            font-size: 1em;
+            /* justify-content: center; */
+            align-items: center;
+        }
+
+        .dropdown-content li {
+            line-height: 3.9rem !important;
+        }
+
+        .dropdown-content.active>li {
+            margin-top: 0px !important;
+        }
+
+        .theme_container .collection-item {
+            border: 0px solid #e0e0e0 !important;
+        }
+
+        .theme_container .collection {
+            border: 0px solid #e0e0e0 !important;
+        }
+
+        .dropdown-button.active {
+            background-color: #7fafdf;
+        }
+
+        .animated-icon {
+            width: 30px;
+            height: 30px;
+            background-color: rgba(21, 158, 221, 0.87);
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            opacity: 1;
+            box-shadow: 0px 0px 4px white;
+            transition: background 1s linear;
+            -webkit-transition: background 1s linear;
+            -moz-transition: background 1s linear;
+            /* transition: all 1s; */
+        }
+
+        .mapboxgl-ctrl-logo {
+            display: none !important;
+        }
+
+        .inner_circle {
+            display: block;
+            color: #f7f7f7;
+            text-align: center;
+            font-size: 8px;
+            line-height: 20px;
         }
 
         .hidden {
@@ -35,17 +152,38 @@
         .axis path,
         .axis line {
             fill: none;
-            stroke: black;
+            stroke: rgb(0, 0, 0);
             shape-rendering: crispEdges;
+            display: none;
+        }
+
+        .domain {
+            display: none;
+        }
+
+        .x_tick line {
+            display: none;
         }
 
         .axis text {
-            font-family: sans-serif;
+
             font-size: 11px;
+        }
+
+        .y.axis text {
+            font-size: 11px;
+            text-transform: uppercase;
+
         }
 
         .default_label {
             color: blue !important;
+        }
+
+        .matrix_btn {
+            position: relative;
+            top: -80px;
+            margin-left: 20px;
         }
 
         .matrix_btn>div {
@@ -61,27 +199,393 @@
             font-size: 1.3em !important;
             fill: blue !important;
         }
+
+        .dropdown-content {
+            /* top: 63px!important; */
+            width: auto !important;
+            height: auto;
+        }
+
+        #overlays_dropdown.dropdown-content,
+        #baselayers_dropdown.dropdown-content {
+            top: 63px !important;
+            padding: 13px;
+            min-height: 300px;
+        }
+
+        .dropdown_legend_btn {
+            background-color: #00bcd4;
+        }
+
+        .input-field input[type="search"]~.material-icons.icon-close {
+            right: 2rem;
+        }
+
+        .search_div {
+            max-width: 350px;
+        }
+
+        #baselayers_dropdown {
+            min-width: 300px !important;
+        }
+
+        .dropdown-content [type="checkbox"]+label {
+            top: -10px !important;
+        }
+
+        input[type="checkbox"]+label {
+            top: 10px !important;
+            margin-left: 16px !important;
+        }
+
+
+        nav {
+            height: 75px !important;
+            line-height: 75px !important;
+        }
+
+        .material-icons {
+            display: inline-flex;
+            vertical-align: top;
+        }
+
+        .title.show:hover {
+            cursor: pointer;
+            color: #6570ef;
+        }
+
+        i.material-icons {
+            font-size: 15px !important;
+            padding-right: 10px !important;
+            display: block;
+            margin-right: 0px !important;
+        }
+
+
+        .overlay_layers_collection .collection-item .title span {
+            width: 98% !important;
+        }
+
+        .nav-wrapper {
+            margin-left: 10px !important;
+        }
+
+        .nav-wrapper .collection .collection-item {
+            padding: 0px 10px !important;
+        }
+
+        #overlays_dropdown {
+            min-width: 300px;
+        }
+
+        #overlays_dropdown .main.collection-item {
+            min-height: 35px;
+        }
+
+        .overlay_layers_collection .collection-item i.material-icons {
+            font-size: 19px !important;
+            padding-right: 10px !important;
+        }
+
+
+        .material-icons:hover,
+        .card-panel:hover {
+            cursor: pointer;
+        }
+
+        .palette {
+            color: gray;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .palette.on {
+            color: cornflowerblue;
+            opacity: 1;
+        }
+
+        .expanded_layer {
+            display: block !important;
+        }
+
+        .expanded_layer .col {
+            background-color: aqua;
+        }
+
+        .collection-item .title:hover {
+            background-color: #86a2cc;
+            padding: 5px;
+        }
+
+        .theme_container.collection-item {
+            background-color: rgb(170, 172, 166);
+        }
+
+        .theme_container .collection-item.on {
+            background-color: rgb(194, 236, 78) !important;
+        }
+
+        .theme_container .collection-item:hover {
+            background-color: rgb(233, 161, 29) !important;
+        }
+
+        .theme_container {
+            display: none;
+        }
+
+        .theme_container.on {
+            display: block;
+        }
+
+        .sidenav {
+            top: 75px !important;
+            width: 35%;
+            left: 5px !important;
+            width: 400px !important;
+            height: calc(65%) !important;
+            background-color: #f2f2f2;
+            padding: 8px;
+        }
+
+        .sidenav .subheader {
+            line-height: 15px !important;
+        }
+
+
+        .sidenav .card.collapsible-header {
+            background-color: #90b8f3;
+            margin: 0 0;
+            line-height: 0px !important;
+            border-bottom: 1px solid grey;
+        }
+
+        .sidenav .general_stats {
+            margin-left: 30px;
+        }
+
+        .general_stats .title {
+            font-size: 1.1em;
+        }
+
+        .general_stats .data {
+            font-size: 0.9em;
+            display: block;
+
+        }
+
+        nav {
+            background-color: #ee6e73 !important;
+            pointer-events: auto !important;
+        }
+
+        nav a.sidenav-trigger {
+            display: block !important;
+        }
+
+        .sidenav .card .card-content {
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        .sidenav .collapsible-body {
+            border-bottom: 1px solid #d2c4c4;
+            background-color: transparent !important;
+            /* background-color:#f3eded!important; */
+
+        }
+
+        .sidenav .collapsible-body>div {
+            display: none;
+        }
+
+        .sidenav div.collapsible-body div.mangroves .highcharts-container {
+            /* margin-top: 70px; */
+        }
+
+        .sidenav div.collapsible-body div#mangroves_gain,
+        .sidenav div.collapsible-body div#mangroves_loss {
+
+            margin: 15px;
+            height: 240px;
+        }
+
+        .sidenav div.collapsible-body div.mangroves_bar_chart {
+
+            margin: 5px;
+            height: 300px;
+            margin-left: 15px !important;
+        }
+
+
+        .sidenav li.active .collapsible-body {
+            background-color: #ffffff0d;
+        }
+
+        .sidenav li.active {
+            background-color: inherit;
+        }
+
+        .sidenav table {
+            margin-left: 10px;
+            width: 94%important;
+        }
+
+        #topbarsearch .input-field .prefix {
+            width: 0rem !important;
+        }
+
+        #topbarsearch nav ul li:hover,
+        nav ul li.active {
+            background-color: none !important;
+        }
+
+        .input-field .prefix~input,
+        .input-field .prefix~textarea,
+        .input-field .prefix~label,
+        .input-field .prefix~.validate~label,
+        .input-field .prefix~.autocomplete-content {
+            margin-left: 1rem !important;
+        }
     </style>
-    <script src="./data.js"></script>
+    <script src="./data_new.js"></script>
     <script src="./jquery.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./materialize_v1.js"></script>
     <link rel="stylesheet" href="./materialize.min.css">
 
 
 
     <script src='//unpkg.com/d3@5.0.0/dist/d3.min.js'></script>
+    <script src='./d3-selection-multi.min.js'></script>
+    <script src="./topojson.v1.min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
 </head>
 
 <body>
+    <ul id="overlays_dropdown" class="overlay_layers_collection dropdown-content">
+        <li class="main collection-item" data-layer="countries">
+            <div class="title">
+                <span>Countries</span>
+                <i class="material-icons highlight on show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+
+        <li class="main collection-item" data-layer="gaul_1">
+            <div class="title">
+                <span>Gaul Level 1</span>
+                <i class="material-icons highlight show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+        <li class="main collection-item" data-layer="basins_5">
+            <div class="title">
+                <span>Global basins Level 5</span>
+                <i class="material-icons highlight show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+
+        <li class="main collection-item" data-layer="basins_6">
+            <div class="title">
+                <span>Basins Level 6</span>
+                <i class="material-icons highlight show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+
+    </ul>
+    <ul id="baselayers_dropdown" class="dropdown-content">
+        <li>
+            <span>
+                <input id='own_map' type="checkbox" checked />
+                <label for='own_map'>Own map</label>
+            </span>
+
+            <span>
+                <input id='osm' type="checkbox" />
+                <label for='osm'>OpenStreet Map</label>
+            </span>
+            <span>
+                <input id='satellite' type="checkbox" />
+                <label for='satellite'>Satellite</label>
+            </span>
+        </li>
+    </ul>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">Energy</a>
+
+
+            <form>
+
+
+                <ul class="right hide-on-med-and-down">
+
+                    <li>
+                        <a class="dropdown-trigger btn waves-effect waves-light" href="#!"
+                            data-target="overlays_dropdown">
+                            <span>Overlay Layers</span></a>
+                        <a class="dropdown-trigger btn btn-large waves-effect waves-light" href="#!"
+                            data-target="baselayers_dropdown">
+                            <span>Base Layers</span></a>
+
+                    </li>
+                    <li><a href="#" data-target="slide-out" class="sidenav-trigger" style="display: block!important;"><i
+                                class="material-icons">view_module</i></a></li>
+
+                    <li>
+
+                        <div class="center row">
+                            <div class="col s12 ">
+                                <div class="row" id="topbarsearch">
+                                    <div class="input-field col s6 s12">
+                                        <i class="material-icons prefix">search</i>
+                                        <input type="text" placeholder="search" id="autocomplete-input"
+                                            class="autocomplete red-text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="input-field">
+                                                        <a href="#"><i class="material-icons">search</i></a>
+                            
+                                                        <input type="text" id="autocomplete-input" class="autocomplete">
+                                                    </div>
+                                                    <label for="autocomplete-input">Search a country</label> -->
+                    </li>
+                    <!-- <div class="col s4 center search input-field"> 
+                                                    <input class="autocomplete" type="text" id="autocomplete-input" placeholder="Search" />
+                                                </div> -->
+                    <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+    <ul id="slide-out" class="sidenav">
+        <h4>Energy Information</h4>
+    </ul>
     <div id="wrapper">
         <div id="map"></div>
         <div id="matrix">
             <div class='matrix_btn'>
-
-                <div><a class="waves-effect waves-light btn-small environmental">Environmental</a></div>
-                <div><a class="waves-effect waves-light btn-small social">Social</a></div>
-                <div><a class="waves-effect waves-light btn-small financial">Financial</a></div>
+                <div><a class="btn-small main_index selected">Main index</a></div>
+                <div><a class="btn-small environmental">Environmental</a></div>
+                <div><a class="btn-small social">Social</a></div>
+                <div><a class="btn-small financial">Financial</a></div>
+                <div><a class="btn-small political">Political</a></div>
             </div>
         </div>
         <div class="heatmap"></div>
@@ -89,16 +593,68 @@
 
 
     <script>
-        var y_elements = ['environmental', 'social', 'political', 'financial'];
-        var environmental_arr = [];
-        var social_arr = [];
-        var political_arr = [];
-        var financial_arr = [];
-        var mouseovered_path = {}
+        var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+        var markers_obj_arr = [];
+
+        var env_index_class_arr = [];
+        var main_index_class_arr = [];
+        var social_index_class_arr = [];
+        var political_index_class_arr = [];
+        var financial_index_class_arr = [];
+        var mouseovered_path = {};
+
+        function getRandomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function round_this(someNumber, digits) {
+            switch (digits) {
+                case 1: var p = 1e1; break;
+                case 2: var p = 1e2; break;
+                case 3: var p = 1e3; break;
+                case 4: var p = 1e4; break;
+            }
+            return Math.round(someNumber * p) / p;
+        }
 
 
-        //  d3.json("ken.geojson").then(mapDraw);
-        d3.json("custom.geo.json").then(mapDraw);
+
+        $('.dropdown-trigger').dropdown({
+            inDuration: 300,
+            constrainWidth: false,
+            closeOnClick: false,
+            container: '#layers_menu',
+            outDuration: 225,
+            hover: false, // Activate on hover,
+            stopPropagation: true,
+            belowOrigin: true, // Displays dropdown below the button
+            alignment: 'left' // Displays dropdown with edge aligned to the left of button
+        });
+
+        $('#slide-out').sidenav({
+
+            edge: 'left', // Choose the horizontal origin
+            draggable: true, // Choose whether you can drag to open on touch screens,
+            onOpenEnd: function (el) {
+                $('.sidenav-trigger').addClass('on');
+
+            },
+
+            onCloseEnd: function (el) { }, // A function to be called when sideNav is closed
+        });
+
+        $('.sidenav-trigger').on('click', function (e) {
+
+            if ($(this).hasClass('on')) {
+                e.preventDefault()
+                $('#slide-out').sidenav('close').removeClass('sidenav_on');
+                $(this).removeClass('on')
+                return false
+            }
+        })
+        //  $('.collapsible').collapsible();
+
+        d3.json("countries.json").then(mapDraw);
 
 
         function mapDraw(geojson) {
@@ -113,54 +669,71 @@
                 };
             });
 
+            // var all_centroids = geojson.map(function(d) {
+            //     console.log(d)
+            // })
+
+
             var countries_arr = level_1.features.map(function (d) {
-                return d.iso_code;
-            });
-            var index_arr = level_1.features.map(function (d) {
-                return d.data.index;
+                return d.code;
             });
 
             var x_elements = countries_arr;
 
-            level_1.features.forEach(function (d) {
 
+            level_1.features.forEach(function (d) {
+                /*
+                "data":{
+                "main_index_val":0.267,
+                "main_index_class":2,
+                "env_index_class":5,
+                "social_index_class":5,
+                "political_index_class":3,
+                "financial_index_class":1
+                }
+                */
                 for (var index in d.data) {
                     console.warn(d.code)
-                    var arr = window[index + '_arr'];
-                    arr.push({
-                        country: d.country,
+                    console.log(index)
+                    if (index !== 'main_index_val') {
+                        //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+                        var arr = window[index + '_arr'];
 
-                        _code: d.iso_code,
-                        index_type: index,
-                        index_value: d.data[index],
-                        color: null
-                    })
+                        arr.push({
+                            country: d.country,
+
+                            _code: d.code,
+                            index_type: index,
+                            index_value: d.data[index],
+                            color: null
+                        })
+                    }
                 }
             });
 
 
-            console.log(financial_arr)
-            financial_arr_values = financial_arr.map(function (d) {
-                return d.index_value;
-            })
+            console.log(political_index_class_arr)
 
-            var all_data_plot = environmental_arr.concat(social_arr).concat(political_arr).concat(financial_arr);
+            //  var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+            var all_data_plot = env_index_class_arr.concat(financial_index_class_arr).concat(political_index_class_arr).concat(social_index_class_arr).concat(main_index_class_arr);
             console.log(all_data_plot)
 
-            var buckets = x_elements.length;
-            var max_width = 900;
+            var buckets = x_elements.length + 1;
+            var max_width = 1400;
             console.log(countries_arr)
 
             var xScale = d3.scaleBand()
                 .domain(x_elements)
-                .range([0, 900])
-                .padding(0.05)
+                .range([0, max_width - 170])
+                //.range([0, y_elements.length * xScale.bandwidth()])
+                .padding(0.2)
 
             var xAxis = d3.axisBottom()
                 //d3.svg.axis()
                 .scale(xScale)
+
                 .tickFormat(function (d) {
-                    console.warn(d)
+
                     return d;
                 })
             // .orient("top")
@@ -169,25 +742,27 @@
             var yScale = d3.scaleBand()
                 //d3.scaleBand()
                 .domain(y_elements)
-                .range([0, y_elements.length * xScale.bandwidth()])
-                .padding(0.05)
+                .range([0, y_elements.length * xScale.bandwidth() + 10])
+                .padding(0.02)
 
             var yAxis = d3.axisLeft()
                 .scale(yScale)
+
                 .tickFormat(function (d) {
+                    //  console.log(d)
                     return d;
                 })
             // .orient("left");
 
             cellSize = xScale.bandwidth(),
                 margin = {
-                    top: 30,
+                    top: 40,
                     right: 120,
                     bottom: 2,
-                    left: 50
+                    left: 100
                 };
-            console.log(level_1.features.length)
-            var width = (cellSize * buckets) - margin.right - margin.left,
+
+            var width = max_width - margin.right - margin.left,
                 height = 500 - margin.top - margin.bottom;
             console.log(width)
             //theroy:535, real: 821
@@ -195,10 +770,10 @@
             // var colorScale = d3.scale.threshold()
             var colorScale = d3.scaleThreshold()
                 //.domain([0, 0.2])
-                .domain(d3.range(0, 0.1, 0.1 / 4))
+                .domain([1, 2, 3, 4, 5])
                 //.domain(d3.range(d3.min(financial_arr_values), d3.max(financial_arr_values), d3.max(financial_arr_values) / 4))
 
-                .range(["#8bc34a", "#3f51b5", "#e91e63", "#ffeb3b"]);
+                .range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
 
 
             // Three function that change the tooltip when user hover / move / leave a cell
@@ -218,10 +793,11 @@
 
             var svg = d3.select('.heatmap')
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
+                .attr("width", width + (margin.left) * 2 + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(150," + margin.top + ")");
 
             var cells = svg.selectAll('rect')
 
@@ -268,38 +844,57 @@
             var mouseover_label = function (d) {
                 //console.warn(d)
                 //code
-                $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered')
-                console.info($(d3.event.target))
-                $(d3.event.target).addClass('x_mouseovered');
+                console.warn($(d3.event.target).parent())
+                if ($(d3.event.target).parent().hasClass('x_tick')) {
+                    $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered')
 
-                rects.style("opacity", 0.2);
-                rects.filter(function (data) {
-                    return data._code == d;
-                }).style("opacity", 1);
-                // .mouseovered_country
-                // {
-                //     fill
-                // }
-                var t = 'path[code=' + d + ']';
-                console.log($('path[code=' + d + ']'))
-                console.info($(t))
-                var sel_path = d3.selectAll("path[code=" + d + "]")
-                mouseovered_path.ori_color = sel_path.attr('fill')
-                mouseovered_path.sel_path = sel_path;
+                    $(d3.event.target).addClass('x_mouseovered');
 
-                sel_path.transition()
-                    .duration(200)
-                    .attr('fill', '#ea24d2')
+                    rects.style("opacity", 0.2);
+                    rects.filter(function (data) {
+                        return data._code == d;
+                    }).style("opacity", 1);
+                    // .mouseovered_country
+                    // {
+                    //     fill
+                    // }
+                    var t = 'path[code=' + d + ']';
+                    console.log($('path[code=' + d + ']'))
+                    console.info($(t))
+                    var sel_path = d3.selectAll("path[code=" + d + "]")
+                    mouseovered_path.ori_color = sel_path.attr('fill')
+                    mouseovered_path.sel_path = sel_path;
+
+                    sel_path.transition()
+                        .duration(300)
+                        .attr('fill', '#ea24d2')
+                }
+                else {
+                    console.log(d)
+                    rects.style("opacity", 0.3);
+                    rects.filter(function (data) {
+                        return data.index_type == d;
+                    }).style("opacity", 1);
+                }
+
 
             }
 
             var mouseout_label = function (d) {
+                if ($(d3.event.target).parent().hasClass('x_tick')) {
+                    mouseovered_path.sel_path.transition()
+                        .duration(300)
+                        .attr('fill', mouseovered_path.ori_color);
 
-                mouseovered_path.sel_path.transition()
-                    .duration(400)
-                    .attr('fill', mouseovered_path.ori_color)
+                    $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered');
+                    //   rects.style("opacity", 1);
+                }
             }
 
+            var mouseleave_svg = function (d) {
+                console.log('leave')
+                rects.style("opacity", 1);
+            }
             svg.selectAll('g.g_classed').on('mouseover', mouseover)
                 .on('mousemove', mousemove)
                 .on("mouseleave", mouseleave)
@@ -328,24 +923,43 @@
             svg.append("g")
                 .attr("class", "y axis")
                 .call(yAxis)
+                .selectAll('.tick')
+
+                .classed('y_tick', true)
                 .selectAll('text')
+                //.text('test')
+                .text(function (d) {
+                    //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+                    switch (d) {
+                        case 'env_index_class': return 'Environmental'; break;
+                        case 'financial_index_class': return 'Financial'; break;
+                        case 'political_index_class': return 'Political'; break;
+                        case 'social_index_class': return 'Social'; break;
+                        case 'main_index_class': return 'General'; break;
+                        default: break;
+                    }
+                })
                 .attr('font-weight', 'normal');
 
             svg.append("g")
                 .attr("class", "x axis")
                 .call(xAxis)
+                .selectAll('.tick')
+                .classed('x_tick', true)
                 .selectAll('text')
                 .classed('default_label', true)
                 .attr('font-weight', 'normal')
                 .style("text-anchor", "start")
-                .attr("dx", ".8em")
+                // .attr("dx", ".3em")
                 .attr("dy", ".5em")
+                .attr("y", -5)
                 .attr("transform", function (d) {
                     return "rotate(-65)";
                 });
 
             console.warn(d3.selectAll('.tick'))
             d3.selectAll('.tick').on('mouseover', mouseover_label).on('mouseout', mouseout_label)
+            d3.selectAll('.heatmap svg').on('mouseout', mouseleave_svg)
 
 
             //Setup mapbox-gl map
@@ -353,14 +967,19 @@
                 container: 'map', // container id
                 style: 'mapbox://styles/mapbox/streets-v8',
                 center: [19, -1],
+
                 //center: [141.15448379999998, 39.702053　],
-                zoom: 3,
+                zoom: 2.5,
+                attributionControl: false
             })
+
+
 
             map.addControl(new mapboxgl.NavigationControl());
 
             var container = map.getCanvasContainer()
-            var svg = d3.select(container).append("svg")
+            var svg = d3.select(container).append("svg");
+            var gaul_1;
 
 
             var transform = d3.geoTransform({
@@ -368,10 +987,45 @@
             });
             var path = d3.geoPath().projection(transform);
 
+            // d3.json("./africa_gaul_1.json").then(function (africa) {
+
+            //     var container = map.getCanvasContainer()
+            //     var svg = d3.select(container).append("svg");
+            //     var gaul_1;
+
+
+            //     var transform = d3.geoTransform({
+            //         point: projectPoint
+            //     });
+            //     var path = d3.geoPath().projection(transform);
+            //     //console.log(london.objects['london-neighborhoods-slim'])
+
+            //     var f = topojson.feature(africa, africa.objects['africa_gaul_1']);
+            //     console.info(f)
+            //     // gaul_1 = svg.append("path")
+            //     //     .datum(f)
+            //     //     .attr("class", "gaul_1")
+            //     //     .attr("d", path)
+
+            //     var gaul_1 = svg.selectAll("path")
+            //         .data(f.features)
+            //         .enter()
+            //         .append("path")
+            //         .classed('gaul_1', true)
+            //         .attr("stroke", "white")
+            //         .attr("fill", "#34bffd")
+            //         .attr("fill-opacity", 0.8)
+
+            //     gaul_1.attr("d", path);
+            //     console.log(gaul_1)
+
+            // })
+
             var featureElement = svg.selectAll("path")
                 .data(geojson.features)
                 .enter()
                 .append("path")
+                .classed('country', true)
                 .attr("stroke", "white")
                 .attr("fill", "#34bffd")
                 .attr("fill-opacity", 0.9)
@@ -379,10 +1033,69 @@
 
                     return d.properties.code;
                 })
+                .on('mouseover', function (d) {
+                    console.log(d)
 
+                    //https://github.com/d3/d3-selection-multi#d3-selection-multi
+                    var _sel = rects.filter(function (data) {
+                        //   console.log(data)
+                        return data._code == d.properties.code;
+                    });
+                    console.log(_sel)
+                    console.info(rects.selectAll('.sel_cell_from_map'))
+                    d3.selectAll('.sel_cell_from_map')
+                        .attrs(
+                            function (d, i) {
+                                return {
+
+                                    //"stroke": 'white',
+                                    'stroke-width': 0
+                                    //  'stroke-opacity': 0.9
+
+                                }
+                            }
+                        ).classed('sel_cell_from_map', false);
+
+                    _sel.attrs(
+                        function (d, i) {
+                            return {
+                                "stroke": '#ee6e73',
+                                'stroke-width': 3,
+                                'stroke-opacity': 0.9
+                            }
+                        }
+                    ).classed('sel_cell_from_map', true);
+
+                })
+                .on('mouseout', function (d) {
+
+                    d3.selectAll('.sel_cell_from_map')
+                        .attrs(
+                            function (d, i) {
+                                return {
+
+                                    //"stroke": 'white',
+                                    'stroke-width': 0
+                                    //  'stroke-opacity': 0.9
+
+                                }
+                            }
+                        ).classed('sel_cell_from_map', false);
+                })
 
             function update() {
+                console.log(featureElement)
                 featureElement.attr("d", path);
+                setTimeout(function () {
+                    var sel_gaul_1 = d3.selectAll("path.gaul_1");
+                    console.info(sel_gaul_1)
+                    sel_gaul_1.attr("d", path);
+                }, 500)
+
+
+                //    gaul_1.attr("d", path);
+                //svg.selectAll('path').attr("d", path);
+
             }
 
             //
@@ -399,16 +1112,59 @@
             })
 
 
+
             update();
-            var map_paths = d3.selectAll("#map path");
+
+            /*
+             var el = document.createElement('circle');
+                        el.setAttribute('r', 50);
+                        el.setAttribute('fill', '#0e44e7');
+                        */
+            console.info(geojson.features)
+
+            //geojson.features.forEach(function (d) {
+            for (var p in geojson.features) {
+
+                var d = geojson.features[p];
+
+                var c = d.properties.centroid.split(' , ');
+                var lng = round_this(c[0], 2);
+                var lat = round_this(c[1], 2);
+                markers_obj_arr.push({
+                    centroid: [lng, lat],
+                    code: d.properties.code,
+                    //  random_num: getRandomInRange(5, 70)
+                });
+            }
+
+            markers_obj_arr.forEach(function (d) {
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'animated-icon my-icon';
+                el.id = 'centroid_' + d.code;
+
+
+                var t_data = level_1.features.filter(function (data) {
+                    return data.code == d.code;
+                })[0]
+
+
+                if (!t_data) return false;
+                new mapboxgl.Marker(el)
+
+                    .setLngLat(d.centroid)
+                    .addTo(map);
+
+            })
+
+            var map_paths = d3.selectAll("#map path.gaul_1");
 
             function get_color(d, param) {
+                console.log(d)
 
                 //d comes from the geojson
                 //param: environmental, etc.
                 //if (d.properties.code==)
-
-
                 var color;
                 window[param + '_arr'].forEach(function (data) {
                     if (data._code == d.properties.code) {
@@ -418,43 +1174,123 @@
                 return color;
             }
 
+            function update_circles_by_index(param) {
+                //financial_index_class
+                var params_arr = window[param + '_arr'];
+                switch (param) {
+
+                }
+                var circs_values = params_arr.map(function (d) {
+                    return d.index_value;
+                })
+
+                var rscale = d3.scaleLinear()
+                    .domain([d3.min(circs_values), d3.max(circs_values)])
+                    .range([25, 60])
+                // update_by_index('main_index_class');
+
+
+                markers_obj_arr.forEach(function (d) {
+                    //console.log(d)
+                    var t_data = level_1.features.filter(function (data) {
+                        return data.code == d.code;
+                    })[0];
+                    if (!t_data) {
+                        return false;
+                    }
+                    var sel_data = t_data.data;
+                    var sel_radius = rscale(sel_data[param])
+
+                    // make a marker for each feature and add to the map
+
+                    setTimeout(function () {
+
+                        var $centroid = $('#centroid_' + d.code);
+
+                        if ($centroid.find('.inner_circle').length == 0)
+                            $centroid.append('<span class="inner_circle">' + sel_data[param] + '</span>');
+                        else
+                            $centroid.find('.inner_circle').text(sel_data[param])
+
+                        $centroid.data(t_data);
+
+                        $centroid.animate({
+                            //   width: '50px',
+                            width: sel_radius + 'px',
+                            height: sel_radius + 'px'
+                            //  height: '50px'
+                        }
+
+                        ).css(
+                            'background-color',
+                            '#e91e63'
+                        )
+
+                        $centroid.find('.inner_circle').animate(
+                            {
+                                'line-height': sel_radius + 'px',
+                                'font-size': sel_radius / 3
+
+
+
+                            })
+                    }, 300)
+                })
+            }
             function update_by_index(param) {
+
+                rects.style("opacity", 0.2);
+                rects.filter(function (data) {
+
+                    return data.index_type == param;
+                }).style("opacity", 1);
+                var map_paths = d3.selectAll("#map path.country");
+                console.info(map_paths)
                 map_paths
                     .transition()
-                    .duration(150)
+                    .duration(1250)
                     .delay(function (d, i) {
-                        return i * 10;
+                        return i * 40;
                     })
-                    // .attr("delay", function(d, i) {
+                    // .attr("delay", function (d, i) {
                     //     return 100 * i
                     // })
 
                     .attr('fill', function (d) {
-                        console.log(get_color(d, param))
+                        console.log(d)
                         return get_color(d, param)
 
-                        //return d.properties.color;
-
-                    })
+                    });
+                update_circles_by_index(param)
             }
+
+            $('.matrix_btn').click(function (e) {
+                $('.btn-small.selected').removeClass('selected');
+
+                if ($(e.target).hasClass('btn-small'))
+                    $(e.target).addClass('selected')
+
+                if ($(e.target).hasClass('environmental')) {
+                    update_by_index('env_index_class');
+                }
+                if ($(e.target).hasClass('social')) {
+                    update_by_index('social_index_class');
+                }
+                if ($(e.target).hasClass('financial')) {
+                    update_by_index('financial_index_class');
+                }
+                if ($(e.target).hasClass('political')) {
+                    update_by_index('political_index_class');
+                }
+                if ($(e.target).hasClass('main_index')) {
+                    update_by_index('main_index_class');
+                }
+            })
             setTimeout(function () {
+                //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
+                update_by_index('main_index_class');
 
-                update_by_index('financial');
 
-                $('.matrix_btn').click(function (e) {
-                    if ($(e.target).hasClass('environmental')) {
-                        update_by_index('environmental');
-                    }
-                    if ($(e.target).hasClass('social')) {
-                        update_by_index('social');
-                    }
-                    if ($(e.target).hasClass('financial')) {
-                        update_by_index('financial');
-                    }
-                    if ($(e.target).hasClass('political')) {
-                        update_by_index('political');
-                    }
-                })
 
 
 
@@ -471,7 +1307,7 @@
                 //     var index=d.code;
 
                 // })
-            }, 200)
+            }, 1500)
 
 
             function projectPoint(lon, lat) {
