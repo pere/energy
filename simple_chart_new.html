@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>JRC Energy</title>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* cyrillic-ext */
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WRhyzbi.woff2) format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2) format('woff2');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* vietnamese */
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WZhyzbi.woff2) format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        html,
+        body,
+        #wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+            font-family: 'Montserrat'
+        }
+
+        #map {
+            position: relative;
+            width: 100%;
+            height: 70%;
+            margin: auto auto;
+            top: -40px;
+            display: none;
+        }
+
+        #map svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .heatmap {
+            /* margin-left: 50px; */
+            position: relative;
+            top: -81px;
+        }
+
+        .btn-small.selected {
+            background-color: #9acd32;
+        }
+
+        .overlay_layers_collection .collection-item .title {
+            display: flex;
+            font-size: 1em;
+            /* justify-content: center; */
+            align-items: center;
+        }
+
+        .dropdown-content li {
+            line-height: 3.9rem !important;
+        }
+
+        .dropdown-content.active>li {
+            margin-top: 0px !important;
+        }
+
+        .theme_container .collection-item {
+            border: 0px solid #e0e0e0 !important;
+        }
+
+        .theme_container .collection {
+            border: 0px solid #e0e0e0 !important;
+        }
+
+        .dropdown-button.active {
+            background-color: #7fafdf;
+        }
+
+        .animated-icon {
+            width: 30px;
+            height: 30px;
+            background-color: rgba(21, 158, 221, 0.87);
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            opacity: 1;
+            box-shadow: 0px 0px 4px white;
+            transition: background 1s linear;
+            -webkit-transition: background 1s linear;
+            -moz-transition: background 1s linear;
+            /* transition: all 1s; */
+        }
+
+        .mapboxgl-ctrl-logo {
+            display: none !important;
+        }
+
+        .inner_circle {
+            display: block;
+            color: #f7f7f7;
+            text-align: center;
+            font-size: 8px;
+            line-height: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: rgb(0, 0, 0);
+            shape-rendering: crispEdges;
+            display: none;
+        }
+
+        .domain {
+            display: none;
+        }
+
+        .x_tick line {
+            display: none;
+        }
+
+        .axis text {
+            font-size: 11px;
+        }
+
+        .y.axis text {
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .default_label {
+            color: blue !important;
+        }
+
+        .matrix_btn {
+            position: relative;
+            top: -80px;
+            margin-left: 20px;
+        }
+
+        .matrix_btn>div {
+            display: inline-block;
+        }
+
+        .rect:hover,
+        .tick:hover {
+            cursor: pointer;
+        }
+
+        .x_mouseovered {
+            font-size: 1.3em !important;
+            fill: blue !important;
+        }
+
+        .dropdown-content {
+            /* top: 63px!important; */
+            width: auto !important;
+            height: auto;
+        }
+
+        #overlays_dropdown.dropdown-content,
+        #baselayers_dropdown.dropdown-content {
+            top: 63px !important;
+            padding: 13px;
+            min-height: 300px;
+        }
+
+        .dropdown_legend_btn {
+            background-color: #00bcd4;
+        }
+
+        .input-field input[type="search"]~.material-icons.icon-close {
+            right: 2rem;
+        }
+
+        .search_div {
+            max-width: 350px;
+        }
+
+        #baselayers_dropdown {
+            min-width: 300px !important;
+        }
+
+        .dropdown-content [type="checkbox"]+label {
+            top: -10px !important;
+        }
+
+        input[type="checkbox"]+label {
+            top: 10px !important;
+            margin-left: 16px !important;
+        }
+
+        nav {
+            height: 75px !important;
+            line-height: 75px !important;
+        }
+
+        .material-icons {
+            display: inline-flex;
+            vertical-align: top;
+        }
+
+        .title.show:hover {
+            cursor: pointer;
+            color: #6570ef;
+        }
+
+        i.material-icons {
+            font-size: 15px !important;
+            padding-right: 10px !important;
+            display: block;
+            margin-right: 0px !important;
+        }
+
+        .overlay_layers_collection .collection-item .title span {
+            width: 98% !important;
+        }
+
+        .nav-wrapper {
+            margin-left: 10px !important;
+        }
+
+        .nav-wrapper .collection .collection-item {
+            padding: 0px 10px !important;
+        }
+
+        #overlays_dropdown {
+            min-width: 300px;
+        }
+
+        #overlays_dropdown .main.collection-item {
+            min-height: 35px;
+        }
+
+        .overlay_layers_collection .collection-item i.material-icons {
+            font-size: 19px !important;
+            padding-right: 10px !important;
+        }
+
+        .material-icons:hover,
+        .card-panel:hover {
+            cursor: pointer;
+        }
+
+        .palette {
+            color: gray;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .palette.on {
+            color: cornflowerblue;
+            opacity: 1;
+        }
+
+        .expanded_layer {
+            display: block !important;
+        }
+
+        .expanded_layer .col {
+            background-color: aqua;
+        }
+
+        .collection-item .title:hover {
+            background-color: #86a2cc;
+            padding: 5px;
+        }
+
+        .theme_container.collection-item {
+            background-color: rgb(170, 172, 166);
+        }
+
+        .theme_container .collection-item.on {
+            background-color: rgb(194, 236, 78) !important;
+        }
+
+        .theme_container .collection-item:hover {
+            background-color: rgb(233, 161, 29) !important;
+        }
+
+        .theme_container {
+            display: none;
+        }
+
+        .theme_container.on {
+            display: block;
+        }
+
+        .sidenav {
+            top: 75px !important;
+            width: 35%;
+            left: 5px !important;
+            width: 400px !important;
+            height: calc(65%) !important;
+            background-color: #f2f2f2;
+            padding: 8px;
+        }
+
+        .sidenav .subheader {
+            line-height: 15px !important;
+        }
+
+        .sidenav .card.collapsible-header {
+            background-color: #90b8f3;
+            margin: 0 0;
+            line-height: 0px !important;
+            border-bottom: 1px solid grey;
+        }
+
+        .sidenav .general_stats {
+            margin-left: 30px;
+        }
+
+        .general_stats .title {
+            font-size: 1.1em;
+        }
+
+        .general_stats .data {
+            font-size: 0.9em;
+            display: block;
+        }
+
+        nav {
+            background-color: #ee6e73 !important;
+            pointer-events: auto !important;
+        }
+
+        nav a.sidenav-trigger {
+            display: block !important;
+        }
+
+        .sidenav .card .card-content {
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        .sidenav .collapsible-body {
+            border-bottom: 1px solid #d2c4c4;
+            background-color: transparent !important;
+            /* background-color:#f3eded!important; */
+        }
+
+        .sidenav .collapsible-body>div {
+            display: none;
+        }
+
+        .sidenav div.collapsible-body div.mangroves .highcharts-container {
+            /* margin-top: 70px; */
+        }
+
+        .sidenav div.collapsible-body div#mangroves_gain,
+        .sidenav div.collapsible-body div#mangroves_loss {
+            margin: 15px;
+            height: 240px;
+        }
+
+        .sidenav div.collapsible-body div.mangroves_bar_chart {
+            margin: 5px;
+            height: 300px;
+            margin-left: 15px !important;
+        }
+
+        .sidenav li.active .collapsible-body {
+            background-color: #ffffff0d;
+        }
+
+        .sidenav li.active {
+            background-color: inherit;
+        }
+
+        .sidenav table {
+            margin-left: 10px;
+            width: 94%important;
+        }
+
+        #topbarsearch .input-field .prefix {
+            width: 0rem !important;
+        }
+
+        #topbarsearch nav ul li:hover,
+        nav ul li.active {
+            background-color: none !important;
+        }
+
+        .input-field .prefix~input,
+        .input-field .prefix~textarea,
+        .input-field .prefix~label,
+        .input-field .prefix~.validate~label,
+        .input-field .prefix~.autocomplete-content {
+            margin-left: 1rem !important;
+        }
+
+        #matrix {
+            margin-top: 100px;
+        }
+
+        .info div {
+            display: inline-block;
+        }
+
+        #countries_popup {
+            color: white;
+            width: 400px;
+            height: 600px;
+            border: 1px solid rgba(80, 80, 105, 0.767);
+        }
+
+        .popup_country_title {
+            font-size: 1.5em;
+            background-color: rgb(68, 68, 228);
+            padding: 10px;
+        }
+
+        .index_country_info i {
+            width: 20px;
+            height: 20px;
+            float: left;
+
+            /* border-radius: 10px; */
+            opacity: 1;
+            margin-top: 0px;
+            margin-right: 9px;
+            border: 1px solid white;
+        }
+
+        .index_country_info {
+            padding: 5px;
+
+            font-size: 0.8em;
+        }
+
+        .heatmap_select {
+            width: 250px;
+            height: 200px;
+        }
+
+        .dropdown-content.select-dropdown {
+            margin-top: 40px !important;
+            font-size: 11px;
+        }
+
+        .select-wrapper .dropdown-content li>a,
+        .select-wrapper .dropdown-content li>span {
+            font-size: 11px;
+            color:
+                #26a69a;
+            display: block;
+            line-height: 14px;
+            padding: 7px 8px;
+        }
+
+        .tooltip:hover {
+            cursor: pointer;
+        }
+
+        .tooltip {
+            font-size: 10px;
+
+            background-color: rgb(163, 158, 158);
+
+            border: 1px solid #d7caca;
+
+            border-radius: 5px;
+
+            padding: 0px;
+
+            opacity: 1;
+
+            width: auto;
+
+            height: auto;
+
+            z-index: 300;
+
+            position: absolute;
+
+            background-color:
+                #dcdfdf;
+
+            color:
+                #715e5e;
+        }
+    </style>
+    <script src="./data_new.js"></script>
+    <script src="./jquery.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="./materialize_v1.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="./materialize.min.css">
+
+
+
+    <script src='//unpkg.com/d3@5.0.0/dist/d3.min.js'></script>
+    <script src='./d3-selection-multi.min.js'></script>
+    <script src="./topojson.v1.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+</head>
+
+<body>
+    <ul id="overlays_dropdown" class="overlay_layers_collection dropdown-content">
+        <li class="main collection-item" data-layer="countries">
+            <div class="title">
+                <span>Countries</span>
+                <i class="material-icons highlight on show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+
+        <li class="main collection-item" data-layer="gaul_1">
+            <div class="title">
+                <span>Gaul Level 1</span>
+                <i class="material-icons highlight show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+        <li class="main collection-item" data-layer="basins_5">
+            <div class="title">
+                <span>Global basins Level 5</span>
+                <i class="material-icons highlight show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+
+        <li class="main collection-item" data-layer="basins_6">
+            <div class="title">
+                <span>Basins Level 6</span>
+                <i class="material-icons highlight show_hide_layer">layers</i>
+                <i class="material-icons highlight palette">palette</i>
+                <i class="material-icons highlight grade">grade</i>
+            </div>
+
+
+        </li>
+
+    </ul>
+    <ul id="baselayers_dropdown" class="dropdown-content">
+        <li>
+            <span>
+                <input id='own_map' type="checkbox" checked />
+                <label for='own_map'>Own map</label>
+            </span>
+
+            <span>
+                <input id='osm' type="checkbox" />
+                <label for='osm'>OpenStreet Map</label>
+            </span>
+            <span>
+                <input id='satellite' type="checkbox" />
+                <label for='satellite'>Satellite</label>
+            </span>
+        </li>
+    </ul>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">Energy</a>
+
+
+            <form>
+
+
+                <ul class="right hide-on-med-and-down">
+
+                    <li>
+                        <a class="dropdown-trigger btn waves-effect waves-light" href="#!"
+                            data-target="overlays_dropdown">
+                            <span>Overlay Layers</span></a>
+                        <a class="dropdown-trigger btn btn-large waves-effect waves-light" href="#!"
+                            data-target="baselayers_dropdown">
+                            <span>Base Layers</span></a>
+
+                    </li>
+                    <li><a href="#" data-target="slide-out" class="sidenav-trigger" style="display: block!important;"><i
+                                class="material-icons">view_module</i></a></li>
+
+                    <li>
+
+                        <div class="center row">
+                            <div class="col s12 ">
+                                <div class="row" id="topbarsearch">
+                                    <div class="input-field col s6 s12">
+                                        <i class="material-icons prefix">search</i>
+                                        <input type="text" placeholder="search" id="autocomplete-input"
+                                            class="autocomplete red-text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="input-field">
+                                                        <a href="#"><i class="material-icons">search</i></a>
+                            
+                                                        <input type="text" id="autocomplete-input" class="autocomplete">
+                                                    </div>
+                                                    <label for="autocomplete-input">Search a country</label> -->
+                    </li>
+                    <!-- <div class="col s4 center search input-field"> 
+                                                    <input class="autocomplete" type="text" id="autocomplete-input" placeholder="Search" />
+                                                </div> -->
+                    <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+    <ul id="slide-out" class="sidenav">
+        <h4>Energy Information</h4>
+    </ul>
+    <div id="wrapper">
+        <div id="map"></div>
+        <div id="matrix">
+            <div class='matrix_btn'>
+                <div><a class="btn-small main_index selected">Main index</a></div>
+                <div><a class="btn-small environmental">Environmental</a></div>
+                <div><a class="btn-small social">Social</a></div>
+                <div><a class="btn-small financial">Financial</a></div>
+                <div><a class="btn-small political">Political</a></div>
+            </div>
+        </div>
+        <div class="heatmap"></div>
+        <div class='info'>
+            <div id="legend_tooltip"></div>
+            <!-- <div id="countries_popup"></div> -->
+            <div class='heatmap_select'>
+                <div class="input-field">
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+    <script>
+        //.range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
+        var scale_values = [{
+            value: 0,
+            color: '#444243',
+            title: '0- No data'
+        }, {
+            value: 1,
+            color: '#e0347c',
+            title: '1- Critical'
+        }, {
+            value: 2,
+            color: '#f5621c',
+            title: '2- Bad'
+        }, {
+            value: 3,
+            color: '#f7c717',
+            title: '3- Neutral'
+        }, {
+            value: 4,
+            color: '#6ee282',
+            title: '4- Good'
+        }, {
+            value: 5,
+            color: '#5aa066',
+            title: '5- Very good'
+        }];
+
+
+
+        var indexes_info = [{
+            name: 'env_index_class',
+            title: 'Environmental'
+        }, {
+            name: 'financial_index_class',
+            title: 'Financial'
+        }, {
+            name: 'political_index_class',
+            title: 'Political'
+        }, {
+            name: 'social_index_class',
+            title: 'Social'
+        }, {
+            name: 'main_index_class',
+            title: 'General'
+        }];
+
+        $('select').formSelect();
+
+        var indexes_arrays = {}
+
+
+        var y_elements = indexes_info.map(function (d) {
+            return d.name;
+        })
+        // ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+        var markers_obj_arr = [];
+
+
+        var mouseovered_path = {};
+        var mouseovered_rect = {};
+        var app_data = {};
+
+        function getRandomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function round_this(someNumber, digits) {
+            switch (digits) {
+                case 1:
+                    var p = 1e1;
+                    break;
+                case 2:
+                    var p = 1e2;
+                    break;
+                case 3:
+                    var p = 1e3;
+                    break;
+                case 4:
+                    var p = 1e4;
+                    break;
+            }
+            return Math.round(someNumber * p) / p;
+        }
+
+
+
+        $('.dropdown-trigger').dropdown({
+            inDuration: 300,
+            constrainWidth: false,
+            closeOnClick: false,
+            container: '#layers_menu',
+            outDuration: 225,
+            hover: false, // Activate on hover,
+            stopPropagation: true,
+            belowOrigin: true, // Displays dropdown below the button
+            alignment: 'left' // Displays dropdown with edge aligned to the left of button
+        });
+
+        $('#slide-out').sidenav({
+
+            edge: 'left', // Choose the horizontal origin
+            draggable: true, // Choose whether you can drag to open on touch screens,
+            onOpenEnd: function (el) {
+                $('.sidenav-trigger').addClass('on');
+
+            },
+
+            onCloseEnd: function (el) { }, // A function to be called when sideNav is closed
+        });
+
+        $('.sidenav-trigger').on('click', function (e) {
+
+            if ($(this).hasClass('on')) {
+                e.preventDefault()
+                $('#slide-out').sidenav('close').removeClass('sidenav_on');
+                $(this).removeClass('on')
+                return false
+            }
+        })
+        //  $('.collapsible').collapsible();
+
+
+        $('nav').hide();
+
+
+        var legendElementWidth = 30;
+        var legend_svg = d3.select("#legend_tooltip").append("svg")
+
+            //.attr("width", legendElementWidth+170)
+            .attr("width", 200)
+            //.attr("height",legendElementWidth*8)
+            .attr("height", 240)
+
+        var legend = legend_svg.selectAll(".legend")
+            .data(scale_values, function (d) {
+                console.log(d)
+                return d.value;
+            })
+
+            .enter()
+
+            .append("g")
+            .attr("class", "legend")
+
+
+        legend.append("rect")
+            .attr("x", function (d, i) {
+
+                return 0 * i;
+            })
+            //.attr("x",0)
+            .attr("y", function (d, i) {
+                return legendElementWidth * i;
+            })
+            .attr("width", legendElementWidth)
+            .attr("height", legendElementWidth)
+            .style("fill", function (d, i) {
+
+                return d.color;
+            })
+            .attr("value", function (d) {
+                return d.value;
+            });
+
+        // var anchorElement = $('.legend rect');
+        // anchorElement.attr('data-tooltip', 'New tooltip value');
+        // anchorElement.tooltip();
+
+        legend.append("text")
+            .attr("class", "Montserrat")
+            .html(function (d) {
+                // console.warn(d.legend_text)
+                return d.title; //+'<b>test</b>';
+            })
+            .attr("x", function (d, i) {
+                return legendElementWidth + 20;
+            })
+            //.attr("x",0)
+            .attr("y", function (d, i) {
+                return ((legendElementWidth * i) + (legendElementWidth / 2));
+            })
+
+        d3.json("countries.json").then(mapDraw);
+
+
+        function mapDraw(geojson) {
+            console.log(geojson)
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpbWl6dSIsImEiOiJjam95MDBhamYxMjA1M2tyemk2aHMwenp5In0.i2kMIJulhyPLwp3jiLlpsA'
+
+
+            var all_data = level_1.features.map(function (d) {
+                return {
+                    country: d.country,
+                    code: d.code,
+                    data: d.data
+                };
+            });
+            console.info(all_data)
+            // var all_centroids = geojson.map(function(d) {
+            //     console.log(d)
+            // })
+
+
+            function get_scale_data(value) {
+                return scale_values.filter(function (d) {
+                    return d.value == value;
+                })[0]
+            }
+
+            function get_index_data(name) {
+                return indexes_info.filter(function (d) {
+                    return d.name == name;
+                })[0]
+            }
+
+            function sort_by_index(param) {
+                console.info(param)
+                return function (a, b) {
+                    console.info(a.data[param])
+                    return a.data[param] < b.data[param] ? 1 : -1;
+                }
+
+            }
+            //  console.log(JSON.stringify(all_data))
+
+
+            function generate_data(param) {
+                indexes_arrays.env_index_class_arr = [];
+                indexes_arrays.main_index_class_arr = [];
+                indexes_arrays.social_index_class_arr = [];
+                indexes_arrays.political_index_class_arr = [];
+                indexes_arrays.financial_index_class_arr = [];
+
+                var sorted = all_data.sort(sort_by_index(param));
+
+
+                console.log(JSON.stringify(sorted))
+
+                sorted.forEach(function (d, i) {
+
+                    //  if (i > 5) return false
+                    /*
+                    "data":{
+                   env_index_class: 1
+​​​​​
+financial_index_class: 5
+​​​​​
+main_index_class: 5
+​​​​​
+main_index_val: 0.389
+​​​​​
+political_index_class: 5
+​​​​​
+social_index_class: 3
+                    }
+                    */
+
+                    var popup = '<div class="popup_country_title">' + d.country + '</h3>';
+
+                    for (var index in d.data) {
+
+                        if (index !== 'main_index_val') {
+                            var index_info = get_index_data(index);
+                            console.log(d)
+
+                            var scale_info = get_scale_data(d.data[index]);
+                            console.log(scale_info)
+                            if (typeof scale_info == 'undefined') {
+                                var scale_info = {
+                                    color: '#2f2e2f'
+                                }
+                            }
+                            console.log(index_info)
+                            popup += '<div class="index_country_info"><i style="background:' + scale_info.color + '"></i>' + index_info.title + '</div>';
+                            //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+                            var arr = indexes_arrays[index + '_arr'];
+
+                            arr.push({
+                                country: d.country,
+                                _code: d.code,
+                                index_type: index,
+                                index_value: d.data[index],
+                                color: scale_info.color
+                            })
+                        }
+                        d.popup = popup;
+
+                    }
+
+                    // $('#countries_popup').append(popup)
+                });
+
+                // return sorted
+                //    var sorted = generate_data('main_index_class')
+
+                var matrix_params = {};
+                var countries_arr =
+                    sorted.map(function (d) {
+                        return d.code;
+                    });
+                matrix_params.countries_arr = countries_arr;
+
+                var all_data_plot = indexes_arrays.env_index_class_arr.concat(indexes_arrays.financial_index_class_arr).concat(indexes_arrays.political_index_class_arr)
+                    .concat(indexes_arrays.social_index_class_arr).concat(indexes_arrays.main_index_class_arr);
+
+                app_data.sorted_country_data = sorted;
+                app_data.all_data_plot = all_data_plot;
+
+                // matrix_params.all_data_plot = all_data_plot;
+                matrix_params.index_to_plot = param;
+
+                generate_matrix(matrix_params);
+
+            }
+
+
+            generate_data('main_index_class');
+
+            // setTimeout(function () {
+            //     generate_data('env_index_class');
+            // }, 3000)
+            var rects;
+
+            function generate_matrix(matrix_params) {
+                console.info(matrix_params);
+
+                var countries_arr = matrix_params.countries_arr;
+                var all_data_plot = app_data.all_data_plot;
+                console.log(all_data_plot)
+
+                var x_elements = countries_arr;
+                var buckets = x_elements.length + 1;
+                var max_width = 1400;
+
+                console.log(countries_arr)
+
+                var xScale = d3.scaleBand()
+                    .domain(x_elements)
+                    .range([0, max_width - 170])
+                    .padding(0.2)
+
+                var xAxis = d3.axisBottom()
+                    .scale(xScale)
+                    .tickFormat(function (d) {
+                        return d;
+                    })
+
+                var yScale = d3.scaleBand()
+                    //d3.scaleBand()
+                    .domain(y_elements)
+                    .range([0, y_elements.length * xScale.bandwidth() + 10])
+                    .padding(0.02)
+
+                var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .tickFormat(function (d) {
+                        //  console.log(d)
+                        return d;
+                    })
+                // .orient("left");
+
+                cellSize = xScale.bandwidth(),
+                    margin = {
+                        top: 40,
+                        right: 120,
+                        bottom: 2,
+                        left: 100
+                    };
+
+                var width = max_width - margin.right - margin.left,
+                    height = 500 - margin.top - margin.bottom;
+
+                var colorScale = d3.scaleThreshold()
+                    .domain([0, 1, 2, 3, 4, 5])
+                    .range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
+
+                //     var scale_values = [{
+                //     value: 0,
+                //     color: '#444243',
+                //     title: '0- No data'
+                // }, {
+                //     value: 1,
+                //     color: '#e0347c',
+                //     title: '1- Critical'
+                // }, {
+                //     value: 2,
+                //     color: '#f5621c',
+                //     title: '2- Bad'
+                // }, {
+                //     value: 3,
+                //     color: '#f7c717',
+                //     title: '3- Neutral'
+                // }, {
+                //     value: 4,
+                //     color: '#6ee282',
+                //     title: '4- Good'
+                // }, {
+                //     value: 5,
+                //     color: '#5aa066',
+                //     title: '5- Very good'
+                // }];
+                // Three function that change the tooltip when user hover / move / leave a cell
+                var mouseover = function (d) {
+
+                    tooltip.style("opacity", 1)
+                }
+                var mousemove = function (d) {
+                    console.info(d)
+
+                    console.info(app_data.sorted_country_data)
+                    /*
+                    _code: "MRT"
+​
+color: "#f5621c"
+​
+country: "Mauritania"
+​
+index_type: "financial_index_class"
+​
+index_value: 2
+*/
+                    var pos = $(this).position();
+                    var this_info = app_data.sorted_country_data.filter(function (info) {
+                        return info.code == d._code;
+                    })[0];
+                    console.info(this_info)
+                    var $html = $.parseHTML(this_info.popup);
+                    console.info($html)
+
+                    tooltip
+                        .html('<div class="rect_popup"></div>')
+                        .style("left", (pos.left + 30) + "px")
+                        .style("top", pos.top + "px")
+                    $('.rect_popup').append($html)
+                }
+
+                var mouseleave = function (d) {
+                    //  tooltip.style("opacity", 0)
+                }
+
+                $('.heatmap svg').remove();
+                var svg = d3.select('.heatmap')
+                    .append("svg")
+                    .attr("width", width + (margin.left) * 2 + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    .attr("transform", "translate(150," + margin.top + ")");
+
+                var cells = svg.selectAll('rect')
+
+                cells.data(all_data_plot)
+
+                    .enter().append('g').classed('g_classed', true)
+                    .append('rect')
+                    .attr('class', 'cell')
+                    .attr('width', cellSize)
+                    .attr('height', cellSize)
+                    .attr('y', function (d) {
+                        return 0;
+                    })
+                    .attr('x', function (d) {
+                        return xScale(d._code);
+                    })
+
+                // .attr("width", x.bandwidth())
+                //     .attr("height", y.bandwidth())
+
+                svg.selectAll('rect').transition()
+                    .duration(100)
+                    .delay(function (d, i) {
+
+
+                        return i * 10
+                        //return getRandomArbitrary(2, 900)
+                        //return getRandomArbitrary(2, 250)
+                    })
+                    .attr('y', function (d) {
+                        //  return yScale(d.data.political);
+                        //console.info(d)
+                        return yScale(d.index_type);
+                    })
+
+                    .attr('fill', function (d) {
+                        console.info(d)
+                        //  d.color = colorScale(d.index_value);
+                        //var color = get_scale_data(d.index_value);
+                        //  console.log(color)
+                        geojson.features.forEach(function (item) {
+
+                            if (item.properties.code == d._code) {
+                                //   console.log(item)
+                                item.properties.color = d.color;
+                            }
+                        })
+
+                        return d.color;
+                    })
+                    // .on('mouseover', function (d) {
+                    //     console.log(d.index)
+                    // })
+
+                    .attr("value", function (d) {
+                        return d.environmental;
+                    })
+
+                rects = d3.selectAll('rect')
+                    .on('mouseover', mouseover)
+                    .on('mousemove', mousemove)
+                    .on("mouseleave", mouseleave)
+                var mouseover_label = function (d) {
+                    //console.warn(d)
+                    //code
+                    console.warn($(d3.event.target).parent())
+                    if ($(d3.event.target).parent().hasClass('x_tick')) {
+                        $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered')
+
+                        $(d3.event.target).addClass('x_mouseovered');
+
+                        rects.style("opacity", 0.2);
+                        rects.filter(function (data) {
+                            return data._code == d;
+                        }).style("opacity", 1);
+                        // .mouseovered_country
+                        // {
+                        //     fill
+                        // }
+                        var t = 'path[code=' + d + ']';
+                        console.log($('path[code=' + d + ']'))
+                        console.info($(t))
+                        var sel_path = d3.selectAll("path[code=" + d + "]")
+                        mouseovered_path.ori_color = sel_path.attr('fill')
+                        mouseovered_path.sel_path = sel_path;
+
+                        sel_path.transition()
+                            .duration(300)
+                            .attr('fill', '#ea24d2')
+                    } else {
+                        //  console.log(d)
+                        rects.style("opacity", 0.3);
+                        rects.filter(function (data) {
+                            return data.index_type == d;
+                        }).style("opacity", 1);
+                    }
+
+
+                }
+
+                var mouseout_label = function (d) {
+                    if ($(d3.event.target).parent().hasClass('x_tick')) {
+                        mouseovered_path.sel_path.transition()
+                            .duration(300)
+                            .attr('fill', mouseovered_path.ori_color);
+
+                        $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered');
+                        //   rects.style("opacity", 1);
+                    }
+                }
+
+                var mouseleave_svg = function (d) {
+                    console.log('leave')
+                    rects.style("opacity", 1);
+                }
+                // svg.selectAll('g.g_classed').on('mouseover', mouseover)
+                //     .on('mousemove', mousemove)
+                //     .on("mouseleave", mouseleave)
+
+                //.on('mousemove', mousemove_label)
+                //.on("mouseleave", mouseleave_label)
+
+
+
+                var tooltip = d3.select("body")
+                    .append("div")
+
+                    .attr("class", "tooltip")
+                // .style("background-color", "white")
+                // .style("border", "solid")
+                // .style("border-width", "2px")
+                // .style("border-radius", "5px")
+                // .style("padding", "5px")
+
+
+                // cells.on('mouseover', mouseover)
+                //     .on('mousemove', mousemove)
+                //     .on("mouseleave", mouseleave)
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .selectAll('.tick')
+
+                    .classed('y_tick', true)
+                    .selectAll('text')
+                    //.text('test')
+                    .text(function (d) {
+                        for (var p in indexes_info) {
+                            if (indexes_info[p].name == d)
+                                return indexes_info[p].title
+                        }
+                    })
+                    .attr('font-weight', 'bolder')
+                    .style('fill', function (d) {
+                        console.info(d)
+                        if (d == matrix_params.index_to_plot) {
+                            //blueish
+                            return '#1294b3'
+                        }
+                        else {
+                            //blackish
+                            return '#4a4a60'
+                        }
+                    })
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .call(xAxis)
+                    .selectAll('.tick')
+                    .classed('x_tick', true)
+                    .selectAll('text')
+                    .classed('default_label', true)
+                    .attr('font-weight', 'normal')
+                    .style("text-anchor", "start")
+                    // .attr("dx", ".3em")
+                    .attr("dy", ".5em")
+                    .attr("y", -5)
+                    .attr("transform", function (d) {
+                        return "rotate(-65)";
+                    });
+
+                console.warn(d3.selectAll('.tick'))
+                d3.selectAll('.tick').on('mouseover', mouseover_label).on('mouseout', mouseout_label)
+                d3.selectAll('.heatmap svg').on('mouseout', mouseleave_svg);
+            }
+            //Setup mapbox-gl map
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                style: 'mapbox://styles/mapbox/streets-v8',
+                center: [19, -1],
+
+                //center: [141.15448379999998, 39.702053　],
+                zoom: 2.5,
+                attributionControl: false
+            })
+
+
+
+            map.addControl(new mapboxgl.NavigationControl());
+
+            var container = map.getCanvasContainer()
+            var svg = d3.select(container).append("svg");
+            var gaul_1;
+
+
+            var transform = d3.geoTransform({
+                point: projectPoint
+            });
+            var path = d3.geoPath().projection(transform);
+
+            // d3.json("./africa_gaul_1.json").then(function (africa) {
+
+            //     var container = map.getCanvasContainer()
+            //     var svg = d3.select(container).append("svg");
+            //     var gaul_1;
+
+
+            //     var transform = d3.geoTransform({
+            //         point: projectPoint
+            //     });
+            //     var path = d3.geoPath().projection(transform);
+            //     //console.log(london.objects['london-neighborhoods-slim'])
+
+            //     var f = topojson.feature(africa, africa.objects['africa_gaul_1']);
+            //     console.info(f)
+            //     // gaul_1 = svg.append("path")
+            //     //     .datum(f)
+            //     //     .attr("class", "gaul_1")
+            //     //     .attr("d", path)
+
+            //     var gaul_1 = svg.selectAll("path")
+            //         .data(f.features)
+            //         .enter()
+            //         .append("path")
+            //         .classed('gaul_1', true)
+            //         .attr("stroke", "white")
+            //         .attr("fill", "#34bffd")
+            //         .attr("fill-opacity", 0.8)
+
+            //     gaul_1.attr("d", path);
+            //     console.log(gaul_1)
+
+            // })
+
+            var featureElement = svg.selectAll("path")
+                .data(geojson.features)
+                .enter()
+                .append("path")
+                .classed('country', true)
+                .attr("stroke", "white")
+                .attr("fill", "#34bffd")
+                .attr("fill-opacity", 0.9)
+                .attr("code", function (d) {
+
+                    return d.properties.code;
+                })
+                .on('mouseover', function (d) {
+                    console.log(d)
+
+                    //https://github.com/d3/d3-selection-multi#d3-selection-multi
+                    var _sel = rects.filter(function (data) {
+                        //   console.log(data)
+                        return data._code == d.properties.code;
+                    });
+                    console.log(_sel)
+                    console.info(rects.selectAll('.sel_cell_from_map'))
+                    d3.selectAll('.sel_cell_from_map')
+                        .attrs(
+                            function (d, i) {
+                                return {
+
+                                    //"stroke": 'white',
+                                    'stroke-width': 0
+                                    //  'stroke-opacity': 0.9
+
+                                }
+                            }
+                        ).classed('sel_cell_from_map', false);
+
+                    _sel.attrs(
+                        function (d, i) {
+                            return {
+                                "stroke": '#ee6e73',
+                                'stroke-width': 3,
+                                'stroke-opacity': 0.9
+                            }
+                        }
+                    ).classed('sel_cell_from_map', true);
+
+                })
+                .on('mouseout', function (d) {
+
+                    d3.selectAll('.sel_cell_from_map')
+                        .attrs(
+                            function (d, i) {
+                                return {
+
+                                    //"stroke": 'white',
+                                    'stroke-width': 0
+                                    //  'stroke-opacity': 0.9
+
+                                }
+                            }
+                        ).classed('sel_cell_from_map', false);
+                })
+
+            function update() {
+
+                featureElement.attr("d", path);
+                setTimeout(function () {
+                    var sel_gaul_1 = d3.selectAll("path.gaul_1");
+
+                    sel_gaul_1.attr("d", path);
+                }, 500)
+
+
+                //    gaul_1.attr("d", path);
+                //svg.selectAll('path').attr("d", path);
+
+            }
+
+            //
+            map.on("viewreset", update)
+            map.on("movestart", function () {
+                svg.classed("hidden", true);
+            });
+            map.on("rotate", function () {
+                svg.classed("hidden", true);
+            });
+            map.on("moveend", function () {
+                update()
+                svg.classed("hidden", false);
+            })
+
+
+
+            update();
+
+            /*
+             var el = document.createElement('circle');
+                        el.setAttribute('r', 50);
+                        el.setAttribute('fill', '#0e44e7');
+                        */
+            console.info(geojson.features)
+
+            //geojson.features.forEach(function (d) {
+            for (var p in geojson.features) {
+
+                var d = geojson.features[p];
+
+                var c = d.properties.centroid.split(' , ');
+                var lng = round_this(c[0], 2);
+                var lat = round_this(c[1], 2);
+                markers_obj_arr.push({
+                    centroid: [lng, lat],
+                    code: d.properties.code,
+                    //  random_num: getRandomInRange(5, 70)
+                });
+            }
+
+            markers_obj_arr.forEach(function (d) {
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'animated-icon my-icon';
+                el.id = 'centroid_' + d.code;
+
+
+                var t_data = level_1.features.filter(function (data) {
+                    return data.code == d.code;
+                })[0]
+
+
+                if (!t_data) return false;
+                new mapboxgl.Marker(el)
+
+                    .setLngLat(d.centroid)
+                    .addTo(map);
+
+            })
+
+            var map_paths = d3.selectAll("#map path.gaul_1");
+
+            function get_color(d, param) {
+                console.log(d)
+
+                //d comes from the geojson
+                //param: environmental, etc.
+                //if (d.properties.code==)
+                var color;
+                indexes_arrays[param + '_arr'].forEach(function (data) {
+                    if (data._code == d.properties.code) {
+                        color = data.color;
+                    }
+                })
+                return color;
+            }
+
+            function update_circles_by_index(param) {
+                //financial_index_class
+                var params_arr = indexes_arrays[param + '_arr'];
+
+                var circs_values = params_arr.map(function (d) {
+                    return d.index_value;
+                })
+
+                var rscale = d3.scaleLinear()
+                    .domain([d3.min(circs_values), d3.max(circs_values)])
+                    .range([25, 60])
+                // update_by_index('main_index_class');
+
+
+                markers_obj_arr.forEach(function (d) {
+                    //console.log(d)
+                    var t_data = level_1.features.filter(function (data) {
+                        return data.code == d.code;
+                    })[0];
+                    if (!t_data) {
+                        return false;
+                    }
+                    var sel_data = t_data.data;
+                    var sel_radius = rscale(sel_data[param])
+
+                    // make a marker for each feature and add to the map
+
+                    setTimeout(function () {
+
+                        var $centroid = $('#centroid_' + d.code);
+
+                        if ($centroid.find('.inner_circle').length == 0)
+                            $centroid.append('<span class="inner_circle">' + sel_data[param] + '</span>');
+                        else
+                            $centroid.find('.inner_circle').text(sel_data[param])
+
+                        $centroid.data(t_data);
+
+                        $centroid.animate({
+                            //   width: '50px',
+                            width: sel_radius + 'px',
+                            height: sel_radius + 'px'
+                            //  height: '50px'
+                        }
+
+                        ).css(
+                            'background-color',
+                            '#e91e63'
+                        )
+
+                        $centroid.find('.inner_circle').animate({
+                            'line-height': sel_radius + 'px',
+                            'font-size': sel_radius / 3
+
+
+
+                        })
+                    }, 300)
+                })
+            }
+
+            function update_by_index(param) {
+
+                rects.style("opacity", 0.2);
+                rects.filter(function (data) {
+
+                    return data.index_type == param;
+                }).style("opacity", 1);
+                var map_paths = d3.selectAll("#map path.country");
+                console.info(map_paths)
+                map_paths
+                    .transition()
+                    .duration(1250)
+                    .delay(function (d, i) {
+                        return i * 40;
+                    })
+                    // .attr("delay", function (d, i) {
+                    //     return 100 * i
+                    // })
+
+                    .attr('fill', function (d) {
+                        // console.log(d)
+                        return get_color(d, param)
+
+                    });
+                update_circles_by_index(param)
+            }
+
+            $('.matrix_btn').click(function (e) {
+                $('.btn-small.selected').removeClass('selected');
+
+                if ($(e.target).hasClass('btn-small'))
+                    $(e.target).addClass('selected')
+
+                if ($(e.target).hasClass('environmental')) {
+                    update_by_index('env_index_class');
+                }
+                if ($(e.target).hasClass('social')) {
+                    update_by_index('social_index_class');
+                }
+                if ($(e.target).hasClass('financial')) {
+                    update_by_index('financial_index_class');
+                }
+                if ($(e.target).hasClass('political')) {
+                    update_by_index('political_index_class');
+                }
+                if ($(e.target).hasClass('main_index')) {
+                    update_by_index('main_index_class');
+                }
+            })
+            setTimeout(function () {
+                //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
+                update_by_index('main_index_class');
+
+
+
+
+
+                // $('path[code=MLI]').animate({
+                //         'fill-opacity': 0.6,
+                //         'fill': 'blue'
+                //     }, 500)
+                //  animate({height: "20px"}, 500)
+                // d3.selectAll("path[code=MLI]").transition()
+                //     .duration(1500)
+                //     .attr('fill', '#ffeb3b')
+
+                // environmental_arr.forEach(function(d) {
+                //     var index=d.code;
+
+                // })
+            }, 1500)
+
+
+            function projectPoint(lon, lat) {
+                var point = map.project(new mapboxgl.LngLat(lon, lat));
+                this.stream.point(point.x, point.y);
+            }
+
+
+        }
+    </script>
+</body>
