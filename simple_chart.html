@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         /* cyrillic-ext */
+        
         @font-face {
             font-family: 'Montserrat';
             font-style: normal;
@@ -16,8 +17,8 @@
             src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WRhyzbi.woff2) format('woff2');
             unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
         }
-
         /* cyrillic */
+        
         @font-face {
             font-family: 'Montserrat';
             font-style: normal;
@@ -26,8 +27,8 @@
             src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2) format('woff2');
             unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
         }
-
         /* vietnamese */
+        
         @font-face {
             font-family: 'Montserrat';
             font-style: normal;
@@ -36,8 +37,8 @@
             src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WZhyzbi.woff2) format('woff2');
             unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
         }
-
         /* latin-ext */
+        
         @font-face {
             font-family: 'Montserrat';
             font-style: normal;
@@ -46,8 +47,8 @@
             src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2) format('woff2');
             unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
         }
-
         /* latin */
+        
         @font-face {
             font-family: 'Montserrat';
             font-style: normal;
@@ -56,7 +57,7 @@
             src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
-
+        
         html,
         body,
         #wrapper {
@@ -66,7 +67,7 @@
             margin: 0px;
             font-family: 'Montserrat'
         }
-
+        
         #map {
             position: relative;
             width: 100%;
@@ -75,50 +76,50 @@
             top: -40px;
             display: none;
         }
-
+        
         #map svg {
             position: absolute;
             width: 100%;
             height: 100%;
         }
-
+        
         .heatmap {
             /* margin-left: 50px; */
             position: relative;
             top: -81px;
         }
-
+        
         .btn-small.selected {
             background-color: #9acd32;
         }
-
+        
         .overlay_layers_collection .collection-item .title {
             display: flex;
             font-size: 1em;
             /* justify-content: center; */
             align-items: center;
         }
-
+        
         .dropdown-content li {
             line-height: 3.9rem !important;
         }
-
+        
         .dropdown-content.active>li {
             margin-top: 0px !important;
         }
-
+        
         .theme_container .collection-item {
             border: 0px solid #e0e0e0 !important;
         }
-
+        
         .theme_container .collection {
             border: 0px solid #e0e0e0 !important;
         }
-
+        
         .dropdown-button.active {
             background-color: #7fafdf;
         }
-
+        
         .animated-icon {
             width: 30px;
             height: 30px;
@@ -133,11 +134,11 @@
             -moz-transition: background 1s linear;
             /* transition: all 1s; */
         }
-
+        
         .mapboxgl-ctrl-logo {
             display: none !important;
         }
-
+        
         .inner_circle {
             display: block;
             color: #f7f7f7;
@@ -145,11 +146,11 @@
             font-size: 8px;
             line-height: 20px;
         }
-
+        
         .hidden {
             display: none;
         }
-
+        
         .axis path,
         .axis line {
             fill: none;
@@ -157,187 +158,182 @@
             shape-rendering: crispEdges;
             display: none;
         }
-
+        
         .domain {
             display: none;
         }
-
+        
         .x_tick line {
             display: none;
         }
-
+        
         .axis text {
-
             font-size: 11px;
         }
-
+        
         .y.axis text {
             font-size: 11px;
             text-transform: uppercase;
-
         }
-
+        
         .default_label {
             color: blue !important;
         }
-
+        
         .matrix_btn {
             position: relative;
             top: -80px;
             margin-left: 20px;
         }
-
+        
         .matrix_btn>div {
             display: inline-block;
         }
-
+        
         .rect:hover,
         .tick:hover {
             cursor: pointer;
         }
-
+        
         .x_mouseovered {
             font-size: 1.3em !important;
             fill: blue !important;
         }
-
+        
         .dropdown-content {
             /* top: 63px!important; */
             width: auto !important;
             height: auto;
         }
-
+        
         #overlays_dropdown.dropdown-content,
         #baselayers_dropdown.dropdown-content {
             top: 63px !important;
             padding: 13px;
             min-height: 300px;
         }
-
+        
         .dropdown_legend_btn {
             background-color: #00bcd4;
         }
-
+        
         .input-field input[type="search"]~.material-icons.icon-close {
             right: 2rem;
         }
-
+        
         .search_div {
             max-width: 350px;
         }
-
+        
         #baselayers_dropdown {
             min-width: 300px !important;
         }
-
+        
         .dropdown-content [type="checkbox"]+label {
             top: -10px !important;
         }
-
+        
         input[type="checkbox"]+label {
             top: 10px !important;
             margin-left: 16px !important;
         }
-
-
+        
         nav {
             height: 75px !important;
             line-height: 75px !important;
         }
-
+        
         .material-icons {
             display: inline-flex;
             vertical-align: top;
         }
-
+        
         .title.show:hover {
             cursor: pointer;
             color: #6570ef;
         }
-
+        
         i.material-icons {
             font-size: 15px !important;
             padding-right: 10px !important;
             display: block;
             margin-right: 0px !important;
         }
-
-
+        
         .overlay_layers_collection .collection-item .title span {
             width: 98% !important;
         }
-
+        
         .nav-wrapper {
             margin-left: 10px !important;
         }
-
+        
         .nav-wrapper .collection .collection-item {
             padding: 0px 10px !important;
         }
-
+        
         #overlays_dropdown {
             min-width: 300px;
         }
-
+        
         #overlays_dropdown .main.collection-item {
             min-height: 35px;
         }
-
+        
         .overlay_layers_collection .collection-item i.material-icons {
             font-size: 19px !important;
             padding-right: 10px !important;
         }
-
-
+        
         .material-icons:hover,
         .card-panel:hover {
             cursor: pointer;
         }
-
+        
         .palette {
             color: gray;
             font-weight: bold;
             opacity: 0.8;
         }
-
+        
         .palette.on {
             color: cornflowerblue;
             opacity: 1;
         }
-
+        
         .expanded_layer {
             display: block !important;
         }
-
+        
         .expanded_layer .col {
             background-color: aqua;
         }
-
+        
         .collection-item .title:hover {
             background-color: #86a2cc;
             padding: 5px;
         }
-
+        
         .theme_container.collection-item {
             background-color: rgb(170, 172, 166);
         }
-
+        
         .theme_container .collection-item.on {
             background-color: rgb(194, 236, 78) !important;
         }
-
+        
         .theme_container .collection-item:hover {
             background-color: rgb(233, 161, 29) !important;
         }
-
+        
         .theme_container {
             display: none;
         }
-
+        
         .theme_container.on {
             display: block;
         }
-
+        
         .sidenav {
             top: 75px !important;
             width: 35%;
@@ -347,105 +343,128 @@
             background-color: #f2f2f2;
             padding: 8px;
         }
-
+        
         .sidenav .subheader {
             line-height: 15px !important;
         }
-
-
+        
         .sidenav .card.collapsible-header {
             background-color: #90b8f3;
             margin: 0 0;
             line-height: 0px !important;
             border-bottom: 1px solid grey;
         }
-
+        
         .sidenav .general_stats {
             margin-left: 30px;
         }
-
+        
         .general_stats .title {
             font-size: 1.1em;
         }
-
+        
         .general_stats .data {
             font-size: 0.9em;
             display: block;
-
         }
-
+        
         nav {
             background-color: #ee6e73 !important;
             pointer-events: auto !important;
         }
-
+        
         nav a.sidenav-trigger {
             display: block !important;
         }
-
+        
         .sidenav .card .card-content {
             padding-left: 10px;
             padding-top: 10px;
         }
-
+        
         .sidenav .collapsible-body {
             border-bottom: 1px solid #d2c4c4;
             background-color: transparent !important;
             /* background-color:#f3eded!important; */
-
         }
-
+        
         .sidenav .collapsible-body>div {
             display: none;
         }
-
+        
         .sidenav div.collapsible-body div.mangroves .highcharts-container {
             /* margin-top: 70px; */
         }
-
+        
         .sidenav div.collapsible-body div#mangroves_gain,
         .sidenav div.collapsible-body div#mangroves_loss {
-
             margin: 15px;
             height: 240px;
         }
-
+        
         .sidenav div.collapsible-body div.mangroves_bar_chart {
-
             margin: 5px;
             height: 300px;
             margin-left: 15px !important;
         }
-
-
+        
         .sidenav li.active .collapsible-body {
             background-color: #ffffff0d;
         }
-
+        
         .sidenav li.active {
             background-color: inherit;
         }
-
+        
         .sidenav table {
             margin-left: 10px;
             width: 94%important;
         }
-
+        
         #topbarsearch .input-field .prefix {
             width: 0rem !important;
         }
-
+        
         #topbarsearch nav ul li:hover,
         nav ul li.active {
             background-color: none !important;
         }
-
+        
         .input-field .prefix~input,
         .input-field .prefix~textarea,
         .input-field .prefix~label,
         .input-field .prefix~.validate~label,
         .input-field .prefix~.autocomplete-content {
             margin-left: 1rem !important;
+        }
+        
+        #matrix {
+            margin-top: 100px;
+        }
+        
+        .info div {
+            display: inline-block;
+        }
+        
+        #countries_popup {
+            width: 400px;
+            height: 600px;
+            border: 1px solid blue;
+        }
+        
+        .index_country_info i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            /* border-radius: 10px; */
+            opacity: 1;
+            margin-top: 0px;
+            margin-right: 9px;
+            border: 2px solid white;
+        }
+        
+        .index_country_info {
+            padding: 20px;
         }
     </style>
     <script src="./data_new.js"></script>
@@ -536,11 +555,9 @@
                 <ul class="right hide-on-med-and-down">
 
                     <li>
-                        <a class="dropdown-trigger btn waves-effect waves-light" href="#!"
-                            data-target="overlays_dropdown">
+                        <a class="dropdown-trigger btn waves-effect waves-light" href="#!" data-target="overlays_dropdown">
                             <span>Overlay Layers</span></a>
-                        <a class="dropdown-trigger btn btn-large waves-effect waves-light" href="#!"
-                            data-target="baselayers_dropdown">
+                        <a class="dropdown-trigger btn btn-large waves-effect waves-light" href="#!" data-target="baselayers_dropdown">
                             <span>Base Layers</span></a>
 
                     </li>
@@ -554,8 +571,7 @@
                                 <div class="row" id="topbarsearch">
                                     <div class="input-field col s6 s12">
                                         <i class="material-icons prefix">search</i>
-                                        <input type="text" placeholder="search" id="autocomplete-input"
-                                            class="autocomplete red-text">
+                                        <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete red-text">
                                     </div>
                                 </div>
                             </div>
@@ -590,20 +606,82 @@
             </div>
         </div>
         <div class="heatmap"></div>
+        <div class='info'>
+            <div id="legend_tooltip"></div>
+            <!-- <div id="countries_popup"></div> -->
+
+        </div>
     </div>
 
 
     <script>
+        //.range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
+        var scale_values = [{
+            value: 0,
+            color: '#444243',
+            title: '0- No data'
+        }, {
+            value: 1,
+            color: '#e0347c',
+            title: '1- Critical'
+        }, {
+            value: 2,
+            color: '#f5621c',
+            title: '2- Bad'
+        }, {
+            value: 3,
+            color: '#f7c717',
+            title: '3- Neutral'
+        }, {
+            value: 4,
+            color: '#6ee282',
+            title: '4- Good'
+        }, {
+            value: 5,
+            color: '#5aa066',
+            title: '5- Very good'
+        }];
 
 
-        var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+
+        var indexes_info = [{
+            name: 'env_index_class',
+            title: 'Environmental'
+        }, {
+            name: 'financial_index_class',
+            title: 'Financial'
+        }, {
+            name: 'political_index_class',
+            title: 'Political'
+        }, {
+            name: 'social_index_class',
+            title: 'Social'
+        }, {
+            name: 'main_index_class',
+            title: 'General'
+        }];
+
+        var indexes_arrays = {}
+
+        function get_scale_data(value) {
+            scale_values.filter(function(d) {
+                return d.value == value;
+            })
+        }
+
+        function get_index_data(name) {
+            indexes_info.filter(function(d) {
+                return d.name == name;
+            })
+        }
+        var y_elements = indexes_info.map(function(d) {
+
+                return d.name;
+            })
+            // ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
         var markers_obj_arr = [];
 
-        var env_index_class_arr = [];
-        var main_index_class_arr = [];
-        var social_index_class_arr = [];
-        var political_index_class_arr = [];
-        var financial_index_class_arr = [];
+
         var mouseovered_path = {};
 
         function getRandomInRange(min, max) {
@@ -612,10 +690,18 @@
 
         function round_this(someNumber, digits) {
             switch (digits) {
-                case 1: var p = 1e1; break;
-                case 2: var p = 1e2; break;
-                case 3: var p = 1e3; break;
-                case 4: var p = 1e4; break;
+                case 1:
+                    var p = 1e1;
+                    break;
+                case 2:
+                    var p = 1e2;
+                    break;
+                case 3:
+                    var p = 1e3;
+                    break;
+                case 4:
+                    var p = 1e4;
+                    break;
             }
             return Math.round(someNumber * p) / p;
         }
@@ -638,24 +724,80 @@
 
             edge: 'left', // Choose the horizontal origin
             draggable: true, // Choose whether you can drag to open on touch screens,
-            onOpenEnd: function (el) {
+            onOpenEnd: function(el) {
                 $('.sidenav-trigger').addClass('on');
 
             },
 
-            onCloseEnd: function (el) { }, // A function to be called when sideNav is closed
+            onCloseEnd: function(el) {}, // A function to be called when sideNav is closed
         });
 
-        $('.sidenav-trigger').on('click', function (e) {
+        $('.sidenav-trigger').on('click', function(e) {
 
-            if ($(this).hasClass('on')) {
-                e.preventDefault()
-                $('#slide-out').sidenav('close').removeClass('sidenav_on');
-                $(this).removeClass('on')
-                return false
-            }
-        })
-        //  $('.collapsible').collapsible();
+                if ($(this).hasClass('on')) {
+                    e.preventDefault()
+                    $('#slide-out').sidenav('close').removeClass('sidenav_on');
+                    $(this).removeClass('on')
+                    return false
+                }
+            })
+            //  $('.collapsible').collapsible();
+
+
+        $('nav').hide();
+
+
+        var legendElementWidth = 30;
+        var legend_svg = d3.select("#legend_tooltip").append("svg")
+
+        //.attr("width", legendElementWidth+170)
+        .attr("width", 200)
+            //.attr("height",legendElementWidth*8)
+            .attr("height", 240)
+
+        var legend = legend_svg.selectAll(".legend")
+            .data(scale_values, function(d) {
+                return d.value;
+            })
+
+        .enter()
+
+        .append("g")
+            .attr("class", "legend")
+
+
+        legend.append("rect")
+            .attr("x", function(d, i) {
+
+                return 0 * i;
+            })
+            //.attr("x",0)
+            .attr("y", function(d, i) {
+                return legendElementWidth * i;
+            })
+            .attr("width", legendElementWidth)
+            .attr("height", legendElementWidth)
+            .style("fill", function(d, i) {
+
+                return d.color;
+            })
+            .attr("value", function(d) {
+                return d.value;
+            });
+
+        legend.append("text")
+            .attr("class", "Montserrat")
+            .html(function(d) {
+                // console.warn(d.legend_text)
+                return d.title; //+'<b>test</b>';
+            })
+            .attr("x", function(d, i) {
+                return legendElementWidth + 20;
+            })
+            //.attr("x",0)
+            .attr("y", function(d, i) {
+                return ((legendElementWidth * i) + (legendElementWidth / 2));
+            })
 
         d3.json("countries.json").then(mapDraw);
 
@@ -665,69 +807,126 @@
             mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpbWl6dSIsImEiOiJjam95MDBhamYxMjA1M2tyemk2aHMwenp5In0.i2kMIJulhyPLwp3jiLlpsA'
 
 
-            var all_data = level_1.features.map(function (d) {
+            var all_data = level_1.features.map(function(d) {
                 return {
                     country: d.country,
+                    code: d.code,
                     data: d.data
                 };
             });
-
-            // var all_centroids = geojson.map(function(d) {
-            //     console.log(d)
-            // })
-
-
-            var countries_arr = level_1.features.map(function (d) {
-                return d.code;
-            });
-
-            var x_elements = countries_arr;
+            console.info(all_data)
+                // var all_centroids = geojson.map(function(d) {
+                //     console.log(d)
+                // })
 
 
-            level_1.features.forEach(function (d) {
-                /*
-                "data":{
-                "main_index_val":0.267,
-                "main_index_class":2,
-                "env_index_class":5,
-                "social_index_class":5,
-                "political_index_class":3,
-                "financial_index_class":1
-                }
-                */
-                for (var index in d.data) {
-                    // console.warn(d.code)
-                    // console.log(index)
-                    if (index !== 'main_index_val') {
-                        //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
-                        var arr = window[index + '_arr'];
-
-                        arr.push({
-                            country: d.country,
-                            _code: d.code,
-                            index_type: index,
-                            index_value: d.data[index],
-                            color: null
-                        })
-                    }
-                }
-            });
-
-
-            console.log(political_index_class_arr)
-
-            function sort_by_index(a, b) {
-
-                return a.index_value < b.index_value ? 1 : -1;
+            function get_scale_data(value) {
+                return scale_values.filter(function(d) {
+                    return d.value == value;
+                })[0]
             }
 
-            var main_index_class_arr_sorted = main_index_class_arr.sort(sort_by_index)
+            function get_index_data(name) {
+                return indexes_info.filter(function(d) {
+                    return d.name == name;
+                })[0]
+            }
+
+            function sort_by_index(param) {
+                console.info(param)
+                return function(a, b) {
+                    console.info(a.data[param])
+                    return a.data[param] < b.data[param] ? 1 : -1;
+                }
+
+            }
+            //  console.log(JSON.stringify(all_data))
+
+
+            function generate_data() {
+                indexes_arrays.env_index_class_arr = [];
+                indexes_arrays.main_index_class_arr = [];
+                indexes_arrays.social_index_class_arr = [];
+                indexes_arrays.political_index_class_arr = [];
+                indexes_arrays.financial_index_class_arr = [];
+
+                var sorted = all_data.sort(sort_by_index('env_index_class'));
+
+
+                console.log(JSON.stringify(sorted))
+
+                sorted.forEach(function(d, i) {
+
+                    //  if (i > 5) return false
+                    /*
+                    "data":{
+                    "main_index_val":0.267,
+                    "main_index_class":2,
+                    "env_index_class":5,
+                    "social_index_class":5,
+                    "political_index_class":3,
+                    "financial_index_class":1
+                    }
+                    */
+
+                    var popup = '<h3>' + d.country + '</h3>';
+
+                    for (var index in d.data) {
+
+                        if (index !== 'main_index_val') {
+                            var index_info = get_index_data(index);
+                            console.log(d)
+                            var x = get_scale_data(d.data[index]);
+                            console.log(x)
+
+                            var scale_info = get_scale_data(d.data[index]);
+                            console.log(scale_info)
+                            if (typeof scale_info == 'undefined') {
+                                var scale_info = {
+                                    color: '#2f2e2f'
+                                }
+                            }
+                            console.log(index_info)
+                            popup += '<div class="index_country_info"><i style="background:' + scale_info.color + '"></i>' + index_info.title + '</div>';
+                            //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+                            var arr = indexes_arrays[index + '_arr'];
+
+                            arr.push({
+                                country: d.country,
+                                _code: d.code,
+                                index_type: index,
+                                index_value: d.data[index],
+                                color: get_scale_data(d.data[index]).color
+                            })
+                        }
+                        //   d.popup = popup;
+
+                    }
+
+                    // $('#countries_popup').append(popup)
+                });
+
+                return sorted
+
+            }
+
+            var sorted = generate_data()
+            console.log(indexes_arrays);
+            console.info(sorted)
+            var countries_arr =
+                sorted.map(function(d) {
+                    return d.code;
+                });
+
+
+            var x_elements = countries_arr;
             //         var sorted=pilots.sort(sort_balance_by_percent);
-            console.log(main_index_class_arr_sorted)
+
 
             //  var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
-            var all_data_plot = env_index_class_arr.concat(financial_index_class_arr).concat(political_index_class_arr).concat(social_index_class_arr).concat(main_index_class_arr_sorted);
-            console.log(all_data_plot)
+            var all_data_plot = indexes_arrays.env_index_class_arr.concat(indexes_arrays.financial_index_class_arr).concat(indexes_arrays.political_index_class_arr)
+                .concat(indexes_arrays.social_index_class_arr).concat(indexes_arrays.main_index_class_arr);
+            console.log(JSON.stringify(all_data_plot))
 
             var buckets = x_elements.length + 1;
             var max_width = 1400;
@@ -743,11 +942,11 @@
                 //d3.svg.axis()
                 .scale(xScale)
 
-                .tickFormat(function (d) {
+            .tickFormat(function(d) {
 
                     return d;
                 })
-            // .orient("top")
+                // .orient("top")
 
 
             var yScale = d3.scaleBand()
@@ -759,11 +958,11 @@
             var yAxis = d3.axisLeft()
                 .scale(yScale)
 
-                .tickFormat(function (d) {
+            .tickFormat(function(d) {
                     //  console.log(d)
                     return d;
                 })
-            // .orient("left");
+                // .orient("left");
 
             cellSize = xScale.bandwidth(),
                 margin = {
@@ -776,29 +975,57 @@
             var width = max_width - margin.right - margin.left,
                 height = 500 - margin.top - margin.bottom;
             console.log(width)
-            //theroy:535, real: 821
+                //theroy:535, real: 821
             console.log(height)
-            // var colorScale = d3.scale.threshold()
+                // var colorScale = d3.scale.threshold()
             var colorScale = d3.scaleThreshold()
                 //.domain([0, 0.2])
-                .domain([1, 2, 3, 4, 5])
+                .domain([0, 1, 2, 3, 4, 5])
                 //.domain(d3.range(d3.min(financial_arr_values), d3.max(financial_arr_values), d3.max(financial_arr_values) / 4))
 
-                .range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
+            .range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
+
+            //     var scale_values = [{
+            //     value: 0,
+            //     color: '#444243',
+            //     title: '0- No data'
+            // }, {
+            //     value: 1,
+            //     color: '#e0347c',
+            //     title: '1- Critical'
+            // }, {
+            //     value: 2,
+            //     color: '#f5621c',
+            //     title: '2- Bad'
+            // }, {
+            //     value: 3,
+            //     color: '#f7c717',
+            //     title: '3- Neutral'
+            // }, {
+            //     value: 4,
+            //     color: '#6ee282',
+            //     title: '4- Good'
+            // }, {
+            //     value: 5,
+            //     color: '#5aa066',
+            //     title: '5- Very good'
+            // }];
+
+
 
 
             // Three function that change the tooltip when user hover / move / leave a cell
-            var mouseover = function (d) {
+            var mouseover = function(d) {
                 console.log(d)
                 tooltip.style("opacity", 1)
             }
-            var mousemove = function (d) {
+            var mousemove = function(d) {
                 tooltip
                     .html("The exact value of<br>this cell is: " + d.value)
                     .style("left", (d3.mouse(this)[0] + 70) + "px")
                     .style("top", (d3.mouse(this)[1]) + "px")
             }
-            var mouseleave = function (d) {
+            var mouseleave = function(d) {
                 tooltip.style("opacity", 0)
             }
 
@@ -814,15 +1041,15 @@
 
             cells.data(all_data_plot)
 
-                .enter().append('g').classed('g_classed', true)
+            .enter().append('g').classed('g_classed', true)
                 .append('rect')
                 .attr('class', 'cell')
                 .attr('width', cellSize)
                 .attr('height', cellSize)
-                .attr('y', function (d) {
+                .attr('y', function(d) {
                     return 0;
                 })
-                .attr('x', function (d) {
+                .attr('x', function(d) {
                     return xScale(d._code);
                 })
 
@@ -831,25 +1058,28 @@
 
             svg.selectAll('rect').transition()
                 .duration(100)
-                .delay(function (d, i) {
+                .delay(function(d, i) {
 
 
                     return i * 10
-                    //return getRandomArbitrary(2, 900)
-                    //return getRandomArbitrary(2, 250)
+                        //return getRandomArbitrary(2, 900)
+                        //return getRandomArbitrary(2, 250)
                 })
-                .attr('y', function (d) {
+                .attr('y', function(d) {
                     //  return yScale(d.data.political);
-                    console.info(d)
+                    //console.info(d)
                     return yScale(d.index_type);
                 })
 
-                .attr('fill', function (d) {
+            .attr('fill', function(d) {
+                    console.info(d)
                     d.color = colorScale(d.index_value);
-                    geojson.features.forEach(function (item) {
+                    var color = get_scale_data(d.index_value);
+                    console.log(color)
+                    geojson.features.forEach(function(item) {
 
                         if (item.properties.code == d._code) {
-                            console.log(item)
+                            //   console.log(item)
                             item.properties.color = d.color;
                         }
                     })
@@ -860,12 +1090,12 @@
                 //     console.log(d.index)
                 // })
 
-                .attr("value", function (d) {
-                    return d.environmental;
-                })
+            .attr("value", function(d) {
+                return d.environmental;
+            })
 
             var rects = d3.selectAll('rect');
-            var mouseover_label = function (d) {
+            var mouseover_label = function(d) {
                 //console.warn(d)
                 //code
                 console.warn($(d3.event.target).parent())
@@ -875,7 +1105,7 @@
                     $(d3.event.target).addClass('x_mouseovered');
 
                     rects.style("opacity", 0.2);
-                    rects.filter(function (data) {
+                    rects.filter(function(data) {
                         return data._code == d;
                     }).style("opacity", 1);
                     // .mouseovered_country
@@ -892,11 +1122,10 @@
                     sel_path.transition()
                         .duration(300)
                         .attr('fill', '#ea24d2')
-                }
-                else {
-                    console.log(d)
+                } else {
+                    //  console.log(d)
                     rects.style("opacity", 0.3);
-                    rects.filter(function (data) {
+                    rects.filter(function(data) {
                         return data.index_type == d;
                     }).style("opacity", 1);
                 }
@@ -904,7 +1133,7 @@
 
             }
 
-            var mouseout_label = function (d) {
+            var mouseout_label = function(d) {
                 if ($(d3.event.target).parent().hasClass('x_tick')) {
                     mouseovered_path.sel_path.transition()
                         .duration(300)
@@ -915,7 +1144,7 @@
                 }
             }
 
-            var mouseleave_svg = function (d) {
+            var mouseleave_svg = function(d) {
                 console.log('leave')
                 rects.style("opacity", 1);
             }
@@ -949,18 +1178,14 @@
                 .call(yAxis)
                 .selectAll('.tick')
 
-                .classed('y_tick', true)
+            .classed('y_tick', true)
                 .selectAll('text')
                 //.text('test')
-                .text(function (d) {
-                    //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
-                    switch (d) {
-                        case 'env_index_class': return 'Environmental'; break;
-                        case 'financial_index_class': return 'Financial'; break;
-                        case 'political_index_class': return 'Political'; break;
-                        case 'social_index_class': return 'Social'; break;
-                        case 'main_index_class': return 'General'; break;
-                        default: break;
+                .text(function(d) {
+
+                    for (var p in indexes_info) {
+                        if (indexes_info[p].name == d)
+                            return indexes_info[p].title
                     }
                 })
                 .attr('font-weight', 'normal');
@@ -977,7 +1202,7 @@
                 // .attr("dx", ".3em")
                 .attr("dy", ".5em")
                 .attr("y", -5)
-                .attr("transform", function (d) {
+                .attr("transform", function(d) {
                     return "rotate(-65)";
                 });
 
@@ -1053,15 +1278,15 @@
                 .attr("stroke", "white")
                 .attr("fill", "#34bffd")
                 .attr("fill-opacity", 0.9)
-                .attr("code", function (d) {
+                .attr("code", function(d) {
 
                     return d.properties.code;
                 })
-                .on('mouseover', function (d) {
+                .on('mouseover', function(d) {
                     console.log(d)
 
                     //https://github.com/d3/d3-selection-multi#d3-selection-multi
-                    var _sel = rects.filter(function (data) {
+                    var _sel = rects.filter(function(data) {
                         //   console.log(data)
                         return data._code == d.properties.code;
                     });
@@ -1069,19 +1294,19 @@
                     console.info(rects.selectAll('.sel_cell_from_map'))
                     d3.selectAll('.sel_cell_from_map')
                         .attrs(
-                            function (d, i) {
+                            function(d, i) {
                                 return {
 
                                     //"stroke": 'white',
                                     'stroke-width': 0
-                                    //  'stroke-opacity': 0.9
+                                        //  'stroke-opacity': 0.9
 
                                 }
                             }
                         ).classed('sel_cell_from_map', false);
 
                     _sel.attrs(
-                        function (d, i) {
+                        function(d, i) {
                             return {
                                 "stroke": '#ee6e73',
                                 'stroke-width': 3,
@@ -1091,16 +1316,16 @@
                     ).classed('sel_cell_from_map', true);
 
                 })
-                .on('mouseout', function (d) {
+                .on('mouseout', function(d) {
 
                     d3.selectAll('.sel_cell_from_map')
                         .attrs(
-                            function (d, i) {
+                            function(d, i) {
                                 return {
 
                                     //"stroke": 'white',
                                     'stroke-width': 0
-                                    //  'stroke-opacity': 0.9
+                                        //  'stroke-opacity': 0.9
 
                                 }
                             }
@@ -1108,11 +1333,11 @@
                 })
 
             function update() {
-                console.log(featureElement)
+
                 featureElement.attr("d", path);
-                setTimeout(function () {
+                setTimeout(function() {
                     var sel_gaul_1 = d3.selectAll("path.gaul_1");
-                    console.info(sel_gaul_1)
+
                     sel_gaul_1.attr("d", path);
                 }, 500)
 
@@ -1124,13 +1349,13 @@
 
             //
             map.on("viewreset", update)
-            map.on("movestart", function () {
+            map.on("movestart", function() {
                 svg.classed("hidden", true);
             });
-            map.on("rotate", function () {
+            map.on("rotate", function() {
                 svg.classed("hidden", true);
             });
-            map.on("moveend", function () {
+            map.on("moveend", function() {
                 update()
                 svg.classed("hidden", false);
             })
@@ -1161,14 +1386,14 @@
                 });
             }
 
-            markers_obj_arr.forEach(function (d) {
+            markers_obj_arr.forEach(function(d) {
                 // create a HTML element for each feature
                 var el = document.createElement('div');
                 el.className = 'animated-icon my-icon';
                 el.id = 'centroid_' + d.code;
 
 
-                var t_data = level_1.features.filter(function (data) {
+                var t_data = level_1.features.filter(function(data) {
                     return data.code == d.code;
                 })[0]
 
@@ -1176,7 +1401,7 @@
                 if (!t_data) return false;
                 new mapboxgl.Marker(el)
 
-                    .setLngLat(d.centroid)
+                .setLngLat(d.centroid)
                     .addTo(map);
 
             })
@@ -1190,7 +1415,7 @@
                 //param: environmental, etc.
                 //if (d.properties.code==)
                 var color;
-                window[param + '_arr'].forEach(function (data) {
+                window[param + '_arr'].forEach(function(data) {
                     if (data._code == d.properties.code) {
                         color = data.color;
                     }
@@ -1204,19 +1429,19 @@
                 switch (param) {
 
                 }
-                var circs_values = params_arr.map(function (d) {
+                var circs_values = params_arr.map(function(d) {
                     return d.index_value;
                 })
 
                 var rscale = d3.scaleLinear()
                     .domain([d3.min(circs_values), d3.max(circs_values)])
                     .range([25, 60])
-                // update_by_index('main_index_class');
+                    // update_by_index('main_index_class');
 
 
-                markers_obj_arr.forEach(function (d) {
+                markers_obj_arr.forEach(function(d) {
                     //console.log(d)
-                    var t_data = level_1.features.filter(function (data) {
+                    var t_data = level_1.features.filter(function(data) {
                         return data.code == d.code;
                     })[0];
                     if (!t_data) {
@@ -1227,7 +1452,7 @@
 
                     // make a marker for each feature and add to the map
 
-                    setTimeout(function () {
+                    setTimeout(function() {
 
                         var $centroid = $('#centroid_' + d.code);
 
@@ -1239,32 +1464,32 @@
                         $centroid.data(t_data);
 
                         $centroid.animate({
-                            //   width: '50px',
-                            width: sel_radius + 'px',
-                            height: sel_radius + 'px'
-                            //  height: '50px'
-                        }
+                                //   width: '50px',
+                                width: sel_radius + 'px',
+                                height: sel_radius + 'px'
+                                    //  height: '50px'
+                            }
 
                         ).css(
                             'background-color',
                             '#e91e63'
                         )
 
-                        $centroid.find('.inner_circle').animate(
-                            {
-                                'line-height': sel_radius + 'px',
-                                'font-size': sel_radius / 3
+                        $centroid.find('.inner_circle').animate({
+                            'line-height': sel_radius + 'px',
+                            'font-size': sel_radius / 3
 
 
 
-                            })
+                        })
                     }, 300)
                 })
             }
+
             function update_by_index(param) {
 
                 rects.style("opacity", 0.2);
-                rects.filter(function (data) {
+                rects.filter(function(data) {
 
                     return data.index_type == param;
                 }).style("opacity", 1);
@@ -1273,22 +1498,22 @@
                 map_paths
                     .transition()
                     .duration(1250)
-                    .delay(function (d, i) {
+                    .delay(function(d, i) {
                         return i * 40;
                     })
                     // .attr("delay", function (d, i) {
                     //     return 100 * i
                     // })
 
-                    .attr('fill', function (d) {
-                        // console.log(d)
-                        return get_color(d, param)
+                .attr('fill', function(d) {
+                    // console.log(d)
+                    return get_color(d, param)
 
-                    });
+                });
                 update_circles_by_index(param)
             }
 
-            $('.matrix_btn').click(function (e) {
+            $('.matrix_btn').click(function(e) {
                 $('.btn-small.selected').removeClass('selected');
 
                 if ($(e.target).hasClass('btn-small'))
@@ -1310,7 +1535,7 @@
                     update_by_index('main_index_class');
                 }
             })
-            setTimeout(function () {
+            setTimeout(function() {
                 //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
                 update_by_index('main_index_class');
 
