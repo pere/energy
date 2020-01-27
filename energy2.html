@@ -1367,13 +1367,23 @@ index_value: 2
                 }
 
                 var mouseout_label = function (d) {
-                    if ($(d3.event.target).parent().hasClass('x_tick')) {
+
+                    if ($(d3.event.target).parent().hasClass('x_tick'))
+                        var target = $(d3.event.target).parent();
+                    else
+                        var target = $(d3.event.target);
+
+                    console.info(target)
+                    if (target) {
+
+
                         mouseovered_path.sel_path.transition()
                             .duration(300)
                             .attr('fill', mouseovered_path.ori_color);
 
                         $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered');
                         //   rects.style("opacity", 1);
+
                     }
                 }
 
@@ -1543,8 +1553,19 @@ index_value: 2
                         //   console.log(data)
                         return data._code == d.properties.code;
                     });
-                    console.log(_sel)
-                    console.info(rects.selectAll('.sel_cell_from_map'))
+
+                    d3.selectAll('.x_tick').filter(function (data) {
+                        console.warn(d)
+                        if (data === d.properties.code) {
+                            // console.log(d3.select(this))
+                            // var parent = this.parentNode;
+                            // console.info(parent);
+
+                            console.info(this)
+                            d3.select(this).dispatch('mouseover');
+                        }
+                    })
+
                     d3.selectAll('.sel_cell_from_map')
                         .attrs(
                             function (d, i) {
@@ -1583,6 +1604,18 @@ index_value: 2
                                 }
                             }
                         ).classed('sel_cell_from_map', false);
+
+                    d3.selectAll('.x_tick').filter(function (data) {
+
+                        if (data === d.properties.code) {
+                            // console.log(d3.select(this))
+                            // var parent = this.parentNode;
+                            // console.info(parent);
+
+                            console.info(this)
+                            d3.select(this).dispatch('mouseout');
+                        }
+                    })
                 })
 
             function update() {
@@ -1849,17 +1882,7 @@ index_value: 2
                 //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
                 update_by_index('main_index_class');
                 //default_label
-                d3.selectAll('.x_tick').filter(function (d) {
-                    console.warn(d)
-                    if (d === 'RWA') {
-                        // console.log(d3.select(this))
-                        // var parent = this.parentNode;
-                        // console.info(parent);
-                        console.warn(d3.select(this))
-                        console.info(this)
-                        d3.select(this).dispatch('mouseover');
-                    }
-                })
+
 
                 // d3.selectAll('.tick').dispatch('mouseover')
                 // console.log(_t)
