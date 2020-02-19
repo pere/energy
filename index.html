@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>JRC Energy</title>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/energy.css">
+    <link rel="stylesheet" href="./css/extra_css.css">
+    <script src="./data/all_country_data.js"></script>
+    <!-- <script src="./data/main_indexes.js"></script>
+    <script src="./data/fact_sheets.js"></script> -->
+
+    <script src="./js/jquery.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="./js/materialize_v1.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="./css/materialize.min.css">
+
+    <script src='//unpkg.com/d3@5.0.0/dist/d3.min.js'></script>
+    <script src='./js/d3-selection-multi.min.js'></script>
+    <script src="./js/topojson.v1.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <script src="./app_js/helpers.js"></script>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+
+
+            <form>
+
+                <ul class="right hide-on-med-and-down">
+                    <!-- <li>
+                        
+                        <a class='dropdown-trigger' href='#' data-target='dropdown_layers'><i
+                                class="material-icons">layers</i></a>
+
+                        
+                        <ul id='dropdown_layers' class='dropdown-content'>
+                            <li><a href="#!"><i class="material-icons fao_gaul_level_0">layers</i>FAO GAUL Level 0</a>
+                            </li>
+                            <li><a href="#!"><i class="material-icons fao_gaul_level_1">layers</i>FAO GAUL Level 1</a>
+                            </li>
+                            <li><a href="#!"><i class="material-icons fao_gaul_level_2">layers</i>FAO GAUL Level 2</a>
+                            </li>
+                            <li class="separator">
+                                <hr>
+                            </li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_3">layers</i>WWF Hydro
+                                    Basins level 3</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_4">layers</i>WWF Hydro
+                                    Basins level 4</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_5">layers</i>WWF Hydro
+                                    Basins level 5</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_6">layers</i>WWF Hydro
+                                    Basins level 6</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_7">layers</i>WWF Hydro
+                                    Basins level 7</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_8">layers</i>WWF Hydro
+                                    Basins level 8</a></li>
+                        </ul>
+                    </li> -->
+
+                    <ul id="overlays_dropdown" class="overlay_layers_collection dropdown-content">
+                        <li class="main collection-item" data-layer="countries">
+                            <div class="title">
+                                <i class="material-icons highlight off show_hide_layer">layers</i>
+                                <span>Countries</span>
+
+
+                            </div>
+
+
+                        </li>
+
+                        <li class="main collection-item" data-layer="gaul_1">
+                            <div class="title">
+                                <i class="material-icons highlight show_hide_layer">layers</i>
+                                <span>Gaul Level 1</span>
+
+
+                            </div>
+
+
+                        </li>
+                    </ul>
+                    <li>
+                        <a class="dropdown-trigger btn" href="#!" data-target="overlays_dropdown">
+                            <i class="material-icons">layers</i>
+                            <!-- <span>Geo-layers</span> -->
+                        </a>
+
+
+                    </li>
+
+
+
+
+                    <li><a href="#" data-target="slide-out" class="sidenav-trigger" style="display: block!important;"><i
+                                class="material-icons">view_module</i></a>
+                    </li>
+
+                    <li>
+                    <li><a href="#" class="light_mode nightlight" style="display: block!important;"><i
+                                class="material-icons light_mede_button">highlight</i></a>
+                    </li>
+                    </li>
+
+                </ul>
+                <ul class="left">
+                    <li>
+                        <a href="#!" class="jrc-logo"><img
+                                src="https://global-surface-water.appspot.com/gsw/newmockup/img/europelogo.png"
+                                alt=""></a>
+                        <p class="app-title">PVC Decentralised Energy Investment Index </p>
+                    </li>
+                </ul>
+
+
+            </form>
+        </div>
+    </nav>
+    <ul id="slide-out" class="sidenav">
+        <ul class="collapsible">
+
+            <li class='indicators_li'>
+                <div class="card horizontal collapsible-header indicators">
+                    <div class="card-image">
+
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title card-title_country">Indicators Profile</span>
+                            <p class="country_name_header"></p>
+                            <div><i onclick="window.print()" class="material-icons pdf_print">picture_as_pdf</i></div>
+                            <div><i class="material-icons csv_export_all">cloud_download</i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-body">
+
+                    <h3 class="subheader">INDICATORS</h3>
+                    <ul class="list indicators_list">
+
+                        <li>
+                            <div class="row">
+
+                                <div class="row">
+
+                                    <!-- <div class="row summary" info_container="permanent_lake">
+                                        <div class="col s3">
+                                            <i class="material-icons left highlight layers">layers</i>
+                                            <i class="material-icons left show info">info_outline</i>
+                                        </div>
+                                        <div class="col s9">
+                                            <span class="title show">description</span>
+                                        </div>
+
+                                    </div> -->
+
+
+                                    <div class="col s4">
+
+                                        <div class="indicators_list row">
+                                            <div class='center matrix_indicator_select off'>PV-DESI Index scoreboard
+                                            </div>
+
+                                            <div class='center other_indicator_select off'>Break-down by sub-index
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col s8 flow-text index_type_description">
+
+                                        <blockquote>
+                                            Break-down by sub-index description
+                                        </blockquote>
+
+                                        <!-- <div class="col s9 flow-text other_description">
+                                            <blockquote>
+                                                Break-down by sub-index description
+                                            </blockquote>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                </div>
+            </li>
+
+
+            <li class='country_li main_li'>
+                <div class="card horizontal collapsible-header country">
+                    <div class="card-image">
+
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title card-title_country">Country Profile</span>
+                            <p class="country_name_header"></p>
+                            <div><i onclick="window.print()" class="material-icons pdf_print">picture_as_pdf</i></div>
+                            <div><i class="material-icons csv_export_all">cloud_download</i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-body">
+                    <div class="center row">
+                        <div class="col s12 ">
+                            <div class="row" id="topbarsearch">
+                                <div class="input-field col s6 s12">
+                                    <i class="material-icons prefix">search</i>
+                                    <input type="text" placeholder="Search for a country" id="autocomplete-input"
+                                        class="autocomplete blue-text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="country_info">
+                        <h3 class="subheader">GENERAL INFORMATION</h3>
+
+                        <ul class="list status_list">
+
+                            <li>
+                                <div class="row summary" info_container="general">
+                                    <div class="country_name col grid s12"></div>
+
+                                    <div class="region col grid s8 indicator_title">Region</div>
+                                    <div class="col grid s3" style="font-size:1.3em"></div>
+                                    <div class="pop_ghsl col grid s8 indicator_title">Population
+                                    </div>
+                                    <div class="col grid s3 left"></div>
+
+
+                                </div>
+
+
+                            </li>
+
+                        </ul>
+
+                        <h3 class="subheader">STATUS</h3>
+
+                        <ul class="list status_list">
+
+                            <li>
+                                <div class="row summary" info_container="status">
+
+                                    <div class="row">
+                                        <div class="er_2014 col grid s8 indicator_title">Electrification rate</div>
+                                        <div class="col grid s3"></div>
+                                        <div class="rer_2014 col grid s8 indicator_title">Rural electrification rate
+                                        </div>
+                                        <div class="col grid s3"></div>
+                                        <div class="rer_2014 col grid s8 indicator_title">Renewable energy share in the
+                                            total final energy consumption
+                                        </div>
+                                        <div class="col grid s3 left"></div>
+                                    </div>
+
+                                </div>
+
+
+                            </li>
+
+                        </ul>
+
+                        <h3 class="subheader">IMPACTS</h3>
+
+
+                        <ul class="list status_list">
+
+                            <li>
+                                <div class="row summary" info_container="impacts">
+
+                                    <div class="row">
+                                        <div class='row'>Market size: Electricity access ('000 people)</div>
+                                        <div class="pop_noelect_minigrid col grid s8 indicator_title">Market size:
+                                            decentralized technologies ('000 people)</div>
+                                        <div class="col grid s3"></div>
+                                        <div class="pop_minigrid col grid s8 indicator_title">PV mini-grid market size
+                                            ('000 people)
+                                        </div>
+                                        <div class="col grid s3"></div>
+                                        <div class="pop_shs col grid s8 indicator_title">Market size by SHS or
+                                            nano-solar ('000 people)
+                                        </div>
+                                        <div class="col grid s3 left"></div>
+                                    </div>
+
+                                </div>
+
+
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="print_disclamer">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam obcaecati
+                    nobis quam nemo cum, quas amet vel ipsam esse officia, nihil, culpa consequatur labore voluptas
+                    impedit qui laborum deserunt error.</div>
+            </li>
+
+        </ul>
+    </ul>
+    <!-- <div id="wrapper"> -->
+    <div id="map"></div>
+    <div id='lollipop_wrapper'>
+        <div id="lollipop_graph"></div>
+
+    </div>
+    <div id="matrix_wrapper">
+        <div id="matrix">
+            <!-- 
+                <div class='matrix_btn'>
+                    <div><a class="btn-small main_index selected">Main index</a></div>
+                    <div><a class="btn-small environmental">Environmental</a></div>
+                    <div><a class="btn-small social">Social</a></div>
+                    <div><a class="btn-small financial">Financial</a></div>
+                    <div><a class="btn-small political">Political</a></div>
+                </div> -->
+            <div class="heatmap"></div>
+        </div>
+
+        <!-- <div class='info'>
+                <div id="legend_tooltip"></div>
+                
+
+            </div> -->
+    </div>
+
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <script src="./app_js/attach_ev.js"></script>
+    <script>
+        var app = {};
+
+        function get_scale_data(value) {
+            return scale_values.filter(function (d) {
+                return d.value == value;
+            })[0]
+        }
+        var all_data = all_country_data.features;
+        app_data.all_data = all_data;
+        app_data.countries = {}
+        all_data.forEach(function (d) {
+            app_data.countries[d.country] = null;
+        })
+
+
+        $('input.autocomplete').autocomplete({
+            data: app_data.countries,
+            onAutocomplete: function (country) {
+                //var adm_name = txt;
+                console.info(country)
+                var path_code = all_data.filter(function (d) {
+                    return d.country == country
+                })[0].code;
+
+                $('.country_li').removeClass('expanded')
+                $('.country_li .input-field').removeClass('expanded')
+
+
+                app.update_country_profile(path_code);
+
+
+
+            }
+        }).bind('input', function () {
+            console.info('input binding')
+            //$('.country_li').css('min-height', '300px').find('.input-field').css('min-height', '300px');
+            $('.country_li').addClass('expanded')
+            $('.country_li .input-field').addClass('expanded')
+        });
+        // .map(function(d) {
+        //     return {
+        //         country: d.country,
+        //         code: d.code,
+        //         rank: d.rank_index,
+        //         data: d.data_class,
+        //         data_val: d.data_val,
+        //         ranks
+        //         country_prop: d.country_facts[0]
+
+        //     };
+        // });
+
+
+        d3.json("./data/countries.json").then(mapDraw);
+
+
+        function mapDraw(geojson) {
+            console.log(geojson)
+
+            function get_index_data(name) {
+                return indexes_info.filter(function (d) {
+                    return d.name == name;
+                })[0]
+            }
+
+            function sort_by_index(param) {
+
+                return function (a, b) {
+
+                    //  console.info(a.data[param])  //2,3,1,1...
+                    return a.data_class[param] < b.data_class[param] ? 1 : -1;
+                }
+
+            }
+
+            app.generate_data = function (param) {
+                indexes_arrays.env_index_class_arr = [];
+                indexes_arrays.main_index_class_arr = [];
+                indexes_arrays.social_index_class_arr = [];
+                indexes_arrays.political_index_class_arr = [];
+                indexes_arrays.financial_index_class_arr = [];
+
+
+                var sorted = app_data.all_data.sort(sort_by_index(param));
+
+
+
+
+                sorted.forEach(function (d, i) {
+
+                    //  if (i > 5) return false
+                    /*
+            "data":{
+           env_index_class: 1
+​
+financial_index_class: 5
+​
+main_index_class: 5
+​
+main_index_val: 0.389
+​
+political_index_class: 5
+​
+social_index_class: 3
+            }
+            */
+
+                    var popup = '<div class="popup_country_title">' + d.country + '</h3>';
+                    for (var index in d.data_class) {
+
+                        if (index !== 'main_index_val') {
+                            var index_info = get_index_data(index);
+                            var scale_info = get_scale_data(d.data_class[index]);
+
+                            if (typeof scale_info == 'undefined') {
+                                var scale_info = {
+                                    color: '#2f2e2f'
+                                }
+                            }
+
+                            popup += '<div class="index_country_info ' + index + '"><i style="background:' + scale_info.color + '"></i>' + index_info.title + '</div>';
+                            //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+                            var arr = indexes_arrays[index + '_arr'];
+
+                            arr.push({
+                                country: d.country,
+                                _code: d.code,
+                                index_type: index,
+                                index_value: d.data_class[index],
+                                color: scale_info.color
+                            })
+                        }
+                        d.popup = popup;
+
+                    }
+
+                    // $('#countries_popup').append(popup)
+                });
+
+                var matrix_params = {};
+                var countries_arr =
+                    sorted.map(function (d) {
+                        return d.code;
+                    });
+                matrix_params.countries_arr = countries_arr;
+
+                var all_data_plot = indexes_arrays.env_index_class_arr.concat(indexes_arrays.financial_index_class_arr).concat(indexes_arrays.political_index_class_arr)
+                    .concat(indexes_arrays.social_index_class_arr).concat(indexes_arrays.main_index_class_arr);
+
+                app_data.sorted_country_data = sorted;
+                app_data.all_data_plot = all_data_plot;
+
+                // matrix_params.all_data_plot = all_data_plot;
+                matrix_params.index_to_plot = param;
+
+                generate_matrix(matrix_params);
+
+            }
+
+            var rects;
+
+            function generate_matrix(matrix_params) {
+                console.info(matrix_params);
+                $('.lollipop_tooltip').remove();
+                $('.heatmap svg').remove();
+
+                var countries_arr = matrix_params.countries_arr;
+                var all_data_plot = app_data.all_data_plot;
+                console.log(all_data_plot)
+
+                var x_elements = countries_arr;
+                var buckets = x_elements.length + 1;
+                // var max_width = 1400;
+
+                //240px is the height as defined in energy.css
+                //to both #matrix_wrapper, #lollipop_wrapper
+                var diff_h = $('#map').height() - 250;
+                var diff_w = $('#map').width() - 150;
+
+                $('#matrix_wrapper').css('top', diff_h).css('width', diff_w + 'px')
+                // $('#matrix_wrapper').css('width', diff_w + 'px')
+                //css('bottom', '-48px').
+
+
+                //margins from graph inside lollipop_wrapper!
+                var margin = {
+                    top: 35,
+                    right: 5,
+                    bottom: 5,
+                    left: 140
+                },
+                    width = diff_w - margin.left - margin.right,
+                    height = 220 - margin.top - margin.bottom;
+
+                var svg = d3.select('.heatmap')
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")")
+
+                // var svg = d3.select('.heatmap')
+                //     .append("svg")
+                //     .attr("width", width + (margin.left) * 2 + margin.right)
+                //     .attr("height", height + margin.top + margin.bottom)
+                //     .append("g")
+                //     // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                //     .attr("transform", "translate(150," + margin.top + ")");
+
+
+                var xScale = d3.scaleBand()
+                    .domain(x_elements)
+                    .range([0, width - 50])
+                    .padding(0.2)
+
+                var xAxis = d3.axisBottom()
+                    .scale(xScale)
+                    .tickFormat(function (d) {
+                        return d;
+                    })
+
+                var yScale = d3.scaleBand()
+                    //d3.scaleBand()
+                    .domain(y_elements)
+                    .range([0, y_elements.length * xScale.bandwidth() + 10])
+                    .padding(0.02)
+
+                var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .tickFormat(function (d) {
+                        //  console.log(d)
+                        return d;
+                    })
+                // .orient("left");
+
+                cellSize = xScale.bandwidth();
+                // margin = {
+                //     top: 40,
+                //     right: 120,
+                //     bottom: 2,
+                //     left: 100
+                // };
+
+
+
+                var colorScale = d3.scaleThreshold()
+                    .domain([0, 1, 2, 3, 4, 5])
+                    .range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
+
+                //     var scale_values = [{
+                //     value: 0,
+                //     color: '#444243',
+                //     title: '0- No data'
+                // }, {
+                //     value: 1,
+                //     color: '#e0347c',
+                //     title: '1- Critical'
+                // }, {
+                //     value: 2,
+                //     color: '#f5621c',
+                //     title: '2- Bad'
+                // }, {
+                //     value: 3,
+                //     color: '#f7c717',
+                //     title: '3- Neutral'
+                // }, {
+                //     value: 4,
+                //     color: '#6ee282',
+                //     title: '4- Good'
+                // }, {
+                //     value: 5,
+                //     color: '#5aa066',
+                //     title: '5- Very good'
+                // }];
+                // Three function that change the tooltip when user hover / move / leave a cell
+                var mouseover = function (d) {
+                    console.info('mouseovering cell')
+
+                    tooltip.style("opacity", 1)
+                }
+                var mousemove = function (d) {
+
+                    /*
+            _code: "MRT"
+​
+color: "#f5621c"
+​
+country: "Mauritania"
+​
+index_type: "financial_index_class"
+​
+index_value: 2
+*/
+                    console.info(d3.select(this))
+                    console.warn(this.parentNode)
+                    var pos = $(this).position();
+                    var this_info = app_data.sorted_country_data.filter(function (info) {
+                        return info.code == d._code;
+                    })[0];
+
+                    var $html = $.parseHTML(this_info.popup);
+                    console.info('mousemooove')
+                    tooltip.empty();
+                    tooltip
+                        .html('<div class="rect_popup"></div>')
+                        .style("left", (pos.left + 30) + "px")
+                        .style("top", (pos.top - 180) + "px")
+                    $('.tooltip .rect_popup').empty().append($html).show()
+                    //yelllow hovering index
+
+                    $('.tooltip .rect_popup .' + d.index_type).css(
+                        'color', '#fffc2e'
+                    );
+                }
+
+                var mouseleave = function (d) {
+                    //  tooltip.style("opacity", 0)
+                }
+
+
+
+                var cells = svg.selectAll('.heatmap rect')
+
+                cells.data(all_data_plot)
+
+                    .enter().append('g')
+                    //.classed('g_classed', true)
+                    .attr('class', 'rects_container')
+                    .append('rect')
+                    .attr('class', 'cell')
+                    .attr('width', cellSize)
+                    .attr('height', cellSize)
+                    .attr('y', function (d) {
+                        return 0;
+                    })
+                    .attr('x', function (d) {
+                        return xScale(d._code);
+                    })
+                    .attr('opacity', 1)
+
+                svg.selectAll('.rects_container').append('rect')
+                    .attr('class', 'border_cell')
+                    .attr('width', cellSize + 2)
+                    .attr('height', cellSize + 2)
+                    .attr('y', function (d) {
+                        return yScale(d.index_type) - 1;
+                    })
+                    .attr('x', function (d) {
+                        return xScale(d._code) - 1 //- 1.5;
+                    })
+                    .attr('fill', 'rgba(0,0,0,0)')
+                    .attr('stroke', '#f9f3f3')
+                    .attr('stroke-width', '1')
+                    .attr('opacity', 0)
+
+                // .attr("width", x.bandwidth())
+                //     .attr("height", y.bandwidth())
+
+                svg.selectAll('rect.cell').transition()
+                    .duration(10)
+                    .delay(function (d, i) {
+
+
+                        return i * 10
+                        //return getRandomArbitrary(2, 900)
+                        //return getRandomArbitrary(2, 250)
+                    })
+                    .attr('y', function (d) {
+                        //  return yScale(d.data.political);
+                        //console.info(d)
+                        return yScale(d.index_type);
+                    })
+
+                    .attr('fill', function (d) {
+                        //    console.info(d)
+                        //{country: "Zimbabwe", _code: "ZWE", index_type: "main_index_class", index_value: 2, color: "#f5621c"}
+                        //var color = get_scale_data(d.index_value);
+                        //  console.log(color)
+                        geojson.features.forEach(function (item) {
+
+                            if (item.properties.code == d._code) {
+                                //   console.log(item)
+                                item.properties.color = d.color;
+                            }
+                        })
+
+                        return d.color;
+                    })
+                    // .on('mouseover', function (d) {
+                    //     console.log(d.index)
+                    // })
+
+                    .attr("value", function (d) {
+                        return d.environmental;
+                    })
+
+                rects = d3.selectAll('rect')
+                    .on('mouseover', mouseover)
+                    .on('mousemove', mousemove)
+                    .on("mouseleave", mouseleave);
+
+                var mouseover_label = function (d) {
+                    //console.warn(d) --> the country code
+                    //code
+                    $('.tooltip .rect_popup').hide();
+                    console.info($(d3.event.target))
+
+
+                    if ($(d3.event.target).parent().hasClass('x_tick')) {
+                        var target = $(d3.event.target).parent();
+                    } else {
+                        if ($(d3.event.target).hasClass('y_tick_text')) {
+                            rects.style("opacity", 0.3);
+                            rects.filter(function (data) {
+                                return data.index_type == d;
+                            }).style("opacity", 1);
+                            return false;
+                        } else
+                            var target = $(d3.event.target);
+                    }
+                    if (target) {
+                        $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered')
+
+                        target.addClass('x_mouseovered');
+
+                        rects.style("opacity", 0.2);
+                        var these_rects = rects.filter(function (data) {
+                            if (data._code == d) {
+                                console.log(d)
+                            }
+                            return data._code == d;
+                        });
+                        d3.selectAll('.border_cell').style('opacity', 0);
+
+                        these_rects.nodes().forEach(function (d, i) {
+
+                            var parent = d.parentNode;
+                            // d3.select(parent).select('.border_cell').style('opacity', 1)
+                            console.log(d3.select(d))
+
+                        })
+
+
+
+                        these_rects.style("opacity", 1);
+
+                        var t = '#map path[code=' + d + ']';
+
+                        var this_info = app_data.sorted_country_data.filter(function (info) {
+                            return info.code == d;
+                        })[0];
+
+                        var popup_html = '<div class="rect_popup">' + this_info.popup + '</div>'
+                        console.log(popup_html)
+
+                        for (var p in markers_obj_arr) {
+                            if (markers_obj_arr[p].code == d) {
+                                country_popup.setLngLat(markers_obj_arr[p].centroid)
+                                country_popup.setHTML(popup_html) //<hr>'+feature.properties.adm_0_name)
+                                    .addTo(map);
+                            }
+                        }
+
+                        var sel_path = d3.selectAll("path[code=" + d + "]");
+                        mouseovered_path.ori_color = sel_path.attr('fill')
+                        mouseovered_path.sel_path = sel_path;
+
+                        sel_path.transition()
+                            .duration(300)
+                            .attr('fill', '#ea24d2');
+
+
+                    } else {
+                        //  console.log(d)
+                        rects.style("opacity", 0.3);
+                        rects.filter(function (data) {
+                            return data.index_type == d;
+                        }).style("opacity", 1);
+                    }
+
+
+                }
+
+
+                var mouseout_label = function (d) {
+                    if ($(d3.event.target).parent().hasClass('x_tick')) {
+                        var target = $(d3.event.target).parent();
+                        mouseovered_path.sel_path.transition()
+                            .duration(300)
+                            .attr('fill', mouseovered_path.ori_color);
+
+                        $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered');
+                    } else {
+                        if ($(d3.event.target).hasClass('y_tick_text')) {
+                            console.log('mouseoutlabel for Y axis')
+                        }
+
+
+                    }
+
+                    rects.style("opacity", 1);
+                }
+
+                var mouseleave_svg = function (d) {
+                    console.log('leave')
+                    rects.style("opacity", 1);
+                    tooltip.style("opacity", 0)
+                }
+                // svg.selectAll('g.g_classed').on('mouseover', mouseover)
+                //     .on('mousemove', mousemove)
+                //     .on("mouseleave", mouseleave)
+
+                //.on('mousemove', mousemove_label)
+                //.on("mouseleave", mouseleave_label)
+
+
+
+                var tooltip = d3.select("#map")
+                    .append("div")
+
+                    .attr("class", "tooltip")
+                // .style("background-color", "white")
+                // .style("border", "solid")
+                // .style("border-width", "2px")
+                // .style("border-radius", "5px")
+                // .style("padding", "5px")
+
+
+                // cells.on('mouseover', mouseover)
+                //     .on('mousemove', mousemove)
+                //     .on("mouseleave", mouseleave)
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .selectAll('.tick')
+
+                    .classed('y_tick', true)
+                    .selectAll('text')
+                    //.text('test')
+                    .text(function (d) {
+                        for (var p in indexes_info) {
+                            if (indexes_info[p].name == d)
+                                return indexes_info[p].title
+                        }
+                    })
+                    .attr('font-weight', 'bolder')
+                    .attr('class', 'y_tick_text')
+                    .style('fill', function (d) {
+                        console.info(d)
+                        if (d == matrix_params.index_to_plot) {
+                            //blueish
+                            return '#f7aa17'
+                        } else {
+                            //blackish
+                            return '#ffffff'
+                        }
+                    })
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .call(xAxis)
+                    .selectAll('.tick')
+                    .classed('x_tick', true)
+                    .selectAll('text')
+                    .classed('default_label', true)
+                    .attr('font-weight', 'normal')
+                    .style('fill', '#ffffff')
+                    .style("text-anchor", "start")
+                    // .attr("dx", ".3em")
+                    .attr("dy", ".5em")
+                    .attr("y", -5)
+                    .attr("transform", function (d) {
+                        return "rotate(-65)";
+                    });
+
+                console.warn(d3.selectAll('.tick'))
+                d3.selectAll('.tick').on('mouseover', mouseover_label).on('mouseout', mouseout_label)
+                //   d3.selectAll('.heatmap').on('mouseout', mouseleave_svg);
+            }
+            //  map.on('load', function () {
+            //Setup mapbox-gl map
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                //style: 'mapbox://styles/mapbox/streets-v8',
+                style: {
+                    "version": 8,
+                    "sources": {
+                        "geoserver": {
+                            "type": "vector",
+                            "tiles": [
+                                "https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=hotspots:gaul_0_simplified&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
+                            ],
+                        }
+                    },
+                    "layers": [{
+                        "id": "gaul_0_simple",
+                        "source": "geoserver",
+                        "source-layer": "gaul_0_simplified",
+                        "type": "fill",
+                        'paint': {
+                            "fill-color": "#072333",
+                            "fill-outline-color": "#041620",
+                            "fill-opacity": 1
+
+                        }
+                    }]
+                },
+                center: [19, -1],
+
+                //center: [141.15448379999998, 39.702053　],
+                zoom: 2.5,
+                attributionControl: false
+            });
+            // map.addSource('wetlands', {
+            //     'type': 'raster',
+            //     'tiles': [
+            //         'https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wms?service=WMS&version=1.1.0&request=GetMap&layers=africa_platform%3Agwa_250_power_d10m_Africa&{z}/{x}/{y}.png'
+            //     ],
+            //     'tileSize': 256
+            // });
+
+            // map.addLayer(
+            //     {
+            //         'id': 'wetlands',
+            //         'type': 'raster',
+            //         'source': 'wetlands',
+            //         'paint': {}
+            //     }
+            // );
+
+            // https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wms?service=WMS&version=1.1.0&request=GetMap&layers=africa_platform%3Agwa_250_power_d10m_Africa&bbox=-17.515927317807297%2C-46.97673125226917%2C63.49657268219673%2C37.54326874773502&width=736&height=768&srs=EPSG%3A4326&format=application/openlayers
+            var diff = $('#map').height() - 240;
+            $('#matrix_wrapper').css('top', diff)
+
+            country_popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: true,
+                //offset: [20, -20]
+                offset: {
+                    'bottom': [0, -20],
+                    'top': [0, 15],
+                    'top-left': [0, 0], //[linearOffset, (markerHeight - markerRadius - linearOffset) * -1],
+                    'top-right': [0, 0], //[-linearOffset, (markerHeight - markerRadius - linearOffset) * -1],
+
+                }
+            });
+
+
+
+            map.addControl(new mapboxgl.NavigationControl());
+
+            // disable map rotation using right click + drag
+            map.dragRotate.disable();
+
+            // disable map rotation using touch rotation gesture
+            map.touchZoomRotate.disableRotation();
+
+            //   Add zoom and rotation controls to the map.
+            //  map.addControl(new mapboxgl.NavigationControl());
+            class MyCustomControl {
+                onAdd(map) {
+                    this.map = map;
+                    this.container = document.createElement('div');
+                    this.container.className = 'my-custom-control off';
+                    //this.container.textContent = '<h5>Just a test</h5>';
+                    return this.container;
+                }
+                onRemove() {
+                    this.container.parentNode.removeChild(this.container);
+                    this.map = undefined;
+                }
+            }
+
+
+
+            var myCustomControl = new MyCustomControl();
+
+            map.addControl(myCustomControl, 'top-right');
+
+
+
+            class map_legend_control {
+                onAdd(map) {
+                    this.map = map;
+                    this.container = document.createElement('div');
+                    this.container.className = 'legend_control';
+                    //this.container.textContent = '<h5>Just a test</h5>';
+                    return this.container;
+                }
+                onRemove() {
+                    this.container.parentNode.removeChild(this.container);
+                    this.map = undefined;
+                }
+            }
+
+
+            var legend_control = new map_legend_control();
+            map.addControl(legend_control, 'bottom-right');
+
+
+
+            $('.legend_control').html('<div class="mapboxgl-ctrl mapboxgl-ctrl-group legend_control_container"> <div class="legend_control_container_title"></div><svg></svg> <span class="show_hide_circles off">Hide circles</span><div class="order_by"> <div class="matrix_btn"> <div><a class="btn-small main_index selected">Main index</a></div><div><a class="btn-small environmental">Environmental</a></div><div><a class="btn-small social">Social</a></div><div><a class="btn-small financial">Financial</a></div><div><a class="btn-small political">Political</a></div></div></div></div>');
+
+            $('.show_hide_circles.off').click(function () {
+                $(this).text('Show circles').addClass('on').removeClass('off')
+                $('.my-icon').hide()
+            })
+
+            $('.show_hide_circles.on').click(function () {
+                $(this).text('Hide circles').addClass('off').removeClass('on')
+                $('.my-icon').show()
+            })
+
+            var legendElementWidth = 20;
+            var legend_svg = d3.select('.legend_control svg')
+
+            console.groupCollapsed('my Legend description Group');
+
+            //.attr("width", legendElementWidth+170)
+            legend_svg.attr("width", 180)
+                //.attr("height",legendElementWidth*8)
+                .attr("height", 150)
+
+            var legend = legend_svg.selectAll(".legend")
+                .data(scale_values, function (d) {
+                    console.log(d)
+                    return d.value;
+                })
+
+                .enter()
+
+                .append("g")
+                .attr("class", "legend")
+
+            console.groupEnd();
+            legend.append("rect")
+                .attr("x", function (d, i) {
+
+                    return 0 * i;
+                })
+                //.attr("x",0)
+                .attr("y", function (d, i) {
+                    return legendElementWidth * i;
+                })
+                .attr("width", legendElementWidth)
+                .attr("height", legendElementWidth)
+                .style("fill", function (d, i) {
+
+                    return d.color;
+                })
+                .attr("stroke", "white")
+                .attr("value", function (d) {
+                    return d.value;
+                });
+
+            // var anchorElement = $('.legend rect');
+            // anchorElement.attr('data-tooltip', 'New tooltip value');
+            // anchorElement.tooltip();
+
+            legend.append("text")
+                .attr("class", "Montserrat")
+                .html(function (d) {
+                    // console.warn(d.legend_text)
+                    return d.title; //+'<b>test</b>';
+                })
+                .attr("x", function (d, i) {
+                    return legendElementWidth + 10;
+                })
+                //.attr("x",0)
+                .attr("y", function (d, i) {
+                    return ((legendElementWidth * i) + (legendElementWidth / 2) + 7);
+                })
+
+                .attr("font-size", "13px")
+                .attr("fill", "white");
+
+            $('.my-custom-control').html('<div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon matrix_icon" type="button" aria-label="clear selected" title="Clear selected"></button></div>');
+
+            $('.mapboxgl-control-container').on('mouseenter', function (e) {
+
+                hovering_map = false;
+            }).on('mouseleave', function (e) {
+
+                hovering_map = true;
+            });
+
+
+            $('.my-custom-control').on('click', function (e) {
+
+                if (hovering_map == false) {
+                    var target = $(e.target);
+                    if ($(this).hasClass('off')) {
+                        $('#matrix_wrapper').show();
+                        $(this).removeClass('off').addClass('on');
+                        //   $('#slide-out').sidenav('close');
+                        // app.generate_data('main_index_class');
+                        // generate_matrix(matrix_params);
+
+                    } else {
+                        $('#matrix_wrapper').hide();
+                        $(this).removeClass('on').addClass('off');
+                    }
+
+                }
+
+            });
+
+            app.update_country_profile = function (path_code) {
+
+
+                var _t = all_data.filter(function (d) {
+                    return d.code == path_code
+                })[0];
+                console.log(_t.country_facts[0])
+                if ($('.country_li').hasClass('active') == false) {
+                    $('.country_li .collapsible-header').trigger('click');
+                }
+
+
+                $('.country_info').show();
+                for (var p in _t.country_facts[0]) {
+                    console.log(p + '   ' + _t.country_facts[0][p])
+                    console.log($('.' + p, '.country_li'))
+                    if (p !== 'country')
+                        $('.' + p, '.country_li').next().text(_t.country_facts[0][p])
+                    else
+                        $('.country_name', '.country_li').text(_t.country_facts[0][p])
+
+                }
+
+                var sel_path = d3.selectAll("#map path[code=" + path_code + "]");
+
+                d3.selectAll("#map path.active").transition()
+                    .duration(300)
+                    .attr('fill', function (d) {
+                        console.log(d)
+                        console.log(d3.select(this))
+                        return d3.select(this).attr('ori_color')
+                        //sel_path.attr('ori_color'));
+                    })
+
+                // mouseovered_path.sel_path = sel_path;
+
+                if (sel_path.classed('active') == false) {
+                    sel_path.attr('ori_color', sel_path.attr('fill'))
+                    sel_path.transition()
+                        .duration(300)
+                        .attr('fill', '#ea24d2');
+
+                    sel_path.classed('active', true);
+                } else {
+                    sel_path.classed('false', true);
+                    sel_path.transition()
+                        .duration(300)
+                        .attr('fill', sel_path.attr('ori_color'));
+                }
+            }
+
+            var container = map.getCanvasContainer()
+            var svg = d3.select(container).append("svg");
+            var gaul_1;
+
+
+            var transform = d3.geoTransform({
+                point: projectPoint
+            });
+            var path = d3.geoPath().projection(transform);
+
+
+            var featureElement = svg.selectAll("path")
+                .data(geojson.features)
+                .enter()
+                .append("path")
+                .classed('country', true)
+                .attr("stroke", "white")
+                .attr('stroke-width', 0.4)
+                .attr("fill", "#071e2b")
+                .attr("fill-opacity", 0.8)
+                .attr("code", function (d) {
+
+                    return d.properties.code;
+                })
+                .on('click', function (d) {
+                    var path_code = d.properties.code;
+                    app.update_country_profile(path_code)
+
+
+
+                    /*
+"country_facts":[
+    {
+       "id":8,
+       "isonum":148,
+       "code":"TCD",
+       "country":"Chad",
+       "region":"Central Africa",
+       "pop_ghsl":14028832,
+       "pop_elect":2910575,
+       "pop_noelect_minigrid":11118257,
+       "pop_shs":482987,
+            */
+                    // if (app_state.indicators == true) {
+
+                    // } else {
+
+                    // }
+                })
+                .on('mouseover', function (d) {
+
+                    var path_code = d.properties.code;
+
+                    //var app_state = { indicators: false, country_facts: false };
+                    if (app_state.indicators == true) {
+                        //https://github.com/d3/d3-selection-multi#d3-selection-multi
+                        var _sel = rects.filter(function (data) {
+                            //   console.log(data)
+                            return data._code == path_code;
+                        });
+
+                        d3.selectAll('.x_tick').filter(function (data) {
+
+                            if (data === path_code) {
+                                // console.log(d3.select(this))
+                                // var parent = this.parentNode;
+                                // console.info(parent);
+
+
+                                d3.select(this).dispatch('mouseover');
+                            }
+                        })
+
+                        d3.selectAll('.sel_cell_from_map')
+                            .attrs(
+                                function (d, i) {
+                                    return {
+
+                                        //"stroke": 'white',
+                                        'stroke-width': 0
+                                        //  'stroke-opacity': 0.9
+
+                                    }
+                                }
+                            ).classed('sel_cell_from_map', false);
+
+                        _sel.attrs(
+                            function (d, i) {
+                                return {
+                                    "stroke": '#ee6e73',
+                                    'stroke-width': 3,
+                                    'stroke-opacity': 0.9
+                                }
+                            }
+                        ).classed('sel_cell_from_map', true);
+                    }
+
+                })
+                .on('mouseout', function (d) {
+                    if (app_state.indicators == true) {
+                        d3.selectAll('.sel_cell_from_map')
+                            .attrs(
+                                function (d, i) {
+                                    return {
+
+                                        //"stroke": 'white',
+                                        'stroke-width': 0
+                                        //  'stroke-opacity': 0.9
+
+                                    }
+                                }
+                            ).classed('sel_cell_from_map', false);
+
+                        d3.selectAll('.x_tick').filter(function (data) {
+
+                            if (data === d.properties.code) {
+                                // console.log(d3.select(this))
+                                // var parent = this.parentNode;
+                                // console.info(parent);
+
+                                console.info(this)
+                                d3.select(this).dispatch('mouseout');
+                            }
+                        })
+                    }
+                })
+
+            function update() {
+
+                featureElement.attr("d", path);
+                // setTimeout(function() {
+                //     var sel_gaul_1 = d3.selectAll("path.gaul_1");
+
+                //     sel_gaul_1.attr("d", path);
+                // }, 500)
+
+
+            }
+
+            //
+            map.on("viewreset", update)
+            map.on("movestart", function () {
+                svg.classed("hidden", true);
+            });
+            map.on("rotate", function () {
+                svg.classed("hidden", true);
+            });
+            map.on("moveend", function () {
+                update()
+                svg.classed("hidden", false);
+            })
+
+
+
+            update();
+
+            /*
+             var el = document.createElement('circle');
+                        el.setAttribute('r', 50);
+                        el.setAttribute('fill', '#0e44e7');
+                        */
+            console.info(geojson.features)
+
+
+            for (var p in geojson.features) {
+
+                var d = geojson.features[p];
+
+                var c = d.properties.centroid.split(' , ');
+                var lng = round_this(c[0], 2);
+                var lat = round_this(c[1], 2);
+                markers_obj_arr.push({
+                    centroid: [lng, lat],
+                    code: d.properties.code,
+                    //  random_num: getRandomInRange(5, 70)
+                });
+            }
+
+            markers_obj_arr.forEach(function (d) {
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'animated-icon my-icon';
+                el.id = 'centroid_' + d.code;
+                var t_data = all_country_data.features.filter(function (data) {
+                    return data.code == d.code;
+                })[0]
+
+
+                if (!t_data) return false;
+                new mapboxgl.Marker(el)
+                    .setLngLat(d.centroid)
+                    .addTo(map);
+
+            })
+
+            var map_paths = d3.selectAll("#map path.gaul_1");
+
+            function get_color(d, param) {
+
+                //d comes from the geojson
+                //param: environmental, etc.
+                //if (d.properties.code==)
+                var color;
+                indexes_arrays[param + '_arr'].forEach(function (data) {
+                    if (data._code == d.properties.code) {
+                        color = data.color;
+                    }
+                })
+                return color;
+            }
+
+            function update_circles_by_index(param) {
+                //financial_index_class
+                var params_arr = indexes_arrays[param + '_arr'];
+
+                var circs_values = params_arr.map(function (d) {
+                    return d.index_value;
+                })
+
+                var rscale = d3.scaleLinear()
+                    .domain([d3.min(circs_values), d3.max(circs_values)])
+                    .range([25, 60])
+                // update_by_index('main_index_class');
+
+
+                markers_obj_arr.forEach(function (d) {
+                    //console.log(d)
+                    var t_data = all_data.filter(function (data) {
+                        return data.code == d.code;
+                    })[0];
+                    if (!t_data) {
+                        return false;
+                    }
+
+
+                    var sel_data = t_data.data_class;
+                    var sel_radius = rscale(sel_data[param]);
+                    var sel_scale_value = scale_values.filter(function (data) {
+                        return data.value == sel_data[param]
+                    })[0];
+                    //   console.log(sel_scale_value)
+                    //{value: 4, color: "#6ee282", title: "4- Good"}
+
+                    var sel_scale_title = indexes_info.filter(function (data) {
+                        return data.title == param
+                    })[0];
+                    // make a marker for each feature and add to the map
+                    setTimeout(function () {
+
+                        var $centroid = $('#centroid_' + d.code);
+
+                        if ($centroid.find('.inner_circle').length == 0)
+                            $centroid.append('<span class="inner_circle">' + sel_data[param] + '</span>');
+                        else
+                            $centroid.find('.inner_circle').text(sel_data[param])
+
+                        $centroid.data(t_data);
+
+                        $centroid.animate({
+                            //   width: '50px',
+                            width: sel_radius + 'px',
+                            height: sel_radius + 'px'
+                            //  height: '50px'
+                        }
+
+                        ).css(
+                            'background-color',
+                            sel_scale_value.color
+                        )
+
+                        $centroid.find('.inner_circle').animate({
+                            'line-height': sel_radius + 'px',
+                            'font-size': sel_radius / 3
+                        })
+                    }, 300)
+                })
+            }
+
+            app.update_by_index = function (param) {
+
+
+                app.generate_data(param);
+
+
+                for (var p in indexes_info) {
+                    if (indexes_info[p].name == param)
+                        $('.legend_control_container_title').text(indexes_info[p].title)
+
+                }
+
+                rects.style("opacity", 0.2);
+                rects.filter(function (data) {
+                    return data.index_type == param;
+                }).style("opacity", 1);
+                var map_paths = d3.selectAll("#map path.country");
+
+                map_paths
+                    .transition()
+                    .duration(1250)
+                    .delay(function (d, i) {
+                        return i * 40;
+                    })
+                    // .attr("delay", function (d, i) {
+                    //     return 100 * i
+                    // })
+
+                    .attr('fill', function (d) {
+                        // console.log(d)
+                        return get_color(d, param)
+
+                    });
+                setTimeout(function () {
+                    $('.animated-icon').show();
+                    update_circles_by_index(param)
+                }, 1500)
+            }
+
+            $('.matrix_btn').click(function (e) {
+                $('.btn-small.selected').removeClass('selected');
+
+                if ($(e.target).hasClass('btn-small'))
+                    $(e.target).addClass('selected')
+
+                if ($(e.target).hasClass('environmental')) {
+                    app.update_by_index('env_index_class');
+                }
+                if ($(e.target).hasClass('social')) {
+                    app.update_by_index('social_index_class');
+                }
+                if ($(e.target).hasClass('financial')) {
+                    app.update_by_index('financial_index_class');
+                }
+                if ($(e.target).hasClass('political')) {
+                    app.update_by_index('political_index_class');
+                }
+                if ($(e.target).hasClass('main_index')) {
+                    app.update_by_index('main_index_class');
+                }
+            })
+            // setTimeout(function () {
+            //     //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
+            //     if (app_state.indicators == true)
+            //         update_by_index('main_index_class');
+
+            // }, 1500)
+
+
+            function projectPoint(lon, lat) {
+                var point = map.project(new mapboxgl.LngLat(lon, lat));
+                this.stream.point(point.x, point.y);
+            }
+
+
+        }
+    </script>
+    <script src="./app_js/lollipop.js"></script>
+</body>
