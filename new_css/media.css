@@ -48,6 +48,11 @@
         background-color: pink!important;
 
     }
+    .sidenav
+    {
+        /* height: 65%!important; */
+        width: 25%!important;
+    }
 
     /* .heatmap{
         height: 120px;
@@ -58,7 +63,7 @@
         font-size: 13px;
     }
     .status_list li {
-        line-height: 18px!important;
+        /* line-height: 18px!important; */
     }
  } /* min-width 1025px, large screens */
  
@@ -68,17 +73,31 @@
     {
         background-color: red!important
     }
+    .sidenav
+    {
+      width: calc(25%) !important;    
+    }
+    
  } /* min-width 1024px and max-width 1440px, use when QAing large screen-only issues */
  
 /* XLarge screens */
-@media only screen and (min-width: 90.063em) {
+/* @media only screen and (min-width: 90.063em) {
 
     nav 
     {
-        background-color: purple!important
+        background-color: white!important
+    }
+    .sidenav {
+        top: 75px !important;
+        left: 5px !important;
+        
+        height: calc(85%) !important;
+        width: calc(25%) !important;
     }
 
- } /* min-width 1441px, xlarge screens */
+
+ }  */
+ /* min-width 1441px, xlarge screens */
  
 @media only screen and (min-width: 90.063em) and (max-width: 120em) { 
 /* my both screens */
@@ -95,6 +114,8 @@
         height: calc(85%) !important;
         width: calc(25%) !important;
     }
+
+    
     .row.summary .s3 {
         /* font-size: 1rem; */
         text-align: center;

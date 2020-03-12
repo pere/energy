@@ -1,68 +1,81 @@
 $('select').formSelect();
 $('.modal').modal({ opacity: 0.8 });
-$('.icon_info').trigger('click')
+//$('.icon_info').trigger('click');
 $('.dropdown-trigger').dropdown({
     inDuration: 300,
     constrainWidth: false,
     closeOnClick: false,
-    container: '#layers_menu',
+    // container: '#layers_menu',
     outDuration: 225,
     hover: false, // Activate on hover,
     stopPropagation: true,
     belowOrigin: true, // Displays dropdown below the button
-    alignment: 'right' // Displays dropdown with edge aligned to the left of button
+    alignment: 'center' // Displays dropdown with edge aligned to the left of button
 });
 
 $('.dropdown-trigger')
-    .attr('data-tooltip', function () {
-        return 'Show/hide geographical layers';
+    .attr('data-tooltip', function() {
+        return 'Show/hide index legend';
 
     })
 
-    .tooltip({
-        delay: 50,
-        delayOut: 50000,
-        position: 'bottom',
-        html: true
-    });
+.tooltip({
+    delay: 50,
+    delayOut: 50000,
+    position: 'bottom',
+    html: true
+})
+
+$('.dropdown-trigger').hide();
+
 $('#slide-out').sidenav({
 
     edge: 'left', // Choose the horizontal origin
     draggable: true, // Choose whether you can drag to open on touch screens,
-    onOpenEnd: function (el) {
+    onOpenEnd: function(el) {
         $('.sidenav-trigger').addClass('on');
+        console.log(el)
+            //calc(85%) !important
+            //if ($('.country_info').is(':visible'))
+            // if ($('#matrix_wrapper').is(':visible')) {
+            //     alert('vis')
+            //     $('#slide-out').attr('height', '65%!important')
+            // }
+            // else {
+            //     $('#slide-out').attr('height', 'auto!important')
+            // }
 
     },
 
-    onCloseEnd: function (el) { }, // A function to be called when sideNav is closed
+    onCloseEnd: function(el) {}, // A function to be called when sideNav is closed
 })
 
 $('#slide-out').sidenav('open');
 
-$('.sidenav-trigger').on('click', function (e) {
-    if ($(this).hasClass('on')) {
-        e.preventDefault()
-        $('#slide-out').sidenav('close').removeClass('sidenav_on');
-        $(this).removeClass('on')
-        return false
-    }
-})
-    .attr('data-tooltip', function () {
+$('.sidenav-trigger').on('click', function(e) {
+        if ($(this).hasClass('on')) {
+            e.preventDefault()
+            $('#slide-out').sidenav('close').removeClass('sidenav_on');
+            $(this).removeClass('on')
+            return false
+        }
+    })
+    .attr('data-tooltip', function() {
 
 
         return 'Show/hide lateral sidebar';
 
     })
 
-    .tooltip({
-        delay: 50,
-        delayOut: 50000,
-        position: 'bottom',
-        html: true
-    });
+.tooltip({
+    delay: 50,
+    delayOut: 50000,
+    position: 'bottom',
+    html: true
+});
 
 $('.collapsible').collapsible({
-    onCloseEnd: function () {
+    onCloseEnd: function() {
         if ($('.country_info').is(':visible') == false) {
             $('.country_li').css('min-height', '0px')
         }
@@ -70,7 +83,7 @@ $('.collapsible').collapsible({
 })
 
 
-$('.light_mode').on('click', function (e) {
+$('.light_mode').on('click', function(e) {
 
     if ($(this).hasClass('nightlight')) {
         $(this).removeClass('nightlight').addClass('daylight');
@@ -87,8 +100,8 @@ $('.light_mode').on('click', function (e) {
 
 $('.other_description,.matrix_description').css('visibility', 'hidden')
 
-$('.indicators_list > div').each(function () {
-    $(this).on('mouseover', function () {
+$('.indicators_list > div').each(function() {
+    $(this).on('mouseover', function() {
 
         // $('.matrix_indicator_select,.other_indicator_select ').removeClass('on');
         console.log($(this).attr('class'))
@@ -104,7 +117,7 @@ $('.indicators_list > div').each(function () {
             // $('.other_description').css('visibility', 'visible')
             // $(this).removeClass('off').addClass('on');
         }
-    }).on('click', function () {
+    }).on('click', function() {
         $('.matrix_indicator_select,.other_indicator_select ').removeClass('on');
 
         if ($(this).hasClass('matrix_indicator_select')) {
@@ -131,7 +144,7 @@ $('.indicators_list > div').each(function () {
 });
 
 
-$('.overlay_layers_collection .main.collection-item').on('click', function (e) {
+$('.overlay_layers_collection .main.collection-item').on('click', function(e) {
     var collection_item = $(this);
     if (collection_item.hasClass('main'))
         e.stopPropagation();

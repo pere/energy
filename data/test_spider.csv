@@ -1,0 +1,6 @@
+group,  value, description
+"main_index_class",1,'Main'
+"env_index_class",3,'Env'
+"social_index_class",1,'Social'
+"political_index_class",1,'political'
+"financial_index_class",5,'financial'
