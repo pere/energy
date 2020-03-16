@@ -8,9 +8,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./css/energy.css">
     <script src="./data_new.js"></script>
-
-
-
     <script src="./jquery.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./materialize_v1.js"></script>
@@ -101,11 +98,9 @@
                 <ul class="right hide-on-med-and-down">
 
                     <li>
-                        <a class="dropdown-trigger btn waves-effect waves-light" href="#!"
-                            data-target="overlays_dropdown">
+                        <a class="dropdown-trigger btn waves-effect waves-light" href="#!" data-target="overlays_dropdown">
                             <span>Overlay Layers</span></a>
-                        <a class="dropdown-trigger btn btn-large waves-effect waves-light" href="#!"
-                            data-target="baselayers_dropdown">
+                        <a class="dropdown-trigger btn btn-large waves-effect waves-light" href="#!" data-target="baselayers_dropdown">
                             <span>Base Layers</span></a>
 
                     </li>
@@ -119,8 +114,7 @@
                                 <div class="row" id="topbarsearch">
                                     <div class="input-field col s6 s12">
                                         <i class="material-icons prefix">search</i>
-                                        <input type="text" placeholder="search" id="autocomplete-input"
-                                            class="autocomplete red-text">
+                                        <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete red-text">
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +179,7 @@
             mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpbWl6dSIsImEiOiJjam95MDBhamYxMjA1M2tyemk2aHMwenp5In0.i2kMIJulhyPLwp3jiLlpsA'
 
 
-            var all_data = level_1.features.map(function (d) {
+            var all_data = level_1.features.map(function(d) {
                 return {
                     country: d.country,
                     code: d.code,
@@ -193,26 +187,26 @@
                 };
             });
             console.info(all_data)
-            // var all_centroids = geojson.map(function(d) {
-            //     console.log(d)
-            // })
+                // var all_centroids = geojson.map(function(d) {
+                //     console.log(d)
+                // })
 
 
             function get_scale_data(value) {
-                return scale_values.filter(function (d) {
+                return scale_values.filter(function(d) {
                     return d.value == value;
                 })[0]
             }
 
             function get_index_data(name) {
-                return indexes_info.filter(function (d) {
+                return indexes_info.filter(function(d) {
                     return d.name == name;
                 })[0]
             }
 
             function sort_by_index(param) {
                 console.info(param)
-                return function (a, b) {
+                return function(a, b) {
                     console.info(a.data[param])
                     return a.data[param] < b.data[param] ? 1 : -1;
                 }
@@ -233,7 +227,7 @@
 
                 console.log(JSON.stringify(sorted))
 
-                sorted.forEach(function (d, i) {
+                sorted.forEach(function(d, i) {
 
                     //  if (i > 5) return false
                     /*
@@ -292,7 +286,7 @@ social_index_class: 3
 
                 var matrix_params = {};
                 var countries_arr =
-                    sorted.map(function (d) {
+                    sorted.map(function(d) {
                         return d.code;
                     });
                 matrix_params.countries_arr = countries_arr;
@@ -338,7 +332,7 @@ social_index_class: 3
 
                 var xAxis = d3.axisBottom()
                     .scale(xScale)
-                    .tickFormat(function (d) {
+                    .tickFormat(function(d) {
                         return d;
                     })
 
@@ -350,11 +344,11 @@ social_index_class: 3
 
                 var yAxis = d3.axisLeft()
                     .scale(yScale)
-                    .tickFormat(function (d) {
+                    .tickFormat(function(d) {
                         //  console.log(d)
                         return d;
                     })
-                // .orient("left");
+                    // .orient("left");
 
                 cellSize = xScale.bandwidth(),
                     margin = {
@@ -397,11 +391,11 @@ social_index_class: 3
                 //     title: '5- Very good'
                 // }];
                 // Three function that change the tooltip when user hover / move / leave a cell
-                var mouseover = function (d) {
+                var mouseover = function(d) {
 
                     tooltip.style("opacity", 1)
                 }
-                var mousemove = function (d) {
+                var mousemove = function(d) {
 
                     /*
                     _code: "MRT"
@@ -417,7 +411,7 @@ index_value: 2
                     console.info(d3.select(this))
                     console.warn(this.parentNode)
                     var pos = $(this).position();
-                    var this_info = app_data.sorted_country_data.filter(function (info) {
+                    var this_info = app_data.sorted_country_data.filter(function(info) {
                         return info.code == d._code;
                     })[0];
 
@@ -429,14 +423,14 @@ index_value: 2
                         .style("left", (pos.left + 30) + "px")
                         .style("top", (pos.top - 50) + "px")
                     $('.tooltip .rect_popup').append($html)
-                    //yelllow hovering index
+                        //yelllow hovering index
 
                     $('.tooltip .rect_popup .' + d.index_type).css(
                         'color', '#fffc2e'
                     );
                 }
 
-                var mouseleave = function (d) {
+                var mouseleave = function(d) {
                     //  tooltip.style("opacity", 0)
                 }
 
@@ -453,17 +447,17 @@ index_value: 2
 
                 cells.data(all_data_plot)
 
-                    .enter().append('g')
+                .enter().append('g')
                     //.classed('g_classed', true)
                     .attr('class', 'rects_container')
                     .append('rect')
                     .attr('class', 'cell')
                     .attr('width', cellSize)
                     .attr('height', cellSize)
-                    .attr('y', function (d) {
+                    .attr('y', function(d) {
                         return 0;
                     })
-                    .attr('x', function (d) {
+                    .attr('x', function(d) {
                         return xScale(d._code);
                     })
                     .attr('opacity', 1)
@@ -472,10 +466,10 @@ index_value: 2
                     .attr('class', 'border_cell')
                     .attr('width', cellSize + 2)
                     .attr('height', cellSize + 2)
-                    .attr('y', function (d) {
+                    .attr('y', function(d) {
                         return yScale(d.index_type) - 1;
                     })
-                    .attr('x', function (d) {
+                    .attr('x', function(d) {
                         return xScale(d._code) - 1 //- 1.5;
                     })
                     .attr('fill', 'rgba(0,0,0,0)')
@@ -488,25 +482,25 @@ index_value: 2
 
                 svg.selectAll('rect.cell').transition()
                     .duration(10)
-                    .delay(function (d, i) {
+                    .delay(function(d, i) {
 
 
                         return i * 10
-                        //return getRandomArbitrary(2, 900)
-                        //return getRandomArbitrary(2, 250)
+                            //return getRandomArbitrary(2, 900)
+                            //return getRandomArbitrary(2, 250)
                     })
-                    .attr('y', function (d) {
+                    .attr('y', function(d) {
                         //  return yScale(d.data.political);
                         //console.info(d)
                         return yScale(d.index_type);
                     })
 
-                    .attr('fill', function (d) {
+                .attr('fill', function(d) {
                         console.info(d)
-                        //  d.color = colorScale(d.index_value);
-                        //var color = get_scale_data(d.index_value);
-                        //  console.log(color)
-                        geojson.features.forEach(function (item) {
+                            //  d.color = colorScale(d.index_value);
+                            //var color = get_scale_data(d.index_value);
+                            //  console.log(color)
+                        geojson.features.forEach(function(item) {
 
                             if (item.properties.code == d._code) {
                                 //   console.log(item)
@@ -520,9 +514,9 @@ index_value: 2
                     //     console.log(d.index)
                     // })
 
-                    .attr("value", function (d) {
-                        return d.environmental;
-                    })
+                .attr("value", function(d) {
+                    return d.environmental;
+                })
 
                 rects = d3.selectAll('rect.cell')
                     .on('mouseover', mouseover)
@@ -533,7 +527,7 @@ index_value: 2
                 //     .on('mouseover', mouseover)
                 //     .on('mousemove', mousemove)
                 //     .on("mouseleave", mouseleave)
-                var mouseover_label = function (d) {
+                var mouseover_label = function(d) {
                     //console.warn(d) --> the country code
                     //code
 
@@ -549,7 +543,7 @@ index_value: 2
                         target.addClass('x_mouseovered');
 
                         rects.style("opacity", 0.2);
-                        var these_rects = rects.filter(function (data) {
+                        var these_rects = rects.filter(function(data) {
                             if (data._code == d) {
                                 console.log(d)
                             }
@@ -557,7 +551,7 @@ index_value: 2
                         });
                         d3.selectAll('.border_cell').style('opacity', 0);
 
-                        these_rects.nodes().forEach(function (d, i) {
+                        these_rects.nodes().forEach(function(d, i) {
 
                             var parent = d.parentNode;
                             // d3.select(parent).select('.border_cell').style('opacity', 1)
@@ -571,7 +565,7 @@ index_value: 2
 
                         var t = 'path[code=' + d + ']';
 
-                        var this_info = app_data.sorted_country_data.filter(function (info) {
+                        var this_info = app_data.sorted_country_data.filter(function(info) {
                             return info.code == d;
                         })[0];
 
@@ -633,7 +627,7 @@ index_value: 2
                     } else {
                         //  console.log(d)
                         rects.style("opacity", 0.3);
-                        rects.filter(function (data) {
+                        rects.filter(function(data) {
                             return data.index_type == d;
                         }).style("opacity", 1);
                     }
@@ -642,7 +636,7 @@ index_value: 2
                 }
 
 
-                var mouseout_label = function (d) {
+                var mouseout_label = function(d) {
 
                     if ($(d3.event.target).parent().hasClass('x_tick'))
                         var target = $(d3.event.target).parent();
@@ -663,13 +657,13 @@ index_value: 2
                     }
                 }
 
-                var mouseleave_svg = function (d) {
-                    console.log('leave')
-                    rects.style("opacity", 1);
-                }
-                // svg.selectAll('g.g_classed').on('mouseover', mouseover)
-                //     .on('mousemove', mousemove)
-                //     .on("mouseleave", mouseleave)
+                var mouseleave_svg = function(d) {
+                        console.log('leave')
+                        rects.style("opacity", 1);
+                    }
+                    // svg.selectAll('g.g_classed').on('mouseover', mouseover)
+                    //     .on('mousemove', mousemove)
+                    //     .on("mouseleave", mouseleave)
 
                 //.on('mousemove', mousemove_label)
                 //.on("mouseleave", mouseleave_label)
@@ -679,12 +673,12 @@ index_value: 2
                 var tooltip = d3.select("body")
                     .append("div")
 
-                    .attr("class", "tooltip")
-                // .style("background-color", "white")
-                // .style("border", "solid")
-                // .style("border-width", "2px")
-                // .style("border-radius", "5px")
-                // .style("padding", "5px")
+                .attr("class", "tooltip")
+                    // .style("background-color", "white")
+                    // .style("border", "solid")
+                    // .style("border-width", "2px")
+                    // .style("border-radius", "5px")
+                    // .style("padding", "5px")
 
 
                 // cells.on('mouseover', mouseover)
@@ -696,17 +690,17 @@ index_value: 2
                     .call(yAxis)
                     .selectAll('.tick')
 
-                    .classed('y_tick', true)
+                .classed('y_tick', true)
                     .selectAll('text')
                     //.text('test')
-                    .text(function (d) {
+                    .text(function(d) {
                         for (var p in indexes_info) {
                             if (indexes_info[p].name == d)
                                 return indexes_info[p].title
                         }
                     })
                     .attr('font-weight', 'bolder')
-                    .style('fill', function (d) {
+                    .style('fill', function(d) {
                         console.info(d)
                         if (d == matrix_params.index_to_plot) {
                             //blueish
@@ -730,7 +724,7 @@ index_value: 2
                     // .attr("dx", ".3em")
                     .attr("dy", ".5em")
                     .attr("y", -5)
-                    .attr("transform", function (d) {
+                    .attr("transform", function(d) {
                         return "rotate(-65)";
                     });
 
@@ -829,34 +823,34 @@ index_value: 2
                 .attr("height", 190)
 
             var legend = legend_svg.selectAll(".legend")
-                .data(scale_values, function (d) {
+                .data(scale_values, function(d) {
                     console.log(d)
                     return d.value;
                 })
 
-                .enter()
+            .enter()
 
-                .append("g")
+            .append("g")
                 .attr("class", "legend")
 
 
             legend.append("rect")
-                .attr("x", function (d, i) {
+                .attr("x", function(d, i) {
 
                     return 0 * i;
                 })
                 //.attr("x",0)
-                .attr("y", function (d, i) {
+                .attr("y", function(d, i) {
                     return legendElementWidth * i;
                 })
                 .attr("width", legendElementWidth)
                 .attr("height", legendElementWidth)
-                .style("fill", function (d, i) {
+                .style("fill", function(d, i) {
 
                     return d.color;
                 })
                 .attr("stroke", "white")
-                .attr("value", function (d) {
+                .attr("value", function(d) {
                     return d.value;
                 });
 
@@ -866,31 +860,31 @@ index_value: 2
 
             legend.append("text")
                 .attr("class", "Montserrat")
-                .html(function (d) {
+                .html(function(d) {
                     // console.warn(d.legend_text)
                     return d.title; //+'<b>test</b>';
                 })
-                .attr("x", function (d, i) {
+                .attr("x", function(d, i) {
                     return legendElementWidth + 10;
                 })
                 //.attr("x",0)
-                .attr("y", function (d, i) {
+                .attr("y", function(d, i) {
                     return ((legendElementWidth * i) + (legendElementWidth / 2) + 7);
                 })
 
-                .attr("font-size", "17px")
+            .attr("font-size", "17px")
                 .attr("fill", "white");
 
             $('.my-custom-control').html('<div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon matrix_icon" type="button" aria-label="clear selected" title="Clear selected"></button></div>');
 
-            $('.mapboxgl-control-container').on('mouseenter', function (e) {
+            $('.mapboxgl-control-container').on('mouseenter', function(e) {
 
                 hovering_map = false;
-            }).on('mouseleave', function (e) {
+            }).on('mouseleave', function(e) {
 
                 hovering_map = true;
             })
-            $('.my-custom-control').on('click', function (e) {
+            $('.my-custom-control').on('click', function(e) {
 
                 if (hovering_map == false) {
                     var target = $(e.target);
@@ -958,20 +952,20 @@ index_value: 2
                 .attr("stroke", "white")
                 .attr("fill", "#34bffd")
                 .attr("fill-opacity", 0.9)
-                .attr("code", function (d) {
+                .attr("code", function(d) {
 
                     return d.properties.code;
                 })
-                .on('mouseover', function (d) {
+                .on('mouseover', function(d) {
                     console.log(d)
 
                     //https://github.com/d3/d3-selection-multi#d3-selection-multi
-                    var _sel = rects.filter(function (data) {
+                    var _sel = rects.filter(function(data) {
                         //   console.log(data)
                         return data._code == d.properties.code;
                     });
 
-                    d3.selectAll('.x_tick').filter(function (data) {
+                    d3.selectAll('.x_tick').filter(function(data) {
                         console.warn(d)
                         if (data === d.properties.code) {
                             // console.log(d3.select(this))
@@ -985,19 +979,19 @@ index_value: 2
 
                     d3.selectAll('.sel_cell_from_map')
                         .attrs(
-                            function (d, i) {
+                            function(d, i) {
                                 return {
 
                                     //"stroke": 'white',
                                     'stroke-width': 0
-                                    //  'stroke-opacity': 0.9
+                                        //  'stroke-opacity': 0.9
 
                                 }
                             }
                         ).classed('sel_cell_from_map', false);
 
                     _sel.attrs(
-                        function (d, i) {
+                        function(d, i) {
                             return {
                                 "stroke": '#ee6e73',
                                 'stroke-width': 3,
@@ -1007,22 +1001,22 @@ index_value: 2
                     ).classed('sel_cell_from_map', true);
 
                 })
-                .on('mouseout', function (d) {
+                .on('mouseout', function(d) {
 
                     d3.selectAll('.sel_cell_from_map')
                         .attrs(
-                            function (d, i) {
+                            function(d, i) {
                                 return {
 
                                     //"stroke": 'white',
                                     'stroke-width': 0
-                                    //  'stroke-opacity': 0.9
+                                        //  'stroke-opacity': 0.9
 
                                 }
                             }
                         ).classed('sel_cell_from_map', false);
 
-                    d3.selectAll('.x_tick').filter(function (data) {
+                    d3.selectAll('.x_tick').filter(function(data) {
 
                         if (data === d.properties.code) {
                             // console.log(d3.select(this))
@@ -1038,7 +1032,7 @@ index_value: 2
             function update() {
 
                 featureElement.attr("d", path);
-                setTimeout(function () {
+                setTimeout(function() {
                     var sel_gaul_1 = d3.selectAll("path.gaul_1");
 
                     sel_gaul_1.attr("d", path);
@@ -1052,13 +1046,13 @@ index_value: 2
 
             //
             map.on("viewreset", update)
-            map.on("movestart", function () {
+            map.on("movestart", function() {
                 svg.classed("hidden", true);
             });
-            map.on("rotate", function () {
+            map.on("rotate", function() {
                 svg.classed("hidden", true);
             });
-            map.on("moveend", function () {
+            map.on("moveend", function() {
                 update()
                 svg.classed("hidden", false);
             })
@@ -1089,14 +1083,14 @@ index_value: 2
                 });
             }
 
-            markers_obj_arr.forEach(function (d) {
+            markers_obj_arr.forEach(function(d) {
                 // create a HTML element for each feature
                 var el = document.createElement('div');
                 el.className = 'animated-icon my-icon';
                 el.id = 'centroid_' + d.code;
 
 
-                var t_data = level_1.features.filter(function (data) {
+                var t_data = level_1.features.filter(function(data) {
                     return data.code == d.code;
                 })[0]
 
@@ -1104,7 +1098,7 @@ index_value: 2
                 if (!t_data) return false;
                 new mapboxgl.Marker(el)
 
-                    .setLngLat(d.centroid)
+                .setLngLat(d.centroid)
                     .addTo(map);
 
             })
@@ -1118,7 +1112,7 @@ index_value: 2
                 //param: environmental, etc.
                 //if (d.properties.code==)
                 var color;
-                indexes_arrays[param + '_arr'].forEach(function (data) {
+                indexes_arrays[param + '_arr'].forEach(function(data) {
                     if (data._code == d.properties.code) {
                         color = data.color;
                     }
@@ -1130,19 +1124,19 @@ index_value: 2
                 //financial_index_class
                 var params_arr = indexes_arrays[param + '_arr'];
 
-                var circs_values = params_arr.map(function (d) {
+                var circs_values = params_arr.map(function(d) {
                     return d.index_value;
                 })
 
                 var rscale = d3.scaleLinear()
                     .domain([d3.min(circs_values), d3.max(circs_values)])
                     .range([25, 60])
-                // update_by_index('main_index_class');
+                    // update_by_index('main_index_class');
 
 
-                markers_obj_arr.forEach(function (d) {
+                markers_obj_arr.forEach(function(d) {
                     //console.log(d)
-                    var t_data = level_1.features.filter(function (data) {
+                    var t_data = level_1.features.filter(function(data) {
                         return data.code == d.code;
                     })[0];
                     if (!t_data) {
@@ -1150,17 +1144,17 @@ index_value: 2
                     }
                     var sel_data = t_data.data;
                     var sel_radius = rscale(sel_data[param]);
-                    var sel_scale_value = scale_values.filter(function (data) {
+                    var sel_scale_value = scale_values.filter(function(data) {
                         return data.value == sel_data[param]
                     })[0];
                     console.log(sel_scale_value)
-                    var sel_scale_title = indexes_info.filter(function (data) {
+                    var sel_scale_title = indexes_info.filter(function(data) {
                         return data.title == param
                     })[0];
 
                     // make a marker for each feature and add to the map
 
-                    setTimeout(function () {
+                    setTimeout(function() {
 
                         var $centroid = $('#centroid_' + d.code);
 
@@ -1172,11 +1166,11 @@ index_value: 2
                         $centroid.data(t_data);
 
                         $centroid.animate({
-                            //   width: '50px',
-                            width: sel_radius + 'px',
-                            height: sel_radius + 'px'
-                            //  height: '50px'
-                        }
+                                //   width: '50px',
+                                width: sel_radius + 'px',
+                                height: sel_radius + 'px'
+                                    //  height: '50px'
+                            }
 
                         ).css(
                             'background-color',
@@ -1207,7 +1201,7 @@ index_value: 2
                 }
 
                 rects.style("opacity", 0.2);
-                rects.filter(function (data) {
+                rects.filter(function(data) {
                     return data.index_type == param;
                 }).style("opacity", 1);
                 var map_paths = d3.selectAll("#map path.country");
@@ -1215,22 +1209,22 @@ index_value: 2
                 map_paths
                     .transition()
                     .duration(1250)
-                    .delay(function (d, i) {
+                    .delay(function(d, i) {
                         return i * 40;
                     })
                     // .attr("delay", function (d, i) {
                     //     return 100 * i
                     // })
 
-                    .attr('fill', function (d) {
-                        // console.log(d)
-                        return get_color(d, param)
+                .attr('fill', function(d) {
+                    // console.log(d)
+                    return get_color(d, param)
 
-                    });
+                });
                 update_circles_by_index(param)
             }
 
-            $('.matrix_btn').click(function (e) {
+            $('.matrix_btn').click(function(e) {
                 $('.btn-small.selected').removeClass('selected');
 
                 if ($(e.target).hasClass('btn-small'))
@@ -1254,7 +1248,7 @@ index_value: 2
                     update_by_index('main_index_class');
                 }
             })
-            setTimeout(function () {
+            setTimeout(function() {
                 //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
                 update_by_index('main_index_class');
 
