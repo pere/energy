@@ -8,6 +8,7 @@
 app.lollipop_graph = function() {
     app_state.matrix_indicators = false;
     app_state.lollipop_indicators = true;
+    app.country_popup.remove();
 
     $('.dropdown-trigger').hide();
 
@@ -21,6 +22,10 @@ app.lollipop_graph = function() {
     //     .attr('fill', function(d) {
     //         return '#72a3b0';
     //     })
+
+    // setTimeout(function() {
+    //     $('#lollipop_wrapper').hide();
+    // }, 3000)
     console.info(app_data.all_data)
     if ($('#lollipop_graph svg').length > 0)
         $('#lollipop_graph svg').remove();
@@ -93,17 +98,17 @@ app.lollipop_graph = function() {
 
     var lollipop_colors_obj = [{
                 index_code: 'env_index_val',
-                color: "#bf38d6",
+                color: "#87d638",
                 text: "Environmental"
             },
             {
                 index_code: 'social_index_val',
-                color: "#ffc107",
+                color: "#b1bdb3",
                 text: "Social"
             },
             {
                 index_code: 'political_index_val',
-                color: "#36d23d",
+                color: "#366cd2",
                 text: "Political"
             },
             {
@@ -206,7 +211,7 @@ app.lollipop_graph = function() {
 
     // d3.scaleSequentialSqrt([0, 1], d3.interpolateTurbo)
 
-    var rankScale = d3.scaleLinear().domain([1, 25])
+    var rankScale = d3.scaleLinear().domain([1, 38])
         .interpolate(d3.interpolateHcl)
         .range([
             //         d3.rgb('#5c5c63'),
@@ -227,7 +232,7 @@ app.lollipop_graph = function() {
     //var rankScale = d3.quantize(d3.interpolateHcl("white", "#2A4858"), 75)
     //console.log(rankScale_t)
     //  .range([d3.rgb("#3d9970"), d3.rgb('#ee3f34')]);
-    var t = d3.quantize(d3.interpolateHcl("#2A4858", "#fafa6e"), 10);
+    var t = d3.quantize(d3.interpolateHcl("#2A4858", "#484745"), 38);
     console.log(t)
     var code_color_arr = [];
     var length = all_data.length;
@@ -235,6 +240,7 @@ app.lollipop_graph = function() {
     function get_rank_color(code, param) {
 
         var color;
+
         all_data.forEach(function(d, i) {
 
             if (d.code == code) {
@@ -246,16 +252,19 @@ app.lollipop_graph = function() {
                         var this_rank = d.data_ranks[param];
 
                         color = rankScale(this_rank);
-                        if (this_rank == length / 5)
-                            code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
-                        if (this_rank == parseInt((length / 5) * 2))
-                            code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '> ' + code_color_arr[0].this_rank })
-                        if (this_rank == parseInt((length / 5) * 3))
-                            code_color_arr.push({ rank: this_rank, code: code, rank_color: color })
-                        if (this_rank == parseInt((length / 5) * 4))
-                            code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
-                        if (this_rank == length)
-                            code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                        if (code_color_arr.length < 5) {
+                            if (this_rank == 5)
+                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
+                            if (this_rank == 10)
+                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '> ' + code_color_arr[0].this_rank })
+                            if (this_rank == 20)
+                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color })
+                            if (this_rank == 30)
+                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                            if (this_rank == 38)
+                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                        }
+
                     }
                 }
             }
@@ -265,33 +274,6 @@ app.lollipop_graph = function() {
 
     }
 
-
-
-    // app_data.all_data.forEach(function(d, i) {
-    //         for (var index in d.data_ranks) {
-    //             return {code:d.code,rank:d.ge
-    //         }
-    //     })
-    /*
-    var _t = all_data.filter(function (d) {
-                    return d.code == path_code
-                })[0];
-
-     function get_color(d, param) {
-                console.log(arguments)
-                    //d comes from the geojson
-                    //param: environmental, etc.
-                    //if (d.properties.code==)
-                var color;
-                console.log(indexes_arrays)
-                indexes_arrays[param + '_arr'].forEach(function(data) {
-                    if (data._code == d.properties.code) {
-                        color = data.color;
-                    }
-                })
-                return color;
-            }
-                */
     var map_paths = d3.selectAll("#map path.country");
 
     function update_geom_by_rank(param) {
@@ -308,14 +290,146 @@ app.lollipop_graph = function() {
         .attr('fill', function(d) {
                 // console.log(d)
                 // console.info(get_rank_color(d.properties.code, 'general_rank'))
+                console.log(param)
+                console.warn(get_rank_color(d.properties.code, param))
                 return get_rank_color(d.properties.code, param)
 
             })
             .attr("stroke", "#fbfdfc")
 
-        console.log(code_color_arr);
+
+
+        var sorted_code_color_arr = code_color_arr.sort(function(a, b) {
+            return a.rank - b.rank;
+        })
+
+        update_rank_legend(sorted_code_color_arr)
+
 
     }
+
+    setTimeout(function() {
+        $('#rank_map_select').formSelect();
+        $('#rank_map_select').on('change', function(e) {
+            console.info($(this))
+            var val = $(this).find('option:selected')[0].value;
+            console.warn(val)
+                /*
+                all_data
+
+                data_ranks:
+                general_rank: 23
+                rank_env: 27
+                rank_social: 7
+                rank_political: 31
+                rank_financial: 12
+                */
+            switch (val) {
+                case 'main':
+                    $('.rank_symbol_label').text('Main index');
+                    update_geom_by_rank('general_rank');
+
+                    break;
+                case 'env':
+                    $('.rank_symbol_label').text('Environmental index');
+                    update_geom_by_rank('rank_env');
+
+                    break;
+                case 'social':
+                    $('.rank_symbol_label').text('Social index');
+                    update_geom_by_rank('rank_social');
+
+                    break;
+                case 'political':
+                    $('.rank_symbol_label').text('Political index');
+                    update_geom_by_rank('rank_political');
+
+                    break;
+                case 'financial':
+                    $('.rank_symbol_label').text('Financial index');
+                    update_geom_by_rank('rank_financial');
+
+                    break;
+                default:
+                    break;
+
+            }
+
+        })
+
+    }, 500)
+
+    function update_rank_legend(sorted_code_color_arr) {
+        console.log(JSON.stringify(sorted_code_color_arr));
+
+
+
+        var svg_width = ($('#map').width() / 4) + 200;
+
+        $('.rank_legend_control').css('right', (svg_width - 200) + 'px');
+        $('.rank_legend_control,.rank_legend_control_container,.rank_legend_control_container svg').css('width', svg_width + 'px');
+        $('.mapboxgl-ctrl-bottom-right').show();
+        var svg = d3.select(".rank_legend_control_container svg.legend_svg")
+        var defs = svg.append("defs");
+        var gradient = defs.append("linearGradient")
+            .attr("id", "svgGradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%");
+        //Append multiple color stops by using D3's data/enter step
+        gradient.selectAll("stop")
+            // .data(colorScale.range())
+            .data(sorted_code_color_arr)
+            .enter().append("stop")
+            //code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
+            .attr("offset", function(d, i) {
+                return i / (sorted_code_color_arr.length - 1);
+            })
+            .attr("stop-color", function(d) {
+                return d.rank_color;
+            });
+
+        var rect = svg.append("rect")
+            .attr('class', 'rect_legend')
+            .attr('width', svg_width)
+            //.attr('height', $(".rank_legend_control_container").height())
+            .attr('height', 15)
+            .attr("fill", "url(#svgGradient)")
+            //.attr("transform", "translate(2, 0)") // + (10 + legendHeight) + ")")
+
+        var s_domain = sorted_code_color_arr.map(function(d) {
+            console.log(d)
+            return parseInt(d.rank)
+        })
+
+        var xScale = d3.scaleLinear()
+            .domain([0, 38])
+
+        .range([1, svg_width])
+
+        var xAxis = d3.axisBottom(xScale); //.tickFormat(function(d) {
+        //  var width = 700; //$('.rect_legend').width();
+
+        var legendWidth = svg_width,
+            legendHeight = 10;
+        //Color Legend container
+        var legendsvg = svg.append("g")
+            .attr("class", "legendWrapper")
+
+        legendsvg.append("g")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .attr("class", "axis") //Assign "axis" class
+            .attr("transform", "translate(0, " + legendHeight + ")")
+            .call(xAxis)
+            // d3.selectAll('.tick').on('mouseover', function(d) {
+            //     console.log(d)
+            // })
+        $('.rank_legend_control').show();
+    }
+
+
 
     update_geom_by_rank('general_rank');
     // setTimeout(function() {
@@ -328,7 +442,7 @@ app.lollipop_graph = function() {
 
     }
 
-    var data = [];
+    app_data.lollipop_data = [];
     all_data.filter(function(d, i) {
 
         console.log(d)
@@ -369,27 +483,33 @@ DATA_val:::
 "financial_index_val":0.562
 
 */
-        var popup = '<div class="popup_country_title">' + d.country + '</div><div>General rank ' + d.data_ranks['general_rank'] + ' / 38</div>';
+
+        var popup = '<div class="popup_country_title">' + d.country + '</div><div>General rank   <span class="general_rank_popup" style="color:' + get_rank_color(d.code, 'general_rank') + '">' + d.data_ranks['general_rank'] + ' / 38</div>';
         popup += '<div class="profile-overview"><table class="responsive-table profile-overview"> <thead> <tr> <td>Environmental</td> <td>Social</td> <td>Political</td> <td>Financial</td> </tr> </thead> <tbody><tr>';
         var i = 0;
-
+        console.log(d)
         for (var index in d.data_ranks) {
             switch (index) {
                 case 'general_rank':
                     var title = 'Index';
+                    var index_val = d.data_val['main_index_val'];
                     break;
                 case 'rank_env':
                     var title = 'Environmental';
+                    var index_val = d.data_val['env_index_val'];
                     break;
                 case 'rank_social':
                     var title = 'Social';
+                    var index_val = d.data_val['social_index_val'];
 
                     break;
                 case 'rank_political':
                     var title = 'Political';
+                    var index_val = d.data_val['political_index_val'];
                     break;
                 case 'rank_financial':
                     var title = 'Financial';
+                    var index_val = d.data_val['financial_index_val'];
                     break;
             }
 
@@ -419,7 +539,7 @@ DATA_val:::
             if (index !== 'general_rank') {
                 i++;
                 // popup += '<i style="background:' + lollipop_colors_obj[i - 1].color + '"></i>';
-                popup += '<td class="medium general_rank" style="background:' + lollipop_colors_obj[i - 1].color + '">' + d.data_ranks[index] + '/38 </td>';
+                popup += '<td class="medium general_rank" style="background:' + lollipop_colors_obj[i - 1].color + '">' + d.data_ranks[index] + '/38 <span class="popup_index_val"> ' + index_val + '</span></td>';
             } else {
                 // popup += '<td class="medium general_rank">0.51</td>';
             }
@@ -429,13 +549,13 @@ DATA_val:::
         }
 
         popup += ' </tr> </tbody> </table> </div>';
-        console.info(popup)
+        // console.info(popup)
 
-        console.log(data)
+        // console.log(app_data.lollipop_data)
         all_data.filter(function(this_data) {
             return this_data.code == d.code;
         })[0].lollipop_popup = popup;
-        data.push({
+        app_data.lollipop_data.push({
             country: d.country,
             code: d.code,
             data: t_data,
@@ -444,7 +564,7 @@ DATA_val:::
         });
 
     });
-    console.log(data);
+
     console.info(all_data)
     console.info(mx_w_h);
 
@@ -459,7 +579,7 @@ DATA_val:::
 
     var x = d3.scaleBand()
         .range([0, width])
-        .domain(data.map(function(d) {
+        .domain(app_data.lollipop_data.map(function(d) {
             return d.code;
         }))
         .padding(2);
@@ -486,8 +606,8 @@ DATA_val:::
     svg.append("g")
         .call(d3.axisLeft(y))
 
-    var rects = svg.selectAll("rect")
-        .data(data)
+    var lollipop_rects = svg.selectAll("#lollipop_wrapper rect")
+        .data(app_data.lollipop_data)
         .enter()
         .append("rect")
         .attr("x", function(d) {
@@ -516,7 +636,7 @@ DATA_val:::
 
     // Lines
     var lines = svg.selectAll(".myline")
-        .data(data)
+        .data(app_data.lollipop_data)
         .enter()
         .append("line")
 
@@ -536,7 +656,7 @@ DATA_val:::
             // return height
         })
         .attr("y2", function(d) {
-            console.info(d)
+
             return y(d3.max(d.data));
         })
 
@@ -546,7 +666,7 @@ DATA_val:::
     lines.nodes().forEach(function(line, i) {
 
         var line_d = line.__data__;
-        console.log(line_d)
+
 
         svg.selectAll("mycircle")
             .data(line_d.data)
@@ -614,7 +734,7 @@ DATA_val:::
         console.warn(code)
             // var param = d3.select(this).attr('param').split('_')[0];
 
-        var this_info = data.filter(function(_d) {
+        var this_info = app_data.lollipop_data.filter(function(_d) {
                 console.log(_d)
                 return _d.code == code;
             })[0]
@@ -648,10 +768,11 @@ DATA_val:::
 
         var popup_html = '<div popup_code=' + code + ' class="country_popup rect_popup">' + this_info.lollipop_popup + '</div>'
         console.log(popup_html)
-        console.warn(map)
+
         console.log(app.country_popup)
         console.warn(markers_obj_arr)
         for (var p in markers_obj_arr) {
+
             if (markers_obj_arr[p].code == code) {
                 console.log(markers_obj_arr[p].centroid)
                 app.country_popup.setLngLat(markers_obj_arr[p].centroid)
@@ -661,6 +782,8 @@ DATA_val:::
                 // debugger;
             }
         }
+
+
 
 
 

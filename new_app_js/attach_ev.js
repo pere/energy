@@ -1,6 +1,7 @@
 $('select').formSelect();
 $('.modal').modal({ opacity: 0.8 });
-//$('.icon_info').trigger('click');
+//$('.country_icon_info').trigger('click');
+$('.other_indicator_select').trigger('click');
 $('.dropdown-trigger').dropdown({
     inDuration: 300,
     constrainWidth: false,

@@ -117,7 +117,7 @@
     .row.summary .s3 {
         /* font-size: 1.2rem; */
         text-align: center;
-        color: #009688;
+        color: white;
         font-weight: 500;
     }
     
@@ -470,10 +470,23 @@
     .theme_container.on {
         display: block;
     }
-    
-    nav .sidenav-trigger {
+    /* nav li {
         height: 35px !important;
         margin: 5px 18px!important;
+    } */
+    /* nav form ul.right li {
+        width: 50px!important;
+    } */
+    
+    nav form ul.right li>a {
+        height: 35px !important;
+        margin: 0px 18px!important;
+        padding: 0 0px!important;
+    }
+    
+    nav .sidenav-trigger {
+        position: relative;
+        top: 11px;
     }
     
     .sidenav {
@@ -647,6 +660,7 @@ nav ul li.active {
     .lollipop_popup {
         font-size: 1.7em;
         background-color: rgb(102, 102, 106);
+        background-color: rgb(82, 82, 83);
         padding: 8px;
         color: white;
         z-index: 5000000!important;
@@ -663,10 +677,15 @@ nav ul li.active {
     .mapboxgl-popup-content .rect_popup {
         min-width: 120px;
         min-height: 115px;
-        font-size: 1em;
-        padding: 7px;
+        font-size: 1.1em;
+        padding: 11px;
         color: white;
-        line-height: 12px;
+        line-height: 18px;
+    }
+    
+    .mapboxgl-popup-content .popup_country_title {
+        font-size: 1.3em;
+        margin-bottom: 8px;
     }
     
     .profile-overview td,
@@ -765,25 +784,100 @@ nav ul li.active {
         color: #715e5e;
     }
     
-    .rank_legend_control_container {
-        padding: 7px;
-        bottom: 100px;
-        min-height: 300px!important;
-        background: #404040!important
+    .mapboxgl-ctrl-group.rank_legend_control_container {
+        z-index: 5000000000000!important;
+        padding: 0px;
+        border-radius: 0px!important;
+        overflow: visible!important;
+        /* bottom: 100px; */
+        /* transparent background */
+        /* background: #fff0f000!important; */
+        background: #779696!important;
     }
     
-    .rank_.legend_control_container_title {
+    .mapboxgl-ctrl-group.rank_legend_control_container ul.dropdown-content {
+        background-color: #3c847a !important;
+        width: 100% !important;
+    }
+    
+    .mapboxgl-ctrl-group.rank_legend_control_container ul.dropdown-content .dropdown-content li {
+        max-height: 30px!important;
+    }
+    
+    .mapboxgl-ctrl-group.rank_legend_control_container ul li span {
+        color: #d2cece !important;
+        font-size: 1.3em;
+    }
+    
+    div.rank_legend_control_container .select-wrapper input.select-dropdown {
+        height: 2rem!important;
+        font-size: 0.8em!important;
+    }
+    
+    .rank_symbol_label {
+        /* dark reddish */
+        color: rgb(97, 8, 8);
+    }
+    
+    .rank_legend_control_container .title {
+        background: #72a3b0;
+        color: white;
+    }
+    
+    .rank_legend_control_container_title {
         color: white;
         font-size: 1.2em;
         padding-bottom: 10px;
+        width: 600px;
+    }
+    
+    .rank_legend_control {
+        position: absolute;
+        display: none;
     }
     
     .mapboxgl-ctrl-bottom-right {
-        bottom: 20px!important;
-        color: blue;
-        width: 12%!important;
+        margin: 8px !important;
+        bottom: 50px!important;
+        width: 20px;
+        /* color: blue; */
+        /* width: 12%!important; */
+        /* width: 10px; */
+        /* margin: 30px!important; */
     }
     
     .rank_legend_control_container svg {
-        min-height: 300px;
+        height: 30px;
+    }
+    
+    .rank_legend_control_container .tick text {
+        font-size: 0.7rem;
+        fill: rgb(57, 51, 51);
+        font-weight: 400;
+    }
+    
+    .general_rank_popup {
+        /* font-weight: bold; */
+        /* text-shadow: 1px 1px 0px white; */
+    }
+    
+    .popup_index_val {
+        display: block;
+        font-size: 0.9em;
+    }
+    
+    .show_hide_circles_container {
+        max-height: 0px;
+        top: 155px;
+        color: white;
+        position: absolute;
+    }
+    
+    .show_hide_circles {
+        font-size: 0.8em;
+        color: #18b6ca;
+    }
+    
+    .country_modal_trigger {
+        display: none;
     }

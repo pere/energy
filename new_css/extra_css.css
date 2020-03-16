@@ -336,9 +336,8 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .light_mede_button {
-    color: #00aced;
-    margin-right: 35px;
-    margin-top: -2px;
+    /* margin-right: 35px;
+    margin-top: -2px; */
 }
 
 .card-title_country {
@@ -458,7 +457,7 @@ nav ul a:hover {
 }
 
 .icon_info {
-    color: #0155bd;
+    /* color: #0155bd; */
 }
 
 .modal_li>a {
