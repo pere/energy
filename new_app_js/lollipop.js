@@ -632,6 +632,7 @@ DATA_val:::
             "translate(-12,0)")
         .style('fill', 'white')
         .style('opacity', 0)
+    
 
 
     // Lines
