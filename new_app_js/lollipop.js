@@ -1,4 +1,4 @@
-// alert(app_data.all_data.length)
+ alert(app_data.all_data.length)
 // for (var _i = 0; app_data.all_data.length - 1; _i++) {
 //     // var _this = app_data.all_data[i];
 //     // console.log(_this)
