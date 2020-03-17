@@ -1,3 +1,11 @@
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+    //+'.00';
+};
+
+//numberWithCommas('945897221')
 //.range(["#e0347c", "#f5621c", "#f7c717", "#6ee282", "#5aa066"]);
 var scale_values = [{
     value: 1,
@@ -17,13 +25,18 @@ var scale_values = [{
     title: 'Upper middle'
 }, {
     value: 5,
-    color: '#5aa066',
+    color: '#2196f3',
     title: 'Higher performance'
-}];
+}
+];
 
 
 
 var indexes_info = [{
+    name: 'main_index_class',
+    title: 'General Index'
+},
+{
     name: 'env_index_class',
     title: 'Environmental'
 }, {
@@ -35,10 +48,8 @@ var indexes_info = [{
 }, {
     name: 'social_index_class',
     title: 'Social'
-}, {
-    name: 'main_index_class',
-    title: 'Index'
-}];
+}
+];
 
 var indexes_arrays = {};
 var hovering_map = true;
@@ -54,7 +65,7 @@ var markers_obj_arr = [];
 var mouseovered_path = {};
 var mouseovered_rect = {};
 var app_data = {};
-var app_state = { indicators: false, country_facts: false };
+var app_state = { lollipop_indicators: false, matrix_indicators: false, country_facts: false };
 
 function getRandomInRange(min, max) {
     return Math.random() * (max - min) + min;
