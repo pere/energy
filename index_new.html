@@ -1305,7 +1305,7 @@ social_index_class: 3
                 var legend_control = new map_legend_control();
                 map.addControl(legend_control, 'top-right');
 
-                $('.rank_legend_control').html('<div class="mapboxgl-ctrl mapboxgl-ctrl-group rank_legend_control_container"><div class="center title">Map is symbolized by <span class="rank_symbol_label">Main index</span> rank <select id="rank_map_select"> <option value="main" selected">Main index</option> <option value="social">Social</option> <option value="env" selected">Environmental</option> <option value="financial">Financial</option> <option value="political">Political</option> </select></div><svg class="legend_svg"></svg></div>');
+                $('.rank_legend_control').html('<div class="mapboxgl-ctrl mapboxgl-ctrl-group rank_legend_control_container"> <div class="center title">Map is symbolized by <span class="rank_symbol_label">Main index </span> rank <select id="rank_map_select"> <option value="main_index_val" selected">Main index</option> <option value="social_index_val">Social</option> <option value="env_index_val"">Environmental</option> <option value="financial_index_val">Financial</option> <option value="political_index_val">Political</option> </select> </div><svg class="legend_svg"></svg> </div> ');
                 //<div class="rank_legend_control_container_title"></div>
 
 
@@ -1682,8 +1682,7 @@ social_index_class: 3
 
                         if (app_state.lollipop_indicators == true) {
                             d3.selectAll('#lollipop_graph rect').filter(function(data) {
-                                console.log(data)
-                                console.log(path_code)
+
                                 if (data.code === path_code) {
                                     d3.select(this).dispatch('mouseover');
                                 }
@@ -1926,34 +1925,6 @@ social_index_class: 3
                     }, 800)
                 }
 
-                $('.matrix_btn').click(function(e) {
-                        $('.btn-small.selected').removeClass('selected');
-
-                        if ($(e.target).hasClass('btn-small'))
-                            $(e.target).addClass('selected')
-
-                        if ($(e.target).hasClass('environmental')) {
-                            app.update_by_index('env_index_class');
-                        }
-                        if ($(e.target).hasClass('social')) {
-                            app.update_by_index('social_index_class');
-                        }
-                        if ($(e.target).hasClass('financial')) {
-                            app.update_by_index('financial_index_class');
-                        }
-                        if ($(e.target).hasClass('political')) {
-                            app.update_by_index('political_index_class');
-                        }
-                        if ($(e.target).hasClass('main_index')) {
-                            app.update_by_index('main_index_class');
-                        }
-                    })
-                    // setTimeout(function () {
-                    //     //var all_data_plot = financial_index_class_arr.concat(social_index_class_arr).concat(political_index_class_arr).concat(financial_index_class_arr).concat(main_index_class_arr);
-                    //     if (app_state.matrix_indicators == true)
-                    //         update_by_index('main_index_class');
-
-                // }, 1500)
 
 
                 function projectPoint(lon, lat) {
