@@ -1,4 +1,4 @@
- alert(app_data.all_data.length)
+// alert(app_data.all_data.length)
 // for (var _i = 0; app_data.all_data.length - 1; _i++) {
 //     // var _this = app_data.all_data[i];
 //     // console.log(_this)
@@ -97,113 +97,43 @@ app.lollipop_graph = function() {
     var colors = ["#ffffff", "#ffc107", "#36d23d", "#51bff1"];
 
     var lollipop_colors_obj = [{
-                index_code: 'env_index_val',
-                color: "#87d638",
-                text: "Environmental"
-            },
-            {
-                index_code: 'social_index_val',
-                color: "#b1bdb3",
-                text: "Social"
-            },
-            {
-                index_code: 'political_index_val',
-                color: "#366cd2",
-                text: "Political"
-            },
-            {
-                index_code: 'financial_index_val',
-                color: "#51bff1",
-                text: "Financial"
-            }
-        ]
-        /*
-            var legendElementWidth = 20;
-            var legend_svg = d3.select('.legend_control svg')
+            index_code: 'env_index_val',
+            rank_code: 'rank_env',
+            //medium purple
+            color: "#a763d7",
+            text: "Environmental",
+            //purples
+            gradient: ['#d2aaee', '#8e08ec']
+        },
+        {
+            index_code: 'social_index_val',
+            rank_code: 'rank_social',
+            color: "#4ec8a6",
+            text: "Social",
+            //kind of greens
+            gradient: ['#a5ecd8', '#04956c']
+        },
+        {
+            index_code: 'political_index_val',
+            rank_code: 'rank_political',
+            color: "#979d9c",
+            text: "Political",
+            //greys to balck
+            gradient: ['#d8dfdd', '#2a2d2c']
 
-            console.groupCollapsed('my Legend description Group');
-
-            //.attr("width", legendElementWidth+170)
-            legend_svg.attr("width", 180)
-                //.attr("height",legendElementWidth*8)
-                .attr("height", 150)
-
-            var legend = legend_svg.selectAll(".legend")
-                .data(scale_values, function(d) {
-                    console.log(d)
-                    return d.value;
-                })
-
-            .enter()
-
-            .append("g")
-                .attr("class", "legend")
-
-            console.groupEnd();
-            legend.append("rect")
-                .attr("x", function(d, i) {
-
-                    return 0 * i;
-                })
-                //.attr("x",0)
-                .attr("y", function(d, i) {
-                    return legendElementWidth * i;
-                })
-                .attr("width", legendElementWidth)
-                .attr("height", legendElementWidth)
-                .style("fill", function(d, i) {
-
-                    return d.color;
-                })
-                .attr("stroke", "white")
-                .attr("value", function(d) {
-                    return d.value;
-                });
-
-            // var anchorElement = $('.legend rect');
-            // anchorElement.attr('data-tooltip', 'New tooltip value');
-            // anchorElement.tooltip();
-
-            legend.append("text")
-                .attr("class", "Montserrat")
-                .html(function(d) {
-                    // console.warn(d.legend_text)
-                    return d.title; //+'<b>test</b>';
-                })
-                .attr("x", function(d, i) {
-                    return legendElementWidth + 10;
-                })
-                //.attr("x",0)
-                .attr("y", function(d, i) {
-                    return ((legendElementWidth * i) + (legendElementWidth / 2) + 7);
-                })
-
-            .attr("font-size", "13px")
-                .attr("fill", "white");
-                */
-        /*
-            DATA_val:::
-
-        "main_index_val":20.761,  //main index doesnt count on the graph!
-        "env_index_val":0.048,
-        "social_index_val":0.059,
-        "political_index_val":0.091, -->green #36d23d
-        "financial_index_val":0.562  -->blue (#51bff1)
-        */
+        },
+        {
+            index_code: 'financial_index_val',
+            rank_code: 'rank_financial',
+            color: "#f0d751",
+            text: "Financial",
+            //yellow to orange
+            gradient: ['#eacf3d', '#ea663d']
 
 
+        }
+    ]
 
-
-    // function get_index_data(name) {
-    //     return indexes_info.filter(function(d) {
-    //         return d.name == name;
-    //     })[0]
-    // }
-    // function get_scale_data(value) {
-    //     return scale_values.filter(function(d) {
-    //         return d.value == value;
-    //     })[0]
-    // }
     var ranks = all_data.map(function(d) {
         return { code: d.code, ranks: d.rank_index }
     });
@@ -211,33 +141,11 @@ app.lollipop_graph = function() {
 
     // d3.scaleSequentialSqrt([0, 1], d3.interpolateTurbo)
 
-    var rankScale = d3.scaleLinear().domain([1, 38])
-        .interpolate(d3.interpolateHcl)
-        .range([
-            //         d3.rgb('#5c5c63'),
-            //reddish
-            // d3.rgb('#e91e63'),
-            '#ffeb3b',
-            '#f71717'
-            //d3.rgb('#00bcd4'),
 
-            // //blue
-            // '#03a9f4'
-            // //yellow '#ffeb3b',
-
-
-        ]);
-
-    // var rankScale_t = d3.quantize(d3.interpolateHcl("#fafa6e", "#2A4858"), 75)
-    //var rankScale = d3.quantize(d3.interpolateHcl("white", "#2A4858"), 75)
-    //console.log(rankScale_t)
-    //  .range([d3.rgb("#3d9970"), d3.rgb('#ee3f34')]);
-    var t = d3.quantize(d3.interpolateHcl("#2A4858", "#484745"), 38);
-    console.log(t)
-    var code_color_arr = [];
     var length = all_data.length;
 
     function get_rank_color(code, param) {
+        //return get_rank_color(d.properties.code, this_obj.rank_code)
 
         var color;
 
@@ -251,18 +159,18 @@ app.lollipop_graph = function() {
                     if (param == p) {
                         var this_rank = d.data_ranks[param];
 
-                        color = rankScale(this_rank);
-                        if (code_color_arr.length < 5) {
+                        color = app_data.rankScale(this_rank);
+                        if (app_data.code_color_arr.length < 5) {
                             if (this_rank == 5)
-                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
+                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
                             if (this_rank == 10)
-                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '> ' + code_color_arr[0].this_rank })
+                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '> ' + code_color_arr[0].this_rank })
                             if (this_rank == 20)
-                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color })
+                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color })
                             if (this_rank == 30)
-                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
                             if (this_rank == 38)
-                                code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
                         }
 
                     }
@@ -276,7 +184,24 @@ app.lollipop_graph = function() {
 
     var map_paths = d3.selectAll("#map path.country");
 
-    function update_geom_by_rank(param) {
+    function update_geom_by_rank(this_obj) {
+
+        console.log(this_obj)
+        app_data.code_color_arr = [];
+        app_data.rankScale = d3.scaleLinear().domain([1, 38])
+            .interpolate(d3.interpolateHcl)
+            .range(this_obj.gradient);
+        console.info(app_data.rankScale)
+
+        //this_obj
+        // {
+        //     index_code: 'main_index_val',
+        //     rank_code: 'general_rank',
+        //     color: "#f0d751",
+        //     text: "Financial",
+        //     //yellow to orange
+        //     gradient: ['#eacf3d', '#ea663d']
+        // })
         map_paths
             .transition()
             .duration(1250)
@@ -288,22 +213,18 @@ app.lollipop_graph = function() {
             })
 
         .attr('fill', function(d) {
-                // console.log(d)
-                // console.info(get_rank_color(d.properties.code, 'general_rank'))
-                console.log(param)
-                console.warn(get_rank_color(d.properties.code, param))
-                return get_rank_color(d.properties.code, param)
+                return get_rank_color(d.properties.code, this_obj.rank_code)
 
             })
             .attr("stroke", "#fbfdfc")
 
 
 
-        var sorted_code_color_arr = code_color_arr.sort(function(a, b) {
+        var sorted_code_color_arr = app_data.code_color_arr.sort(function(a, b) {
             return a.rank - b.rank;
         })
 
-        update_rank_legend(sorted_code_color_arr)
+        update_rank_legend(sorted_code_color_arr, this_obj)
 
 
     }
@@ -312,8 +233,8 @@ app.lollipop_graph = function() {
         $('#rank_map_select').formSelect();
         $('#rank_map_select').on('change', function(e) {
             console.info($(this))
-            var val = $(this).find('option:selected')[0].value;
-            console.warn(val)
+            var param = $(this).find('option:selected')[0].value;
+            console.warn(param)
                 /*
                 all_data
 
@@ -324,49 +245,65 @@ app.lollipop_graph = function() {
                 rank_political: 31
                 rank_financial: 12
                 */
-            switch (val) {
-                case 'main':
-                    $('.rank_symbol_label').text('Main index');
-                    update_geom_by_rank('general_rank');
 
-                    break;
-                case 'env':
-                    $('.rank_symbol_label').text('Environmental index');
-                    update_geom_by_rank('rank_env');
 
-                    break;
-                case 'social':
-                    $('.rank_symbol_label').text('Social index');
-                    update_geom_by_rank('rank_social');
 
-                    break;
-                case 'political':
-                    $('.rank_symbol_label').text('Political index');
-                    update_geom_by_rank('rank_political');
 
-                    break;
-                case 'financial':
-                    $('.rank_symbol_label').text('Financial index');
-                    update_geom_by_rank('rank_financial');
+            var this_obj = lollipop_colors_obj.filter(function(d) {
+                return d.index_code == param;
+            })[0];
 
-                    break;
-                default:
-                    break;
+            $('.rank_symbol_label').text(this_obj.text + ' rank');
 
-            }
+
+            app_data.rankScale = d3.scaleLinear().domain([1, 38])
+                .interpolate(d3.interpolateHcl)
+                .range(this_obj.gradient);
+            console.info(app_data.rankScale)
+
+
+            update_geom_by_rank(this_obj);
+            // switch (val) {
+            //     case 'main':
+            //         $('.rank_symbol_label').text('Main index');
+            //         update_geom_by_rank('general_rank');
+
+            //         break;
+            //     case 'env':
+            //         $('.rank_symbol_label').text('Environmental index');
+            //         update_geom_by_rank('rank_env');
+
+            //         break;
+            //     case 'social':
+            //         $('.rank_symbol_label').text('Social index');
+            //         update_geom_by_rank('rank_social');
+
+            //         break;
+            //     case 'political':
+            //         $('.rank_symbol_label').text('Political index');
+            //         update_geom_by_rank('rank_political');
+
+            //         break;
+            //     case 'financial':
+            //         $('.rank_symbol_label').text('Financial index');
+            //         update_geom_by_rank('rank_financial');
+
+            //         break;
+            //     default:
+            //         break;
+
+            // }
 
         })
 
     }, 500)
 
-    function update_rank_legend(sorted_code_color_arr) {
+    function update_rank_legend(sorted_code_color_arr, param) {
         console.log(JSON.stringify(sorted_code_color_arr));
+        $(".rank_legend_control_container svg.legend_svg").empty();
+        var svg_width = ($('#map').width() / 8) + 100;
 
-
-
-        var svg_width = ($('#map').width() / 4) + 200;
-
-        $('.rank_legend_control').css('right', (svg_width - 200) + 'px');
+        $('.rank_legend_control').css('right', (svg_width - 100) + 'px');
         $('.rank_legend_control,.rank_legend_control_container,.rank_legend_control_container svg').css('width', svg_width + 'px');
         $('.mapboxgl-ctrl-bottom-right').show();
         var svg = d3.select(".rank_legend_control_container svg.legend_svg")
@@ -404,7 +341,7 @@ app.lollipop_graph = function() {
         })
 
         var xScale = d3.scaleLinear()
-            .domain([0, 38])
+            .domain([1, 38])
 
         .range([1, svg_width])
 
@@ -429,9 +366,21 @@ app.lollipop_graph = function() {
         $('.rank_legend_control').show();
     }
 
+    lollipop_colors_obj.push({
+        index_code: 'main_index_val',
+        rank_code: 'general_rank',
+        color: "#f0d751",
+        text: "Financial",
+        //yellow to orange
+        gradient: ['#eacf3d', '#ea663d']
+    })
 
 
-    update_geom_by_rank('general_rank');
+    var this_obj = lollipop_colors_obj.filter(function(d) {
+        return d.index_code == 'main_index_val';
+    })[0];
+
+    update_geom_by_rank(this_obj);
     // setTimeout(function() {
     //     update_geom_by_rank('rank_social');
     // }, 3000)
@@ -445,7 +394,7 @@ app.lollipop_graph = function() {
     app_data.lollipop_data = [];
     all_data.filter(function(d, i) {
 
-        console.log(d)
+
         var t_data = [];
         var titles_data = [];
 
@@ -487,7 +436,7 @@ DATA_val:::
         var popup = '<div class="popup_country_title">' + d.country + '</div><div>General rank   <span class="general_rank_popup" style="color:' + get_rank_color(d.code, 'general_rank') + '">' + d.data_ranks['general_rank'] + ' / 38</div>';
         popup += '<div class="profile-overview"><table class="responsive-table profile-overview"> <thead> <tr> <td>Environmental</td> <td>Social</td> <td>Political</td> <td>Financial</td> </tr> </thead> <tbody><tr>';
         var i = 0;
-        console.log(d)
+
         for (var index in d.data_ranks) {
             switch (index) {
                 case 'general_rank':
@@ -512,29 +461,6 @@ DATA_val:::
                     var index_val = d.data_val['financial_index_val'];
                     break;
             }
-
-
-
-
-
-
-            //                 <td class="medium general_rank">
-            //                     0.51
-            //                 </td>
-            //                 <td class="medium">
-            //                     4/8
-            //                 </td>
-            //                 <td class="medium">
-            //                     23/38
-            //                 </td>
-            //                 <td class="medium">
-            //                     72/126
-            //                 </td>
-            //                 <td class="medium">
-            //                     22/126
-            //                 </td>
-
-            //popup += '<div class="index_country_info ' + index + '">'
 
             if (index !== 'general_rank') {
                 i++;
@@ -632,7 +558,6 @@ DATA_val:::
             "translate(-12,0)")
         .style('fill', 'white')
         .style('opacity', 0)
-    
 
 
     // Lines
@@ -736,7 +661,7 @@ DATA_val:::
             // var param = d3.select(this).attr('param').split('_')[0];
 
         var this_info = app_data.lollipop_data.filter(function(_d) {
-                console.log(_d)
+
                 return _d.code == code;
             })[0]
             /*
@@ -745,7 +670,7 @@ DATA_val:::
                         "political_index_val": 0.151,
                         "financial_index_val": 0.311
                         */
-        console.info(this_info)
+
 
         var pos = $(this).position();
 
@@ -761,33 +686,28 @@ DATA_val:::
         $('.lollipop_popup').empty().append($html);
         $('.lollipop_tooltip').show();
 
-        // $(".lollipop_tooltip").find('.rank_' + param).addClass('lollipop_title_selected');
+        // // $(".lollipop_tooltip").find('.rank_' + param).addClass('lollipop_title_selected');
 
-        console.log('mouseovering same country! no popup')
-        if ($('.country_popup[popup_code=' + code + ']').length > 0)
-            return false;
+        // console.log('mouseovering same country! no popup')
+        // if ($('.country_popup[popup_code=' + code + ']').length > 0)
+        //     return false;
 
-        var popup_html = '<div popup_code=' + code + ' class="country_popup rect_popup">' + this_info.lollipop_popup + '</div>'
-        console.log(popup_html)
+        // var popup_html = '<div popup_code=' + code + ' class="country_popup rect_popup">' + this_info.lollipop_popup + '</div>'
+        // console.log(popup_html)
 
-        console.log(app.country_popup)
-        console.warn(markers_obj_arr)
-        for (var p in markers_obj_arr) {
+        // console.log(app.country_popup)
+        // console.warn(markers_obj_arr)
+        // for (var p in markers_obj_arr) {
 
-            if (markers_obj_arr[p].code == code) {
-                console.log(markers_obj_arr[p].centroid)
-                app.country_popup.setLngLat(markers_obj_arr[p].centroid)
-                app.country_popup.setHTML(popup_html)
-                    .addTo(map);
+        //     if (markers_obj_arr[p].code == code) {
+        //         console.log(markers_obj_arr[p].centroid)
+        //         app.country_popup.setLngLat(markers_obj_arr[p].centroid)
+        //         app.country_popup.setHTML(popup_html)
+        //             .addTo(map);
 
-                // debugger;
-            }
-        }
-
-
-
-
-
+        //         // debugger;
+        //     }
+        // }
 
 
         // d3.select(this).transition().duration(700)
