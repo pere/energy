@@ -108,7 +108,7 @@ app.lollipop_graph = function() {
         {
             index_code: 'social_index_val',
             rank_code: 'rank_social',
-            color: "#4ec8a6",
+            color: "#2FA37D",
             text: "Social",
             //kind of greens
             gradient: ['#a5ecd8', '#04956c']
@@ -125,10 +125,10 @@ app.lollipop_graph = function() {
         {
             index_code: 'financial_index_val',
             rank_code: 'rank_financial',
-            color: "#f0d751",
+            color: "#eacf3d",
             text: "Financial",
-            //yellow to orange
-            gradient: ['#eacf3d', '#ea663d']
+            //yellows
+            gradient: ['#f7eca3', '#f5d507']
 
 
         }
