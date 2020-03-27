@@ -720,8 +720,11 @@ social_index_class: 3
 
                     if ($('.legend_dropdown_button.dropdown-trigger').is(':visible') == false) {
 
-                        $('legend_dropdown_button.dropdown-trigger').show();
-                        $('legend_dropdown_button.dropdown-trigger i').trigger('click');
+                        $('.legend_dropdown_button.dropdown-trigger').show();
+                        setTimeout(function() {
+                            $('.legend_dropdown_button.dropdown-trigger i').trigger('click');
+                        }, 700)
+
 
                     } else {
                         if ($('.legend_control_container svg').is(':visible') == false) {
@@ -1965,7 +1968,7 @@ social_index_class: 3
 
                     rects.style("opacity", 0.2);
                     rects.filter(function(data) {
-                        console.log(data)
+
                         return data.index_type == param;
                     }).style("opacity", 1);
                     var map_paths = d3.selectAll("#map path.country");
