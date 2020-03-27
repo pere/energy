@@ -1,11 +1,148 @@
-// alert(app_data.all_data.length)
-// for (var _i = 0; app_data.all_data.length - 1; _i++) {
-//     // var _this = app_data.all_data[i];
-//     // console.log(_this)
-//     console.log(_i)
-// }
+function update_rank_legend(sorted_code_color_arr) {
+    console.log(JSON.stringify(sorted_code_color_arr));
+    $(".rank_legend_control_container svg.legend_svg").empty();
+    var svg_width = ($('#map').width() / 3) + 100;
 
-app.lollipop_graph = function() {
+    $('.rank_legend_control').css('right', (svg_width - 100) + 'px');
+    $('.rank_legend_control,.rank_legend_control_container,.rank_legend_control_container svg')
+        .css('width', svg_width + 'px')
+        .css('height', '60px')
+
+    var svg = d3.select(".rank_legend_control_container svg.legend_svg")
+    var defs = svg.append("defs");
+    var gradient = defs.append("linearGradient")
+        .attr("id", "svgGradient")
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "100%")
+        .attr("y2", "0%");
+    //Append multiple color stops by using D3's data/enter step      
+    gradient.selectAll("stop")
+        // .data(colorScale.range())
+        .data(sorted_code_color_arr)
+        .enter().append("stop")
+        //code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
+        .attr("offset", function(d, i) {
+            return i / (sorted_code_color_arr.length - 1);
+        })
+        .attr("stop-color", function(d) {
+            return d.rank_color;
+        });
+
+    var rect = svg.append("rect")
+        .attr('class', 'rect_legend')
+        .attr('width', svg_width)
+        //.attr('height', $(".rank_legend_control_container").height())
+        .attr('height', 15)
+        .attr("fill", "url(#svgGradient)")
+        //.attr("transform", "translate(2, 0)") // + (10 + legendHeight) + ")")
+
+    var s_domain = sorted_code_color_arr.map(function(d) {
+        console.log(d)
+        return parseInt(d.rank)
+    })
+
+    var xScale = d3.scaleLinear()
+        .domain([1, 38])
+
+    .range([1, svg_width])
+
+    var xAxis = d3.axisBottom(xScale); //.tickFormat(function(d) {
+    //  var width = 700; //$('.rect_legend').width();
+
+    var legendWidth = svg_width,
+        legendHeight = 10;
+    //Color Legend container
+    var legendsvg = svg.append("g")
+        .attr("class", "legendWrapper")
+
+    legendsvg.append("g")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .attr("class", "axis") //Assign "axis" class
+        .attr("transform", "translate(0, " + legendHeight + ")")
+        .call(xAxis)
+        // d3.selectAll('.tick').on('mouseover', function(d) {
+        //     console.log(d)
+        // })
+
+    //$('.rank_legend_control').show();
+}
+
+function update_geom_by_rank() {
+
+
+    app_data.code_color_arr = [];
+    app_data.rankScale = d3.scaleLinear().domain([1, 38])
+        .interpolate(d3.interpolateHcl)
+        .range(app_data.lollipop_obj.gradient);
+    console.info(app_data.rankScale)
+
+    var map_paths = d3.selectAll("#map path.country");
+    //app_data.lollipop_obj
+    // {
+    //     index_code: 'main_index_val',
+    //     rank_code: 'general_rank',
+    //     color: "#f0d751",
+    //     text: "Financial",
+    //     //yellow to orange
+    //     gradient: ['#eacf3d', '#ea663d']
+    // })
+    map_paths
+        .transition()
+        .duration(1250)
+        .delay(function(d, i) {
+            return i * 40;
+        })
+        .attr("delay", function(d, i) {
+            return 100 * i
+        })
+        .attr('fill', function(d) {
+            return get_rank_color(d.properties.code, app_data.lollipop_obj.rank_code)
+        })
+        .attr("stroke", "#fbfdfc")
+
+
+
+    var sorted_code_color_arr = app_data.code_color_arr.sort(function(a, b) {
+        return a.rank - b.rank;
+    })
+    update_rank_legend(sorted_code_color_arr);
+
+}
+
+function get_rank_color(code, param) {
+    //return get_rank_color(d.properties.code, this_obj.rank_code)
+    var color;
+    var length = all_data.length;
+
+    all_data.forEach(function(d, i) {
+        if (d.code == code) {
+
+            for (var p in d.data_ranks) {
+                if (param == p) {
+                    var this_rank = d.data_ranks[param];
+
+                    color = app_data.rankScale(this_rank);
+                    if (app_data.code_color_arr.length < 5) {
+                        if (this_rank == 5)
+                            app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
+                        if (this_rank == 10)
+                            app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '> ' + code_color_arr[0].this_rank })
+                        if (this_rank == 20)
+                            app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color })
+                        if (this_rank == 30)
+                            app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                        if (this_rank == 38)
+                            app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
+                    }
+                }
+            }
+        }
+    })
+    return color;
+}
+app.setup_lollipop_graph = function() {
     app_state.matrix_indicators = false;
     app_state.lollipop_indicators = true;
     app.country_popup.remove();
@@ -17,49 +154,40 @@ app.lollipop_graph = function() {
     $('.tooltip').remove();
     $('.tooltip .rect_popup').hide();
     $('.animated-icon').fadeOut();
-    // d3.selectAll("#map path").transition()
-    //     .duration(600)
-    //     .attr('fill', function(d) {
-    //         return '#72a3b0';
-    //     })
 
-    // setTimeout(function() {
-    //     $('#lollipop_wrapper').hide();
-    // }, 3000)
+    d3.selectAll('.lollipop_tooltip').remove();
     console.info(app_data.all_data)
-    if ($('#lollipop_graph svg').length > 0)
+    if ($('#lollipop_graph svg').length > 0) {
         $('#lollipop_graph svg').remove();
+    } else {
+        lollipop_colors_obj.push({
+            index_code: 'main_index_val',
+            rank_code: 'general_rank',
+            color: "#f0d751",
+            text: "Financial",
+            //yellow to orange
+            gradient: ['#eacf3d', '#ea663d']
+        })
+    }
+
+    lollipop_tooltip = d3.select("body")
+        .append("div").attr("class", "lollipop_tooltip");
 
     $('.tooltip').hide();
     //just used for positioning!
     var mx_w_h = $('#map').height() / 5;
     $('#lollipop_wrapper').height(mx_w_h + $('nav').height());
-    //.show();
-
-    //var svg_h = $('#lollipop_wrapper').height();
     var map_w = $('#map').width();
 
     var diff_h = $('#map').height() - mx_w_h - $('nav').height();
     var diff_w = map_w - (map_w / 4);
 
-
     $('#lollipop_wrapper').css('top', diff_h).css('width', diff_w + 'px')
         //half of half map width!!
         .css('margin-left', (map_w / 8))
 
-
-
     $('#lollipop_wrapper').css('display', 'block').show();
     $('#matrix_wrapper').hide();
-
-    //margins from graph inside lollipop_wrapper!
-    // var margin = {
-    //     top: 15,
-    //     right: 5,
-    //     bottom: 35,
-    //     left: 35
-    // },
-
     var margin = {
         top: 0,
         right: 5,
@@ -68,21 +196,46 @@ app.lollipop_graph = function() {
     };
     width = diff_w - margin.left - margin.right;
 
-
     var svg = d3.select("#lollipop_graph")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", mx_w_h + 30 + $('nav').height())
         .append("g")
         .attr("transform",
-            "translate(0," + margin.top + ")")
+            "translate(0," + margin.top + ")");
+
+    $('.matrix_btn').unbind('click')
+    $('.matrix_btn').click(function(e) {
+        e.preventDefault();
+        console.warn(e.target)
+        if ($(e.target).hasClass('btn-small')) {
+            $(this).find('.selected').removeClass('selected');
+            var param = $(e.target).attr('class').split(' ')[1];
+
+            $(e.target).addClass('selected');
 
 
+            app.setup_lollipop_graph();
 
-    var tooltip = d3.select("body")
-        .append("div")
+            app.lollipop_graph(param);
 
-    .attr("class", "lollipop_tooltip")
+            app_data.lollipop_obj = lollipop_colors_obj.filter(function(d) {
+                return d.index_code == param;
+            })[0];
+
+            // $('.rank_symbol_label').text(app_data.lollipop_obj.text + ' rank');
+
+            app_data.rankScale = d3.scaleLinear().domain([1, 38])
+                .interpolate(d3.interpolateHcl)
+                .range(app_data.lollipop_obj.gradient);
+
+            update_geom_by_rank();
+            $('.rank_legend_dropdown_button.dropdown-trigger').show();
+        }
+    })
+}
+app.lollipop_graph = function(param_to_order) {
+
 
     /*
         DATA_val:::
@@ -93,8 +246,7 @@ app.lollipop_graph = function() {
     "political_index_val":0.091, -->green #36d23d
     "financial_index_val":0.562  -->blue (#51bff1)
     */
-
-    var colors = ["#ffffff", "#ffc107", "#36d23d", "#51bff1"];
+    /*
 
     var lollipop_colors_obj = [{
             index_code: 'env_index_val',
@@ -105,296 +257,44 @@ app.lollipop_graph = function() {
             //purples
             gradient: ['#d2aaee', '#8e08ec']
         },
-        {
-            index_code: 'social_index_val',
-            rank_code: 'rank_social',
-            color: "#2FA37D",
-            text: "Social",
-            //kind of greens
-            gradient: ['#a5ecd8', '#04956c']
-        },
-        {
-            index_code: 'political_index_val',
-            rank_code: 'rank_political',
-            color: "#979d9c",
-            text: "Political",
-            //greys to balck
-            gradient: ['#d8dfdd', '#2a2d2c']
-
-        },
-        {
-            index_code: 'financial_index_val',
-            rank_code: 'rank_financial',
-            color: "#eacf3d",
-            text: "Financial",
-            //yellows
-            gradient: ['#f7eca3', '#f5d507']
-
-
-        }
-    ]
-
-    var ranks = all_data.map(function(d) {
-        return { code: d.code, ranks: d.rank_index }
-    });
-
-
+        */
+    //var colors = ["#ffffff", "#ffc107", "#36d23d", "#51bff1"];   
+    // var ranks = all_data.map(function(d) {
+    //     return { code: d.code, ranks: d.rank_index }
+    // });
     // d3.scaleSequentialSqrt([0, 1], d3.interpolateTurbo)
 
 
-    var length = all_data.length;
-
-    function get_rank_color(code, param) {
-        //return get_rank_color(d.properties.code, this_obj.rank_code)
-
-        var color;
-
-        all_data.forEach(function(d, i) {
-
-            if (d.code == code) {
-
-                for (var p in d.data_ranks) {
-                    // console.log(p)
-
-                    if (param == p) {
-                        var this_rank = d.data_ranks[param];
-
-                        color = app_data.rankScale(this_rank);
-                        if (app_data.code_color_arr.length < 5) {
-                            if (this_rank == 5)
-                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
-                            if (this_rank == 10)
-                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '> ' + code_color_arr[0].this_rank })
-                            if (this_rank == 20)
-                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color })
-                            if (this_rank == 30)
-                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
-                            if (this_rank == 38)
-                                app_data.code_color_arr.push({ rank: this_rank, code: code, rank_color: color });
-                        }
-
-                    }
-                }
-            }
-        })
-
-        return color;
-
-    }
-
-    var map_paths = d3.selectAll("#map path.country");
-
-    function update_geom_by_rank(this_obj) {
-
-        console.log(this_obj)
-        app_data.code_color_arr = [];
-        app_data.rankScale = d3.scaleLinear().domain([1, 38])
-            .interpolate(d3.interpolateHcl)
-            .range(this_obj.gradient);
-        console.info(app_data.rankScale)
-
-        //this_obj
-        // {
-        //     index_code: 'main_index_val',
-        //     rank_code: 'general_rank',
-        //     color: "#f0d751",
-        //     text: "Financial",
-        //     //yellow to orange
-        //     gradient: ['#eacf3d', '#ea663d']
-        // })
-        map_paths
-            .transition()
-            .duration(1250)
-            .delay(function(d, i) {
-                return i * 40;
-            })
-            .attr("delay", function(d, i) {
-                return 100 * i
-            })
-
-        .attr('fill', function(d) {
-                return get_rank_color(d.properties.code, this_obj.rank_code)
-
-            })
-            .attr("stroke", "#fbfdfc")
-
-
-
-        var sorted_code_color_arr = app_data.code_color_arr.sort(function(a, b) {
-            return a.rank - b.rank;
-        })
-
-        update_rank_legend(sorted_code_color_arr, this_obj)
-
-
-    }
-
-    setTimeout(function() {
-        $('#rank_map_select').formSelect();
-        $('#rank_map_select').on('change', function(e) {
-            console.info($(this))
-            var param = $(this).find('option:selected')[0].value;
-            console.warn(param)
-                /*
-                all_data
-
-                data_ranks:
-                general_rank: 23
-                rank_env: 27
-                rank_social: 7
-                rank_political: 31
-                rank_financial: 12
-                */
-
-
-
-
-            var this_obj = lollipop_colors_obj.filter(function(d) {
-                return d.index_code == param;
-            })[0];
-
-            $('.rank_symbol_label').text(this_obj.text + ' rank');
-
-
-            app_data.rankScale = d3.scaleLinear().domain([1, 38])
-                .interpolate(d3.interpolateHcl)
-                .range(this_obj.gradient);
-            console.info(app_data.rankScale)
-
-
-            update_geom_by_rank(this_obj);
-            // switch (val) {
-            //     case 'main':
-            //         $('.rank_symbol_label').text('Main index');
-            //         update_geom_by_rank('general_rank');
-
-            //         break;
-            //     case 'env':
-            //         $('.rank_symbol_label').text('Environmental index');
-            //         update_geom_by_rank('rank_env');
-
-            //         break;
-            //     case 'social':
-            //         $('.rank_symbol_label').text('Social index');
-            //         update_geom_by_rank('rank_social');
-
-            //         break;
-            //     case 'political':
-            //         $('.rank_symbol_label').text('Political index');
-            //         update_geom_by_rank('rank_political');
-
-            //         break;
-            //     case 'financial':
-            //         $('.rank_symbol_label').text('Financial index');
-            //         update_geom_by_rank('rank_financial');
-
-            //         break;
-            //     default:
-            //         break;
-
-            // }
-
-        })
-
-    }, 500)
-
-    function update_rank_legend(sorted_code_color_arr, param) {
-        console.log(JSON.stringify(sorted_code_color_arr));
-        $(".rank_legend_control_container svg.legend_svg").empty();
-        var svg_width = ($('#map').width() / 8) + 100;
-
-        $('.rank_legend_control').css('right', (svg_width - 100) + 'px');
-        $('.rank_legend_control,.rank_legend_control_container,.rank_legend_control_container svg').css('width', svg_width + 'px');
-        $('.mapboxgl-ctrl-bottom-right').show();
-        var svg = d3.select(".rank_legend_control_container svg.legend_svg")
-        var defs = svg.append("defs");
-        var gradient = defs.append("linearGradient")
-            .attr("id", "svgGradient")
-            .attr("x1", "0%")
-            .attr("y1", "0%")
-            .attr("x2", "100%")
-            .attr("y2", "0%");
-        //Append multiple color stops by using D3's data/enter step
-        gradient.selectAll("stop")
-            // .data(colorScale.range())
-            .data(sorted_code_color_arr)
-            .enter().append("stop")
-            //code_color_arr.push({ rank: this_rank, code: code, rank_color: color }) //, title: '< ' + length })
-            .attr("offset", function(d, i) {
-                return i / (sorted_code_color_arr.length - 1);
-            })
-            .attr("stop-color", function(d) {
-                return d.rank_color;
-            });
-
-        var rect = svg.append("rect")
-            .attr('class', 'rect_legend')
-            .attr('width', svg_width)
-            //.attr('height', $(".rank_legend_control_container").height())
-            .attr('height', 15)
-            .attr("fill", "url(#svgGradient)")
-            //.attr("transform", "translate(2, 0)") // + (10 + legendHeight) + ")")
-
-        var s_domain = sorted_code_color_arr.map(function(d) {
-            console.log(d)
-            return parseInt(d.rank)
-        })
-
-        var xScale = d3.scaleLinear()
-            .domain([1, 38])
-
-        .range([1, svg_width])
-
-        var xAxis = d3.axisBottom(xScale); //.tickFormat(function(d) {
-        //  var width = 700; //$('.rect_legend').width();
-
-        var legendWidth = svg_width,
-            legendHeight = 10;
-        //Color Legend container
-        var legendsvg = svg.append("g")
-            .attr("class", "legendWrapper")
-
-        legendsvg.append("g")
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .attr("class", "axis") //Assign "axis" class
-            .attr("transform", "translate(0, " + legendHeight + ")")
-            .call(xAxis)
-            // d3.selectAll('.tick').on('mouseover', function(d) {
-            //     console.log(d)
-            // })
-        $('.rank_legend_control').show();
-    }
-
-    lollipop_colors_obj.push({
-        index_code: 'main_index_val',
-        rank_code: 'general_rank',
-        color: "#f0d751",
-        text: "Financial",
-        //yellow to orange
-        gradient: ['#eacf3d', '#ea663d']
-    })
-
-
-    var this_obj = lollipop_colors_obj.filter(function(d) {
-        return d.index_code == 'main_index_val';
+    app_data.lollipop_obj = lollipop_colors_obj.filter(function(d) {
+        return d.index_code == param_to_order;
     })[0];
 
-    update_geom_by_rank(this_obj);
+    update_geom_by_rank();
+
+    if ($('.rank_legend_control').is(':visible') == false) {
+
+        $('.rank_legend_dropdown_button.dropdown-trigger').show();
+        setTimeout(function() {
+            $('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
+        }, 500)
+    }
+
     // setTimeout(function() {
     //     update_geom_by_rank('rank_social');
     // }, 3000)
-    function sort_by_value() {
-        return function(a, b) {
-            return a.data_class[param] < b.data_class[param] ? 1 : -1;
-        }
+    // function sort_by_value() {
+    //     return function(a, b) {
+    //         return a.data_class[param] < b.data_class[param] ? 1 : -1;
+    //     }
 
-    }
+    // }
+    var sorted_obj = all_data.sort(function(a, b) {
+        return b.data_val[param_to_order] - a.data_val[param_to_order]
+    });
+    console.log(JSON.stringify(sorted_obj))
 
     app_data.lollipop_data = [];
     all_data.filter(function(d, i) {
-
-
         var t_data = [];
         var titles_data = [];
 
@@ -402,8 +302,6 @@ app.lollipop_graph = function() {
         for (var p in d.data_val) {
             //console.info(p)
             if (p !== 'main_index_val') {
-
-
                 t_data.push(d.data_val[p])
                 titles_data.push(p)
                     //else
@@ -414,24 +312,24 @@ app.lollipop_graph = function() {
 
         // var popup = '<div class="popup_country_title">' + d.country + '</h3>';
         /*
-        "data_ranks":{
-"general_rank":1,
-"rank_env":12,
-"rank_social":14,
-"rank_political":14,
-"rank_financial":2
-},
-ORDER IS IMPORTANT, HAS TO BE THE SAME!
+                "data_ranks":{
+        "general_rank":1,
+        "rank_env":12,
+        "rank_social":14,
+        "rank_political":14,
+        "rank_financial":2
+        },
+        ORDER IS IMPORTANT, HAS TO BE THE SAME!
 
-DATA_val:::
+        DATA_val:::
 
-"main_index_val":20.761,
-"env_index_val":0.048,
-"social_index_val":0.059,
-"political_index_val":0.091,
-"financial_index_val":0.562
+        "main_index_val":20.761,
+        "env_index_val":0.048,
+        "social_index_val":0.059,
+        "political_index_val":0.091,
+        "financial_index_val":0.562
 
-*/
+        */
 
         var popup = '<div class="popup_country_title">' + d.country + '</div><div>General rank   <span class="general_rank_popup" style="color:' + get_rank_color(d.code, 'general_rank') + '">' + d.data_ranks['general_rank'] + ' / 38</div>';
         popup += '<div class="profile-overview"><table class="responsive-table profile-overview"> <thead> <tr> <td>Environmental</td> <td>Social</td> <td>Political</td> <td>Financial</td> </tr> </thead> <tbody><tr>';
@@ -481,6 +379,7 @@ DATA_val:::
         all_data.filter(function(this_data) {
             return this_data.code == d.code;
         })[0].lollipop_popup = popup;
+
         app_data.lollipop_data.push({
             country: d.country,
             code: d.code,
@@ -489,9 +388,22 @@ DATA_val:::
             data_titles: titles_data
         });
 
+
+
     });
 
-    console.info(all_data)
+    console.info(JSON.stringify(all_data))
+    console.info(JSON.stringify(app_data))
+    var width = $('#lollipop_graph').width();
+
+    var description_height = $('.lollipop_legend_description').height();
+    var mx_w_h = $('#map').height() / 5;
+    $('#lollipop_wrapper').height(mx_w_h + $('nav').height());
+    // var map_w = $('#map').width();
+
+    // var diff_h = $('#map').height() - mx_w_h - $('nav').height();
+    // var diff_w = map_w - (map_w / 4);
+
     console.info(mx_w_h);
 
     console.info($('.lollipop_graph svg').height())
@@ -500,12 +412,14 @@ DATA_val:::
         .range([mx_w_h + description_height, 0]);
     //.range([0, w]);
 
+    var svg = d3.select("#lollipop_graph svg");
     var yAxis = svg.append("g")
         .attr("class", "myYaxis")
 
     var x = d3.scaleBand()
         .range([0, width])
         .domain(app_data.lollipop_data.map(function(d) {
+            console.log(d)
             return d.code;
         }))
         .padding(2);
@@ -516,12 +430,10 @@ DATA_val:::
         .range([3, 8]);
 
 
-
     svg.append("g")
         .attr("transform", "translate(0," + (mx_w_h + description_height) + ")")
         .classed('x_axis', true)
-
-    .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x))
         .selectAll("text")
         .attr("transform", "translate(0,0)rotate(-45)")
         .style("text-anchor", "end")
@@ -544,7 +456,7 @@ DATA_val:::
             return 0;
             // return height
         })
-        .attr("width", 25)
+        .attr("width", 20)
         .attr("height", function(d) {
             // return y(d3.max(d.data));
             return mx_w_h + description_height
@@ -555,7 +467,7 @@ DATA_val:::
         })
         .attr('class', 'myrect')
         .attr("transform",
-            "translate(-12,0)")
+            "translate(-10,0)")
         .style('fill', 'white')
         .style('opacity', 0)
 
@@ -592,17 +504,30 @@ DATA_val:::
     lines.nodes().forEach(function(line, i) {
 
         var line_d = line.__data__;
-
+        console.log(line_d)
+            /*
+            country: "South Sudan"
+            code: "SSD"
+            data: (4) [0.048, 0.062, 0.049, 0.187]
+            lollipop_popup: "<div class="popup_country_title">South Sudan</div><div>General rank   <span class="general_rank_popup" style="color:rgb(235, 105, 60)">37 / 38</div><div class="profile-overview"><table class="responsive-table profile-overview"> <thead> <tr> <td>Environmental</td> <td>Social</td> <td>Political</td> <td>Financial</td> </tr> </thead> <tbody><tr><td class="medium general_rank" style="background:#a763d7">13/38 <span class="popup_index_val"> 0.048</span></td><td class="medium general_rank" style="background:#2FA37D">11/38 <span class="popup_index_val"> 0.062</span></td><td class="medium general_rank" style="background:#979d9c">36/38 <span class="popup_index_val"> 0.049</span></td><td class="medium general_rank" style="background:#eacf3d">33/38 <span class="popup_index_val"> 0.187</span></td> </tr> </tbody> </table> </div>"
+            data_titles: Array(4)
+            0: "env_index_val"
+            1: "social_index_val"
+            2: "political_index_val"
+            3: "financial_index_val"
+            */
 
         svg.selectAll("mycircle")
             .data(line_d.data)
             .enter()
             .append("circle")
             .attr('code', function(d, i) {
-
+                //console.warn(d)
+                // d = 0.033
                 return line_d.code
             })
             .attr('param', function(d, i) {
+
                 return lollipop_colors_obj[i].index_code;
             })
             .attr('class', 'mycircle')
@@ -612,14 +537,6 @@ DATA_val:::
                 return x(line_d.code);
             })
             .attr("cy", function(d, i) {
-                // console.info(i);
-                // console.info(lollipop_colors_obj[i].index_code)
-                // var c = lollipop_colors_obj[i].index_code;
-                // console.log(d3.select(this))
-                // d3.select(this).attr('param', c)
-                // d['circle_index'] = c;
-
-                // console.warn(d['circle_index'])
                 return y(d);
             })
             .transition()
@@ -631,25 +548,39 @@ DATA_val:::
             .style("fill", function(d, i) {
                 return lollipop_colors_obj[i].color
             })
-            .style('opacity', 0.7)
+            .style('opacity', function(d, i) {
+                console.log(lollipop_colors_obj[i].index_code)
+                console.warn(param_to_order)
+                if (param_to_order !== 'main_index_val') {
+                    if (lollipop_colors_obj[i].index_code == param_to_order) {
+                        return 0.9
+                    } else {
+                        return 0.2
+                    }
+                } else {
+                    return 0.9;
+                }
+
+            });
+        setTimeout(function() {
+            d3.selectAll('.mycircle').style('opacity', 0.9)
+        }, 3000)
+
 
     });
     var lollipop_mouseout = function(d) {
         var code = d3.select(this).attr('code');
-        // var this_d = data.filter(function(_d) {
+        console.log('mouseout lollipop rect')
 
-        //     return _d.code == code;
-        // })[0];
-        // $('.lollipop_tooltip').hide();
-
-        d3.selectAll('.myrect').transition()
-            .duration(50)
-            .style('opacity', 0)
+        d3.selectAll('.myrect')
+            .style('opacity', 0);
+        $('.lollipop_tooltip').hide();
 
     }
 
-    var lollipop_mouseover = function(d) {
-        console.info(d3.select(this))
+    var lollipop_mouseover = app.throttle(function(d) {
+        d3.selectAll('.myrect')
+            .style('opacity', 0)
         var code = d3.select(this).attr('code');
 
         var _this = '.myrect[code=' + code + ']';
@@ -657,81 +588,139 @@ DATA_val:::
             .duration(100)
             .style('opacity', 0.3)
 
+
         console.warn(code)
             // var param = d3.select(this).attr('param').split('_')[0];
 
         var this_info = app_data.lollipop_data.filter(function(_d) {
-
-                return _d.code == code;
-            })[0]
-            /*
-             "env_index_val": 0.0306,
-                        "social_index_val": 0.0471,
-                        "political_index_val": 0.151,
-                        "financial_index_val": 0.311
-                        */
-
+            return _d.code == code;
+        })[0]
 
         var pos = $(this).position();
 
         var $html = $.parseHTML(this_info.lollipop_popup);
 
-        tooltip
+        lollipop_tooltip
             .html('<div class="lollipop_popup"></div>')
-            .style("left", (pos.left + 40) + "px")
-            // .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
-            .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
+
+        // .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
+        .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
             //.style("top", "70px")
 
         $('.lollipop_popup').empty().append($html);
+
+        if (pos.left > ($('#map').width() / 2)) {
+            var xpos = (pos.left - $('.lollipop_tooltip').width() - 50) + "px";
+        } else {
+            var xpos = (pos.left + 50) + "px";
+        }
+
+        lollipop_tooltip.style("left", xpos)
+
         $('.lollipop_tooltip').show();
-
-        // // $(".lollipop_tooltip").find('.rank_' + param).addClass('lollipop_title_selected');
-
-        // console.log('mouseovering same country! no popup')
-        // if ($('.country_popup[popup_code=' + code + ']').length > 0)
-        //     return false;
-
-        // var popup_html = '<div popup_code=' + code + ' class="country_popup rect_popup">' + this_info.lollipop_popup + '</div>'
-        // console.log(popup_html)
-
-        // console.log(app.country_popup)
-        // console.warn(markers_obj_arr)
-        // for (var p in markers_obj_arr) {
-
-        //     if (markers_obj_arr[p].code == code) {
-        //         console.log(markers_obj_arr[p].centroid)
-        //         app.country_popup.setLngLat(markers_obj_arr[p].centroid)
-        //         app.country_popup.setHTML(popup_html)
-        //             .addTo(map);
-
-        //         // debugger;
-        //     }
-        // }
+        lollipop_tooltip.style("opacity", 1)
 
 
-        // d3.select(this).transition().duration(700)
-        //     .attr('r', function (d) {
-        //         console.info(ScaleRadius(d))
-        //         console.info(ScaleRadius(d * 3))
-        //         return ScaleRadius(d * 3)
-        //     })
-        // d3.select(this).attrs(
-        //     function (d, i) {
-        //         return {
-        //             "stroke": '#fff',
-        //             'stroke-width': 2,
-        //             'stroke-opacity': 1
-        //         }
-        //     }
-        // ).classed('sel_circle', true);
-        tooltip.style("opacity", 1)
-    }
+    }, 200);
+    // svg.selectAll('.lollipop_popup').on('mouseenter',function()
+    // {
+
+    // })
 
     svg.selectAll("rect.myrect")
         .on('mouseover', lollipop_mouseover)
         .on('mouseout', lollipop_mouseout)
+        .on('mouseleave', lollipop_mouseout)
     lines.on('mouseover', function(d) {
-        console.warn(d)
-    })
+            console.warn(d)
+        })
+        // index_code: 'political_index_val',
+        // rank_code: 'rank_political',
+        // color: "#979d9c",
+        // text: "Political",
+        // //greys to balck
+    gradient: ['#d8dfdd', '#2a2d2c']
+    var container = d3.selectAll('.lollipop_graph_legend svg');
+
+    var width = $('.lollipop_graph_legend svg').width() - 100;
+    console.log(width)
+
+
+    var obj = lollipop_colors_obj.slice(0, -1);
+    console.info(obj)
+    var xScale = d3.scaleLinear()
+        .domain([0, obj.length])
+        .range([0, width]);
+    var each_scale = xScale(1);
+    console.log(each_scale)
+        //var width = $('.lollipop_graph_legend').width() - each_scale;
+    var gs = container.selectAll('g')
+        .data(obj)
+        .enter()
+        .append('g')
+        .attr("transform",
+            function(d, i) {
+                if (i > 0)
+                    return "translate(" + xScale(i) + 18 + ",0)"
+                else
+                    return "translate(0,0)";
+            })
+        .on('mouseover', function(d) {
+            console.warn(d)
+
+            console.log(d3.selectAll('.mycircle[param=' + d.index_code + ']'))
+            d3.selectAll('.mycircle').style('opacity', 0.2)
+            d3.selectAll('.mycircle[param=' + d.index_code + ']').style('opacity', 0.9)
+
+        })
+        .on('mouseout', function(d) {
+
+            d3.selectAll('.mycircle').style('opacity', 0.9)
+        })
+        //gs.
+    gs.append('circle')
+        .style('fill', function(d) {
+
+            return d.color
+        })
+        .style('opacity', 1)
+        .attr('r', 6)
+        .attr('cx', function(d, i) {
+            // if (i == 0)
+            //     return xScale(i) + 10
+            // else
+            //     return xScale(i)
+            return 10
+        })
+        .attr('cy', 10)
+    gs.append('text')
+        .attr('x', function(d, i) {
+            return 15
+                // if (i == 0)
+                //     return xScale(i) + 20
+                // else
+
+            //     return xScale(i) + 10
+        })
+
+    .attr('y', 17)
+        .attr("transform",
+            function(d, i) {
+
+                return "translate(7,0)";
+            })
+        .text(function(d) { return d.text; })
+        .style("font-size", '0.8em')
+        .attr("fill", "white")
+
+
+
+
+
+    /*
+    , function(d) {
+        console.info(d)
+        return d.rank_code;
+        */
+
 }
