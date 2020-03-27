@@ -68,9 +68,9 @@
     .div_sel_matrix_order {
         font-style: italic;
         font-weight: normal;
-        height: 20px;
-        font-size: 0.7em!important;
-        color: #c6bebe;
+        height: 22px;
+        font-size: 0.8em!important;
+        color: white;
         margin-left: 18px;
     }
     
@@ -84,11 +84,34 @@
         color: yellowgreen!important;
     }
     
+    .lollipop_graph_legend svg {
+        width: 100%;
+        height: 22px;
+    }
+    
+    .lollipop_graph_legend text {
+        color: white;
+    }
+    
+    .lollipop_graph_legend {
+        background-color: #3f4142;
+        display: inline;
+        width: 60%;
+        height: 20px;
+        float: right;
+        position: relative;
+        top: 5px;
+        margin-right: 9px;
+        z-index: 100000000000;
+    }
+    
     .lollipop_legend_description,
     .matrix_legend_description {
         color: white;
         margin-left: 18px;
         height: 20px;
+        max-width: 25%;
+        float: left;
     }
     
     #matrix_wrapper,
@@ -127,9 +150,14 @@
         cursor: pointer!important;
     }
     
+    nav form ul .legend_control {
+        margin-top: 9px;
+    }
+    
     .legend_control_container {
         padding: 7px;
-        background-color: #292727;
+        /* background-color: #292727; */
+        background-color: #494242;
         /* bottom: 180px; */
     }
     
@@ -183,12 +211,18 @@
     }
     
     .dropdown-trigger.btn {
-        background-color: #061a26!important;
-        margin-bottom: 20px;
+        /* background-color: #061a26!important;
+        margin-bottom: 20px; */
     }
     
     .nav-wrapper form ul.right>li {
         margin-bottom: 20px;
+    }
+    /* because we have a btn class.. */
+    
+    .nav-wrapper form ul.right li:first-child {
+        position: relative;
+        top: -3px;
     }
     
     .btn-small.selected {
@@ -204,6 +238,10 @@
     
     .dropdown-content li {
         line-height: 3.9rem !important;
+    }
+    
+    .rank_legend_dropdown_content.dropdown-content li {
+        line-height: 2rem !important;
     }
     
     .dropdown-content.active>li {
@@ -319,10 +357,14 @@
         height: auto;
     }
     
-    nav .dropdown-content {
-        top: -14px !important;
-        /* padding: 13px; */
+    nav .legend_dropdown_content.dropdown-content {
+        top: -19px !important;
+        padding: 5px;
         min-height: 300px;
+    }
+    
+    nav .rank_legend_dropdown_content.dropdown-content {
+        top: -8px!important;
     }
     
     .dropdown_legend_btn {
@@ -365,13 +407,6 @@
         /* color: #6570ef; */
     }
     
-    i.material-icons {
-        font-size: 15px !important;
-        padding-right: 10px !important;
-        display: block;
-        margin-right: 0px !important;
-    }
-    
     .overlay_layers_collection .collection-item .title span {
         width: 98% !important;
     }
@@ -406,7 +441,10 @@
     }
     
     .country_li .input-field .prefix {
-        top: 1.8rem!important;
+        top: 1.6rem!important;
+        left: 14px;
+        margin-top: -6px;
+        /* width: 0rem !important; */
     }
     
     #slide-out ::placeholder {
@@ -478,7 +516,7 @@
         width: 50px!important;
     } */
     
-    nav form ul.right li>a {
+    nav form ul.right li a {
         height: 35px !important;
         margin: 0px 18px!important;
         padding: 0 0px!important;
@@ -499,7 +537,7 @@
     }
     
     .sidenav li.active {
-        background-color: #7fafdf!important;
+        background-color: #526a72!important;
     }
     
     .sidenav .subheader {
@@ -598,10 +636,6 @@
     .sidenav table {
         margin-left: 10px;
         width: 94%important;
-    }
-    
-    #topbarsearch .input-field .prefix {
-        width: 0rem !important;
     }
     /* #topbarsearch nav ul li:hover,
 nav ul li.active {
@@ -784,32 +818,35 @@ nav ul li.active {
         color: #715e5e;
     }
     
-    .mapboxgl-ctrl-group.rank_legend_control_container {
+    .rank_legend_control_container {
         z-index: 5000000000000!important;
+        /* max-height: 90px; */
         padding: 0px;
+        /* margin-top: 9px; */
         border-radius: 0px!important;
         overflow: visible!important;
         /* bottom: 100px; */
         /* transparent background */
         /* background: #fff0f000!important; */
-        background: #779696!important;
+        background: #474c4c!important;
     }
     
-    .mapboxgl-ctrl-group.rank_legend_control_container ul.dropdown-content {
+    .rank_legend_control_container ul.dropdown-content {
         background-color: #3c847a !important;
         width: 100% !important;
     }
     
-    .mapboxgl-ctrl-group.rank_legend_control_container ul.dropdown-content .dropdown-content li {
+    .rank_legend_control_container ul.dropdown-content li {
         max-height: 30px!important;
+        background-color: #474c4c!important;
     }
     
-    .mapboxgl-ctrl-group.rank_legend_control_container ul li span {
+    .rank_legend_control_container ul li span {
         color: #d2cece !important;
         font-size: 1.3em;
     }
     
-    div.rank_legend_control_container .select-wrapper input.select-dropdown {
+    .rank_legend_control_container .select-wrapper input.select-dropdown {
         height: 2rem!important;
         font-size: 0.8em!important;
     }
@@ -822,6 +859,9 @@ nav ul li.active {
     .rank_legend_control_container .title {
         background: #72a3b0;
         color: white;
+        font-size: 0.9rem;
+        line-height: 24px;
+        padding: 5px;
     }
     
     .rank_legend_control_container_title {
@@ -832,8 +872,9 @@ nav ul li.active {
     }
     
     .rank_legend_control {
-        position: absolute;
-        display: none;
+        background-color: #474c4c!important;
+        /* position: absolute;
+        display: none; */
     }
     
     .mapboxgl-ctrl-bottom-right {
@@ -851,8 +892,8 @@ nav ul li.active {
     }
     
     .rank_legend_control_container .tick text {
-        font-size: 0.7rem;
-        fill: rgb(57, 51, 51);
+        font-size: 0.9rem;
+        fill: white;
         font-weight: 400;
     }
     
@@ -875,9 +916,91 @@ nav ul li.active {
     
     .show_hide_circles {
         font-size: 0.8em;
-        color: #18b6ca;
+        color: #74aeb5;
     }
     
     .country_modal_trigger {
         display: none;
+    }
+    /* //:hover */
+    
+    nav form ul li a,
+    nav form ul li a:hover {
+        background-color: rgba(0, 0, 0, 0) !important;
+    }
+    
+    nav form ul li i.material-icons {
+        color: #2a3a40!important;
+        font-size: 19px !important;
+        padding-right: 10px !important;
+        display: block;
+        margin-right: 0px !important;
+    }
+    
+    nav form ul li i.material-icons.on {
+        color: #ffcd5d!important;
+    }
+    
+    .profile-overview.ranks tbody tr td span {
+        font-size: 1.4em;
+        display: block!important;
+    }
+    
+    .profile-overview.ranks tbody tr td span:last-child {
+        font-size: 0.8em;
+        color: #ffc107;
+    }
+    
+    .material-icons {
+        font-size: 1.8vw!important;
+    }
+    
+    .modal-close i {
+        color: white;
+        font-size: 2vw!important;
+    }
+    
+    .white_text {
+        font-size: 1.2em!important;
+    }
+    
+    .input-field .prefix,
+    .input-field .prefix.active {
+        color: #000!important;
+    }
+    
+    .mapboxgl-popup {
+        z-index: 100000000!important;
+    }
+    
+    .rank_legend_control_container {
+        height: 50px!important;
+    }
+    
+    .rank_legend_control_container .matrix_btn {
+        text-align: center;
+        /* height: 41px!important; */
+    }
+    
+    .rank_legend_control_container .matrix_btn div {
+        display: inline-block;
+    }
+    
+    .rank_legend_control_container .row {
+        margin-bottom: 0px!important;
+    }
+    
+    .rank_legend_control_container .btn-small {
+        font-size: 0.6em!important;
+        max-height: 26px!important;
+        margin: 0 0px!important;
+    }
+    
+    .rank_legend_dropdown_content {
+        /* same height than defined in lollipop.js for svg! */
+        min-height: 60px!important;
+    }
+    
+    .rank_legend_dropdown_content .dropdown-content li {
+        line-height: 2rem!important;
     }

@@ -190,7 +190,7 @@
 
 .sidenav .card.collapsible-header {
     /* background-color: #041620!important; */
-    background-color: #7293b0 !important;
+    background-color: #415261 !important;
     margin: 0 0;
     line-height: 0px!important;
     color: #ffffff;
@@ -209,10 +209,6 @@ nav {
 
 .main_li {
     margin-bottom: 2px;
-}
-
-#topbarsearch .input-field .prefix {
-    margin-top: -6px;
 }
 
 input:not([type]):focus:not([readonly]),
@@ -244,6 +240,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .row.summary,
 .row.summary .row {
     margin-bottom: 0px!important;
+    color: #f6f6f6;
 }
 
 .matrix_description,
@@ -258,12 +255,16 @@ textarea.materialize-textarea:focus:not([readonly]) {
     font-style: oblique;
 }
 
+.indicators_list {
+    color: white;
+}
+
 .indicators_list .on {
-    background-color: rgb(237, 242, 166);
+    background-color: #e8b10b!important;
 }
 
 .indicators_list .off {
-    background-color: rgb(133, 139, 199);
+    background-color: #6a777b;
 }
 
 .indicators_list>div:hover {
@@ -271,7 +272,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
     /* border-bottom: 2px solid black; */
 }
 
-.indicators_list>div {}
+.indicators_list div:hover {
+    cursor: pointer;
+    background-color: #8c9fb1;
+}
 
 .indicators_list.list .row {
     /* border-bottom: 0.5px solid #061f2d;
@@ -381,7 +385,8 @@ nav .brand-logo {
 body>nav>div>form>ul.left>li>p {
     font-size: 1.7rem;
     margin-top: -15px;
-    color: white;
+    /* color: white; */
+    color: #e8e6e6;
     margin-left: 106px;
 }
 
@@ -442,7 +447,7 @@ nav ul a:hover {
 }
 
 .modal {
-    background-color: #6795bf !important;
+    background-color: #607d8b !important;
     color: white!important;
     max-height: 85%!important;
     top: 5%important;
@@ -473,10 +478,6 @@ nav ul a:hover {
 
 .title {
     font-size: larger;
-}
-
-.material-icons {
-    font-size: 1vw!important;
 }
 
 #line_color_bad_percentage {
