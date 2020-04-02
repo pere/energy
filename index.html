@@ -1276,7 +1276,7 @@ social_index_class: 3
                         }]
                     },
                     center: [2, -12],
-                    maxZoom: 3,
+                    maxZoom: 4,
 
                     //center: [141.15448379999998, 39.702053　],
                     zoom: 2,
@@ -1845,6 +1845,11 @@ social_index_class: 3
 
                 app.update_by_index = function(param) {
 
+                    map.flyTo({
+                        center: [5, -21],
+                        zoom: 2,
+                        speed: 0.4
+                    })
                     console.warn(param)
                     app.generate_data(param);
 

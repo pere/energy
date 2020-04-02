@@ -144,6 +144,11 @@ function update_rank_legend(sorted_code_color_arr, double_click) {
 
 function update_geom_by_rank(double_click) {
 
+    map.flyTo({
+        center: [5, -21],
+        zoom: 2,
+        speed: 0.4
+    })
     d3.selectAll("#map path.country").attrs(app.normal_country_style)
     app_data.code_color_arr = [];
     app_data.rankScale = d3.scaleLinear().domain([1, 38])
