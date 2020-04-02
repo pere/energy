@@ -1,4 +1,6 @@
-function update_rank_legend(sorted_code_color_arr) {
+function update_rank_legend(sorted_code_color_arr, double_click) {
+
+    $('.rank_legend_dropdown_button.dropdown-trigger').show();
     console.log(JSON.stringify(sorted_code_color_arr));
     $(".rank_legend_control_container svg.legend_svg").empty();
     var svg_width = ($('#map').width() / 3) + 100;
@@ -7,6 +9,9 @@ function update_rank_legend(sorted_code_color_arr) {
     $('.rank_legend_control,.rank_legend_control_container,.rank_legend_control_container svg')
         .css('width', svg_width + 'px')
         .css('height', '60px')
+    console.warn(svg_width)
+    $('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
+
 
     var svg = d3.select(".rank_legend_control_container svg.legend_svg")
     var defs = svg.append("defs");
@@ -38,7 +43,7 @@ function update_rank_legend(sorted_code_color_arr) {
         //.attr("transform", "translate(2, 0)") // + (10 + legendHeight) + ")")
 
     var s_domain = sorted_code_color_arr.map(function(d) {
-        console.log(d)
+
         return parseInt(d.rank)
     })
 
@@ -67,11 +72,79 @@ function update_rank_legend(sorted_code_color_arr) {
         // })
 
     //$('.rank_legend_control').show();
+    //$('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
+
+    $('.rank_legend_control')
+        .attr('data-tooltip', function() {
+            var container = $(".rank_legend_control_container").find('.btn-small.selected')
+            if (container.hasClass('main_index_val')) {
+                var param = 'Main index';
+            } else {
+                var parm = container.text() + ' index';
+            }
+            return '<div class="tooltip_rank_instructions">Country colors on the map are symbolized according to <div class="sel_matrix_order">' + container.text() + '</div> rank (based on a total of 38 countries rank)<p>You can change the index clicking on the legend labels</div>';
+
+        })
+        .tooltip({
+            delay: 50,
+            delayOut: 50000,
+            position: 'bottom',
+            html: true
+        })
+
+    console.log(arguments)
+    if (double_click == true) {
+        console.warn('double')
+        setTimeout(function() {
+            console.warn('trigger again first')
+            $('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
+            setTimeout(function() {
+                $('.rank_legend_control').tooltip("close");
+
+                var container = $(".tooltip_rank_instructions").parents().closest('.material-tooltip')
+                $(this).tooltip('close');
+                container.remove()
+                $(this).removeAttr('data-tooltip');
+
+            }, 5000)
+
+        }, 800)
+
+        if ($('.dropdown-trigger.rank_legend_dropdown_button').find('i').hasClass('on') == false) {
+
+
+            setTimeout(function() {
+                console.warn('trigger again second')
+
+                $('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
+
+            }, 1200)
+
+            setTimeout(function() {
+                $('.rank_legend_control').tooltip("open");
+
+                setTimeout(function() {
+                    $('.rank_legend_control').tooltip("close");
+
+                    var container = $(".tooltip_rank_instructions").parents().closest('.material-tooltip')
+                    $(this).tooltip('close');
+                    container.remove()
+                    $(this).removeAttr('data-tooltip');
+
+                }, 5000)
+
+            }, 1600)
+        }
+    }
+
+    //  $('.rank_legend_control').tooltip("open")
+    //$('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
+
 }
 
-function update_geom_by_rank() {
+function update_geom_by_rank(double_click) {
 
-
+    d3.selectAll("#map path.country").attrs(app.normal_country_style)
     app_data.code_color_arr = [];
     app_data.rankScale = d3.scaleLinear().domain([1, 38])
         .interpolate(d3.interpolateHcl)
@@ -107,7 +180,7 @@ function update_geom_by_rank() {
     var sorted_code_color_arr = app_data.code_color_arr.sort(function(a, b) {
         return a.rank - b.rank;
     })
-    update_rank_legend(sorted_code_color_arr);
+    update_rank_legend(sorted_code_color_arr, double_click);
 
 }
 
@@ -147,7 +220,7 @@ app.setup_lollipop_graph = function() {
     app_state.lollipop_indicators = true;
     app.country_popup.remove();
 
-    $('.dropdown-trigger').hide();
+    //$('.dropdown-trigger').hide();
 
     var description_height = $('.lollipop_legend_description').height();
 
@@ -229,65 +302,24 @@ app.setup_lollipop_graph = function() {
                 .interpolate(d3.interpolateHcl)
                 .range(app_data.lollipop_obj.gradient);
 
-            update_geom_by_rank();
-            $('.rank_legend_dropdown_button.dropdown-trigger').show();
+            update_geom_by_rank(false);
+
         }
     })
 }
 app.lollipop_graph = function(param_to_order) {
 
 
-    /*
-        DATA_val:::
-
-    "main_index_val":20.761,  //main index doesnt count on the graph!
-    "env_index_val":0.048,
-    "social_index_val":0.059,
-    "political_index_val":0.091, -->green #36d23d
-    "financial_index_val":0.562  -->blue (#51bff1)
-    */
-    /*
-
-    var lollipop_colors_obj = [{
-            index_code: 'env_index_val',
-            rank_code: 'rank_env',
-            //medium purple
-            color: "#a763d7",
-            text: "Environmental",
-            //purples
-            gradient: ['#d2aaee', '#8e08ec']
-        },
-        */
-    //var colors = ["#ffffff", "#ffc107", "#36d23d", "#51bff1"];   
-    // var ranks = all_data.map(function(d) {
-    //     return { code: d.code, ranks: d.rank_index }
-    // });
-    // d3.scaleSequentialSqrt([0, 1], d3.interpolateTurbo)
-
-
     app_data.lollipop_obj = lollipop_colors_obj.filter(function(d) {
         return d.index_code == param_to_order;
     })[0];
 
-    update_geom_by_rank();
+    //$('.rank_legend_dropdown_button.dropdown-trigger').show();
 
-    if ($('.rank_legend_control').is(':visible') == false) {
+    update_geom_by_rank(true);
 
-        $('.rank_legend_dropdown_button.dropdown-trigger').show();
-        setTimeout(function() {
-            $('.rank_legend_dropdown_button.dropdown-trigger').find('i').trigger('click');
-        }, 500)
-    }
 
-    // setTimeout(function() {
-    //     update_geom_by_rank('rank_social');
-    // }, 3000)
-    // function sort_by_value() {
-    //     return function(a, b) {
-    //         return a.data_class[param] < b.data_class[param] ? 1 : -1;
-    //     }
 
-    // }
     var sorted_obj = all_data.sort(function(a, b) {
         return b.data_val[param_to_order] - a.data_val[param_to_order]
     });
@@ -331,7 +363,7 @@ app.lollipop_graph = function(param_to_order) {
 
         */
 
-        var popup = '<div class="popup_country_title">' + d.country + '</div><div>General rank   <span class="general_rank_popup" style="color:' + get_rank_color(d.code, 'general_rank') + '">' + d.data_ranks['general_rank'] + ' / 38</div>';
+        var popup = '<div class="popup_country_title">' + d.country + '</div><div class="popup_rank_title">General rank   <span class="general_rank_popup" style="color:' + get_rank_color(d.code, 'general_rank') + '">' + d.data_ranks['general_rank'] + ' / 38</div>';
         popup += '<div class="profile-overview"><table class="responsive-table profile-overview"> <thead> <tr> <td>Environmental</td> <td>Social</td> <td>Political</td> <td>Financial</td> </tr> </thead> <tbody><tr>';
         var i = 0;
 
@@ -392,8 +424,8 @@ app.lollipop_graph = function(param_to_order) {
 
     });
 
-    console.info(JSON.stringify(all_data))
-    console.info(JSON.stringify(app_data))
+    //console.info(JSON.stringify(all_data))
+
     var width = $('#lollipop_graph').width();
 
     var description_height = $('.lollipop_legend_description').height();
@@ -456,7 +488,7 @@ app.lollipop_graph = function(param_to_order) {
             return 0;
             // return height
         })
-        .attr("width", 20)
+        .attr("width", 17)
         .attr("height", function(d) {
             // return y(d3.max(d.data));
             return mx_w_h + description_height
@@ -467,7 +499,7 @@ app.lollipop_graph = function(param_to_order) {
         })
         .attr('class', 'myrect')
         .attr("transform",
-            "translate(-10,0)")
+            "translate(-9,0)")
         .style('fill', 'white')
         .style('opacity', 0)
 
@@ -578,57 +610,60 @@ app.lollipop_graph = function(param_to_order) {
 
     }
 
-    var lollipop_mouseover = app.throttle(function(d) {
-        d3.selectAll('.myrect')
-            .style('opacity', 0)
-        var code = d3.select(this).attr('code');
+    var lollipop_mouseover = // app.throttle(
+        function(d) {
+            d3.selectAll('.myrect')
+                .style('opacity', 0)
+            var code = d3.select(this).attr('code');
 
-        var _this = '.myrect[code=' + code + ']';
-        d3.selectAll(_this).transition()
-            .duration(100)
-            .style('opacity', 0.3)
-
-
-        console.warn(code)
-            // var param = d3.select(this).attr('param').split('_')[0];
-
-        var this_info = app_data.lollipop_data.filter(function(_d) {
-            return _d.code == code;
-        })[0]
-
-        var pos = $(this).position();
-
-        var $html = $.parseHTML(this_info.lollipop_popup);
-
-        lollipop_tooltip
-            .html('<div class="lollipop_popup"></div>')
-
-        // .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
-        .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
-            //.style("top", "70px")
-
-        $('.lollipop_popup').empty().append($html);
-
-        if (pos.left > ($('#map').width() / 2)) {
-            var xpos = (pos.left - $('.lollipop_tooltip').width() - 50) + "px";
-        } else {
-            var xpos = (pos.left + 50) + "px";
-        }
-
-        lollipop_tooltip.style("left", xpos)
-
-        $('.lollipop_tooltip').show();
-        lollipop_tooltip.style("opacity", 1)
+            var _this = '.myrect[code=' + code + ']';
+            d3.selectAll(_this).transition()
+                .duration(100)
+                .style('opacity', 0.3)
 
 
-    }, 200);
+            console.warn(code)
+                // var param = d3.select(this).attr('param').split('_')[0];
+
+            var this_info = app_data.lollipop_data.filter(function(_d) {
+                return _d.code == code;
+            })[0]
+
+            var pos = $(this).position();
+
+            var $html = $.parseHTML(this_info.lollipop_popup);
+
+            lollipop_tooltip
+                .html('<div class="lollipop_popup"></div>')
+
+            // .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
+            .style("top", (pos.top - (d3.select(this).attr('height' / 2))) + "px")
+                //.style("top", "70px")
+
+            $('.lollipop_popup').empty().append($html);
+
+            if (pos.left > ($('#map').width() / 2)) {
+                var xpos = (pos.left - $('.lollipop_tooltip').width() - 50) + "px";
+            } else {
+                var xpos = (pos.left + 50) + "px";
+            }
+
+            lollipop_tooltip.style("left", xpos)
+
+            $('.lollipop_tooltip').show();
+            lollipop_tooltip.style("opacity", 1)
+
+
+
+
+        };
     // svg.selectAll('.lollipop_popup').on('mouseenter',function()
     // {
 
     // })
 
     svg.selectAll("rect.myrect")
-        .on('mouseover', lollipop_mouseover)
+        .on('mouseover', app.throttle(lollipop_mouseover, 200))
         .on('mouseout', lollipop_mouseout)
         .on('mouseleave', lollipop_mouseout)
     lines.on('mouseover', function(d) {
@@ -670,7 +705,9 @@ app.lollipop_graph = function(param_to_order) {
 
             console.log(d3.selectAll('.mycircle[param=' + d.index_code + ']'))
             d3.selectAll('.mycircle').style('opacity', 0.2)
-            d3.selectAll('.mycircle[param=' + d.index_code + ']').style('opacity', 0.9)
+            d3.selectAll('.mycircle[param=' + d.index_code + ']').style('opacity', 1)
+            $('.lollipop_tooltip').hide();
+            d3.selectAll('.myrect').style('opacity', 0)
 
         })
         .on('mouseout', function(d) {
@@ -712,15 +749,4 @@ app.lollipop_graph = function(param_to_order) {
         .text(function(d) { return d.text; })
         .style("font-size", '0.8em')
         .attr("fill", "white")
-
-
-
-
-
-    /*
-    , function(d) {
-        console.info(d)
-        return d.rank_code;
-        */
-
 }

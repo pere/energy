@@ -66,18 +66,17 @@
     }
     
     .div_sel_matrix_order {
-        font-style: italic;
         font-weight: normal;
-        height: 22px;
-        font-size: 0.8em!important;
+        height: 20px;
         color: white;
-        margin-left: 18px;
+        margin-left: 5px;
     }
     
     .sel_matrix_order {
-        text-transform: uppercase!important;
+        /* text-transform: uppercase!important; */
         color: #F7AA17!important;
         font-weight: normal;
+        display: inline;
     }
     
     .lollipop_title_selected {
@@ -310,11 +309,11 @@
     }
     
     .axis text {
-        font-size: 11px;
+        font-size: 0.7rem;
     }
     
     .y.axis text {
-        font-size: 11px;
+        font-size: 0.8rem;
         text-transform: uppercase;
     }
     
@@ -692,8 +691,7 @@ nav ul li.active {
     
     .rect_popup,
     .lollipop_popup {
-        font-size: 1.7em;
-        background-color: rgb(102, 102, 106);
+        font-size: 0.9rem;
         background-color: rgb(82, 82, 83);
         padding: 8px;
         color: white;
@@ -708,18 +706,42 @@ nav ul li.active {
     border-top-color:rgb(102, 102, 106)!important;
 } */
     
-    .mapboxgl-popup-content .rect_popup {
+    .mapboxgl-popup-content .country_popup.rect_popup {
         min-width: 120px;
+        max-width: 160px;
         min-height: 115px;
         font-size: 1.1em;
-        padding: 11px;
+        padding: 5px!important;
         color: white;
         line-height: 18px;
     }
     
+    .popup_selected {
+        /* color: #e8b10b!important; */
+        color: #db71ac!important;
+    }
+    
+    .popup_cell_selected {
+        color: #bd93eb;
+    }
+    
+    .rects_container:hover {
+        cursor: pointer!important;
+    }
+    
     .mapboxgl-popup-content .popup_country_title {
-        font-size: 1.3em;
-        margin-bottom: 8px;
+        font-size: 1.1rem;
+    }
+    
+    .lollipop_popup .popup_country_title {
+        font-size: 1.1rem;
+        color: #ebd5b5;
+        padding-bottom: 3px;
+        margin-left: 4px;
+    }
+    
+    .lollipop_popup .popup_rank_title {
+        margin-left: 4px;
     }
     
     .profile-overview td,
@@ -752,24 +774,24 @@ nav ul li.active {
         float: left;
         /* border-radius: 10px; */
         opacity: 1;
-        margin-top: 0px;
-        margin-right: 9px;
-        border: 1px solid white;
+        margin-top: 2px;
+        margin-right: 5px;
+        /* border: 1px solid white; */
     }
     
     .mapboxgl-popup-content .index_country_info i {
-        width: 10px;
-        height: 10px;
+        width: 16px;
+        height: 16px;
         float: left;
         /* border-radius: 10px; */
         opacity: 1;
-        margin-top: 0px;
-        margin-right: 9px;
-        border: 1px solid white;
+        margin-top: 1px;
+        margin-right: 5px;
+        /* border: 1px solid white; */
     }
     
     .index_country_info {
-        padding: 5px;
+        padding: 3px;
         font-size: 0.8em;
     }
     
@@ -892,7 +914,7 @@ nav ul li.active {
     }
     
     .rank_legend_control_container .tick text {
-        font-size: 0.9rem;
+        font-size: 0.7rem;
         fill: white;
         font-weight: 400;
     }
@@ -1003,4 +1025,12 @@ nav ul li.active {
     
     .rank_legend_dropdown_content .dropdown-content li {
         line-height: 2rem!important;
+    }
+    
+    #matrix_wrapper .rect:hover {
+        cursor: pointer;
+    }
+    
+    .material-tooltip {
+        font-size: 0.8rem!important;
     }

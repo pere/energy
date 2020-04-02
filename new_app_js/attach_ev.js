@@ -1,13 +1,11 @@
-$('select').formSelect();
 $('.modal').modal({ opacity: 0.8 });
-
 // $('.country_popup').on('mouseover mouseenter mouseleave mouseup mousedown', function() {
 //     return false
 // });
 
 $('.icon_info').hide()
 $('.icon_info').trigger('click');
-//$('.other_indicator_select').trigger('click');
+
 $('.legend_dropdown_button.dropdown-trigger,.rank_legend_dropdown_button.dropdown-trigger').dropdown({
     inDuration: 300,
     constrainWidth: false,
@@ -41,7 +39,6 @@ $('.legend_dropdown_button.dropdown-trigger,.rank_legend_dropdown_button.dropdow
 $('.legend_dropdown_button.dropdown-trigger')
     .attr('data-tooltip', function() {
         return 'Show/hide index legend';
-
     })
     .tooltip({
         delay: 50,
@@ -49,6 +46,49 @@ $('.legend_dropdown_button.dropdown-trigger')
         position: 'bottom',
         html: true
     });
+
+$('.country_li.main_li')
+    .attr('data-tooltip', function() {
+        return '<div class="init_instructions">Use the lateral navigation bar to start visualizing data</div>';
+
+    })
+    .tooltip({
+        delay: 50,
+        delayOut: 50000,
+        position: 'right',
+        html: true
+    });
+
+
+setTimeout(function() {
+    $(".country_li.main_li").tooltip("open");
+    var container = $(".init_instructions").parents().closest('.material-tooltip')
+
+    //container.hide();
+
+    setTimeout(function() {
+        container.css('top', container.position().top - ($(".country_li.main_li").height() / 2));
+        container.show();
+
+        $('.sidenav').on('mouseover', function() {
+            $(this).removeAttr('data-tooltip');
+            container.remove()
+            $('.sidenav').unbind('mouseover')
+        })
+
+    }, 100)
+}, 400)
+
+// setTimeout(function() {
+//     var container = $(".init_instructions").parents().closest('.material-tooltip')
+//     console.warn(container.position())
+
+//     setTimeout(function() {
+//         container.css('top', container.position().top - ($(".country_li.main_li").height() / 2))
+//     }, 2000)
+
+// }, 800)
+
 
 $('.rank_legend_dropdown_button.dropdown-trigger')
     .attr('data-tooltip', function() {
@@ -63,6 +103,8 @@ $('.rank_legend_dropdown_button.dropdown-trigger')
     })
 
 $('.dropdown-trigger').hide();
+
+
 
 $('#slide-out').sidenav({
 

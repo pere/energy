@@ -37,8 +37,7 @@ var scale_values = [{
     title: 'Higher performance'
 }];
 
-
-
+//have to be the sameo ordering than data_class! (popup)
 var indexes_info = [{
         name: 'main_index_class',
         title: 'General Index'
@@ -46,15 +45,17 @@ var indexes_info = [{
     {
         name: 'env_index_class',
         title: 'Environmental'
-    }, {
-        name: 'financial_index_class',
-        title: 'Financial'
+    },
+    {
+        name: 'social_index_class',
+        title: 'Social'
     }, {
         name: 'political_index_class',
         title: 'Political'
-    }, {
-        name: 'social_index_class',
-        title: 'Social'
+    },
+    {
+        name: 'financial_index_class',
+        title: 'Financial'
     }
 ];
 
@@ -71,8 +72,42 @@ var markers_obj_arr = [];
 
 var mouseovered_path = { code: null };
 var mouseovered_rect = {};
-var app_data = {};
-var app_state = { lollipop_indicators: false, matrix_indicators: false, country_facts: false };
+var app_data = { matrix_current_param: 'main_index_val' };
+var app_state = {
+    lollipop_indicators: false,
+    matrix_indicators: false,
+    country_facts: false
+
+};
+var app = {};
+app.initial_country_style = {
+    "stroke": "#ffff",
+    "fill": "black",
+    "opacity": 0.4,
+    'stroke-width': 0.4
+}
+
+//like initial_country_style but keeping color
+app.normal_country_style = {
+    //purple
+    "stroke": "#ffff",
+    'stroke-width': 1,
+    'opacity': 0.8
+};
+
+app.sel_country_style = {
+    //purple
+    "stroke": "#e76bc1",
+    'stroke-width': 1.5,
+    'opacity': 0.7
+};
+app.unsel_country_style = {
+    'opacity': 0.2,
+    "stroke": "#ffff",
+    'stroke-width': 0.8
+};
+
+
 
 function getRandomInRange(min, max) {
     return Math.random() * (max - min) + min;
