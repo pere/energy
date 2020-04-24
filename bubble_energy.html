@@ -1,0 +1,758 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load color scale -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script src="countries.json"></script>
+
+<!-- Create a div where the graph will take place -->
+<div class="row all_container">
+    <!-- <div id="my_dataviz" class="col s9"></div> -->
+    <div class="upper_tooltip"></div>
+    <div id="bubble_chart"></div>
+    <div id="bubble_color_legend">
+
+    </div>
+
+    <div id="bubble_selects_div" class="row">
+
+        <div class="input-field col s3 x_input">
+            <select id="x_bubble_select">
+              <!-- <option value="" disabled selected>Choose your option</option> -->
+              <option value="pop_ghsl">Population</option> 
+              <option value="lcoe_average" selected>LCOE (EUR/kWh)</option> 
+              
+              <option value="er_2014">Electrification rate</option>
+              <option value="rer_2014">Renewable energy share in the total final energy consumption</option>
+          
+              <option value="pop_noelect_minigrid">Market size: decentralized technologies</option>
+              <option value="rer_2014">PV mini-grid market size</option>
+              <option value="pop_shs">Market size by SHS or nano-solar</option>
+            </select>
+            <label>Change X parameter</label>
+        </div>
+
+        <div class="input-field col s3 y_input">
+            <select id="y_bubble_select">
+              <!-- <option value="" disabled selected>Choose your option</option> -->
+              <option value="pop_ghsl">Population</option> 
+              <option value="er_2014" selected>Electrification rate</option>
+              <option value="rer_2014">Renewable energy share in the total final energy consumption</option>
+          
+              <option value="pop_noelect_minigrid">Market size: decentralized technologies</option>
+              <option value="rer_2014">PV mini-grid market size</option>
+              <option value="pop_shs">Market size by SHS or nano-solar</option>
+            </select>
+            <label>Change Y parameter</label>
+        </div>
+        <div><a class="apply_bubble waves-effect waves-light btn-small">Apply</a></div>
+
+    </div>
+</div>
+
+<!-- A bit of CSS: change stroke color of circle on hover (white -> black) -->
+<style>
+    .all_container {
+        /* margin: 100px; */
+    }
+    
+    #bubble_selects_div .select-wrapper input.select-dropdown,
+    #bubble_selects_div .select-wrapper span {
+        font-size: 0.8em!important;
+    }
+    
+    #bubble_selects_div .select-wrapper span {
+        line-height: 15px;
+        padding: 14px 8px;
+    }
+    
+    #bubble_selects_div .dropdown-content li {
+        /* max-height: 40px; */
+        background-color: #d3d6cd;
+        border-bottom: 1px solid white;
+    }
+    
+    #bubble_selects_div .select-dropdown.dropdown-content li.selected {
+        background-color: rgba(255, 235, 59, 0.79)!important;
+    }
+    
+    #bubble_selects_div .btn-small {
+        height: 25.4px;
+        line-height: 25.4px;
+        font-size: 11px;
+        margin-left: 10px;
+        margin-top: 30px;
+    }
+    
+    .bubbles {
+        stroke-width: 0.1px;
+        stroke: white;
+        opacity: .8
+    }
+    
+    .bubbles:hover {
+        stroke: black;
+    }
+    
+    .main_index_class_legend {
+        font-size: 0.7em;
+    }
+    
+    .main_index_class_legend:hover {
+        cursor: pointer;
+        /* font-size: 10px; */
+    }
+    
+    .bubbles_tooltip {
+        position: absolute;
+    }
+    
+    svg {
+        /* background-color: black; */
+    }
+    
+    .legend_radius_circle_title {
+        width: 100px;
+        height: 20px;
+        background-color: red;
+    }
+    
+    .upper_tooltip {
+        height: auto;
+        /* border: 1px solid blue; */
+    }
+    
+    .upper_tooltip .row {
+        margin-bottom: 3px!important;
+    }
+    
+    #bubble_color_legend {
+        height: 25px;
+        width: 815px;
+        /* border: 1px solid blue; */
+    }
+    
+    #bubble_selects_div {
+        height: 25px;
+        width: 815px;
+        /* border: 1px solid blue; */
+    }
+    
+    #bubble_chart {
+        height: 245px;
+        width: 815px;
+        /* border: 1px solid chocolate; */
+    }
+    
+    .tick line {
+        display: none;
+    }
+    
+    .tooltip_container {
+        font-size: 0.7em;
+        background-color: black;
+        opacity: .6;
+        color: white;
+    }
+    
+    .t_title {}
+    
+    .tooltip_container .data .col {
+        border-top: 0.3px solid #c7baba;
+        font-size: 1.1em!important;
+        color: coral;
+    }
+</style>
+
+
+<script>
+    console.warn(countries_info);
+    $('select').formSelect();
+
+
+
+    /*
+    x--> lcoe (electricity per country)  
+y--> market size
+tamany cercle--> avoided Co2 emission. min and max
+color cercle --> main index (1-5) --> ordinal scale
+
+
+        [{"country":"Afghanistan","continent":"Asia","lifeExp":","pop":"31889923","gdpPercap":"974.5803384"},
+{
+"code":"AGO",
+"rank_index":33,
+"country":"Angola",
+"data_class":{
+"main_index_class":1,
+
+
+attr("cx", function(d) {
+                return x(d.gdpPercap); // lcoe_average  LCOE (EUR/kWh) 
+            })
+            .attr("cy", function(d) {
+                return y(d.lifeExp); //pop_noelect_minigrid Market size: decentralized technologies ('000 people)
+            })
+            .attr("r", function(d) {
+                return z(d.pop); //co2_tonnes_minigrid GHG emissions avoided per year (ktons CO2eq)
+
+                 lcoe_average: {value: facts.lcoe_average,title:'LCOE (EUR/kWh)'},
+            pop_noelect_minigrid: {value:facts.pop_noelect_minigrid,title:'Market size: decentralized technologies (people)'},
+            co2_tonnes_minigrid: {value:facts.co2_tonnes_minigrid,title:''
+        */
+
+    function bubble_chart(params) {
+
+        $('#bubble_chart,#bubble_color_legend').empty();
+        params.r_title = 'GHG emissions avoided per year (ktons CO2eq)';
+        params.color_title = 'Performance';
+        console.log(params)
+        var reduced = countries_info.reduce(function(memo, d, i) {
+            // console.info(i)
+            //memo.countries.push(d.country)
+            var main_index_class = d.data_class['main_index_class'];
+            var facts = d.country_facts[0];
+
+            //{x:'lcoe_average' , y:'pop_noelect_minigrid' ,r:'co2_tonnes_minigrid' }
+            var x_arr = [],
+                y_arr = [],
+                r_arr = [];
+
+            var x_name = params['x'];
+            var y_name = params['y'];
+            var r_name = params['r'];
+            console.warn(x_name)
+            console.log(facts[x_name])
+            memo.x_arr.push(facts[x_name]);
+            memo.y_arr.push(facts[y_name] / 1000);
+            memo.r_arr.push(facts[r_name]);
+
+            memo.countries_data.push({
+                code: d.code,
+                country: d.country,
+                rank_index: d.rank_index,
+                main_index_class: main_index_class,
+                x_val: facts[x_name],
+                y_val: facts[y_name] / 1000,
+                r_val: facts[r_name]
+
+            })
+            if (i == countries_info.length - 1) {
+                console.log('last')
+            }
+
+            return memo
+
+        }, {
+            countries_data: [],
+            x_arr: [],
+            y_arr: [],
+            r_arr: []
+        });
+        // console.log(JSON.stringify(reduced))
+        console.warn(reduced)
+            //{x:'lcoe_average' , y:'pop_noelect_minigrid' ,r:'co2_tonnes_minigrid' }
+        var max_x = Math.max.apply(Math, reduced.x_arr);
+        var min_x = Math.min.apply(Math, reduced.x_arr);
+        console.info(min_x, max_x)
+
+        var max_y = Math.max.apply(Math, reduced.y_arr);
+        var min_y = Math.min.apply(Math, reduced.y_arr);
+
+        var max_r = Math.max.apply(Math, reduced.r_arr);
+
+        var min_r = Math.min.apply(Math, reduced.r_arr);
+
+        // height: 245px;
+        // width:815px;
+        var div_h = $('#bubble_chart').height();
+        var div_w = $('#bubble_chart').width();
+
+        var margin = {
+                top: 40,
+                right: 20,
+                bottom: 30,
+                left: 90
+            },
+            width = div_w - margin.left - margin.right,
+            height = div_h - margin.top - margin.bottom;
+
+        $("#energy_dataviz").empty();
+        // append the svg object to the body of the page
+        var svg = d3.select("#bubble_chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+        var z = d3.scaleSqrt()
+            .domain([min_r, max_r])
+            .range([2, 30]);
+        console.log('max being' + z(max_r))
+
+        // Add X axis
+        var x = d3.scaleLinear()
+            .domain([min_x, max_x])
+            .range([0, width - z(max_r)]);
+        console.info(x(0.176))
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .attr('class', 'internal_g')
+            .call(d3.axisBottom(x).ticks(8));
+
+        // Add X axis label:
+        svg.append("text")
+            .attr("text-anchor", "end")
+            .attr("x", width - 80)
+            .attr("y", height + 30)
+            .text(params.x_title)
+            .attr('font-size', '10px')
+
+        // Add Y axis
+        //{x:'lcoe_average' , y:'pop_noelect_minigrid' ,r:'co2_tonnes_minigrid' }
+        var y = d3.scaleLinear()
+            .domain([min_y, max_y])
+            .range([height, 0]);
+        svg.append("g")
+            .call(d3.axisLeft(y).ticks(5));
+
+        // Add Y axis label:
+        svg.append("text")
+            .attr("text-anchor", "end")
+            .attr("x", 0)
+            //.attr("y", -20)
+            .text(params.y_title)
+            .attr("text-anchor", "start")
+            .attr('font-size', '10px')
+
+        .attr("transform", "translate(-50," + (height - 10) + ") rotate(-90)")
+
+
+        // Add a scale for bubble size
+        //{x:'lcoe_average' , y:'pop_noelect_minigrid' ,r:'co2_tonnes_minigrid' }
+
+
+
+        var scale_values = [{
+            value: 1,
+            // color: '#e73232',
+            color: 'hsl(0,79%,55.1%,70%)',
+            title: 'Lower performance'
+        }, {
+            value: 2,
+            //color: '#f5621c',
+            color: '#e78150',
+            title: 'Lower-middle'
+        }, {
+            value: 3,
+            color: '#f7c717',
+            title: 'Middle'
+        }, {
+            value: 4,
+            color: '#9dd9a7',
+            title: 'Upper middle'
+        }, {
+            value: 5,
+            color: '#24a9e5',
+            title: 'Higher performance'
+        }];
+        svg.append('g')
+            .attr('fill', 'black')
+            .attr("class", 'g_data')
+            .selectAll("dot")
+            .data(reduced.countries_data)
+            .enter()
+            .append("circle")
+            .attr('code', function(d) {
+                return d.code
+            })
+            .attr("class", function(d) {
+                return "bubbles main_index_class_" + d.main_index_class
+            })
+
+        .style("fill", function(d) {
+                //return myColor(d.continent);
+                return scale_values.filter(function(d2) {
+                    return d2.value == d.main_index_class;
+                })[0].color;
+
+            })
+            .attr("stroke", "white")
+            .on("mouseenter",
+                //     showTooltip
+                // )
+                // -3- Trigger the functions for hover
+                // .on("mouseover", 
+                function(d) {
+
+                    var elem = d3.select(this);
+
+                    showTooltip(d, this, elem)
+                })
+            //.attr("cx", 0)
+            //{x:'lcoe_average' , y:'pop_noelect_minigrid' ,r:'co2_tonnes_minigrid' }
+            .attr("cx", function(d, i) {
+                // console.info(d)
+                if (i == 0) {
+                    console.warn(x(d.x_val) + z(d.r_val))
+                    return x(d.x_val) //+ z(d.r_val); // lcoe_average  LCOE (EUR/kWh) 
+                } else {
+                    if (d.code == 'SOM') {
+
+
+                        console.log(d.x_val)
+                        console.log(d.r_val)
+                        console.warn(x(d.x_val) + z(d.r_val))
+                    }
+
+                    return x(d.x_val); //- z(d.r_val); // lcoe_average  LCOE (EUR/kWh) 
+                }
+
+            })
+            .attr("cy", height)
+            .attr("r", 0)
+
+        .on("mouseleave", function(d) {
+                hideTooltip(d)
+            })
+            .transition()
+            .ease(d3.easeSin)
+            .duration(1200)
+            .attr("delay", function(d, i) {
+
+                return 300 * i
+            })
+
+        .attr("cy", function(d) {
+                return y(d.y_val); //pop_noelect_minigrid Market size: decentralized technologies ('000 people)
+            })
+            .attr("r", function(d) {
+                return z(d.r_val); //co2_tonnes_minigrid GHG emissions avoided per year (ktons CO2eq)
+
+            })
+            .on("end", function() {
+                var _this = '.bubbles[code=NGA]';
+                d3.select(_this)
+                    //d3.select(this)
+                    .dispatch('mouseenter');
+            });
+        console.log($('#bubble_chart').width() - margin.left - margin.right)
+        $('.bubble_color_legend,#bubble_selects_div').width($('#bubble_chart').width() - margin.left - margin.right);
+        $('.upper_tooltip').width($('#bubble_chart').width() - margin.right);
+
+
+        // Add legend: circles
+        //{x:'lcoe_average' , y:'pop_noelect_minigrid' ,r:'co2_tonnes_minigrid' }
+        var valuesToShow = [+min_r, +(max_r / 2).toFixed(2), +max_r.toFixed(2)];
+        var xCircle = width - 100;
+        console.log(valuesToShow);
+        var xLabel = width - 150;
+        console.log(xLabel)
+
+        var circle_legend_container = svg.select('g.g_data');
+        console.warn(circle_legend_container);
+        circle_legend_container
+            .selectAll("legend")
+            .data(valuesToShow)
+            .enter()
+            .append("circle")
+            .attr("cx", xCircle)
+            .attr("cy", function(d) {
+                //being 30 the max radius(?)
+                return z(d)
+            })
+            .attr("r", function(d) {
+                return z(d)
+            })
+            .style("fill", "none")
+            .attr("stroke", "black")
+
+        // Add legend: segments
+        circle_legend_container
+            .selectAll("legend")
+            .data(valuesToShow)
+            .enter()
+            .append("line")
+            .attr('x1', function(d) {
+                return xCircle + z(d);
+            })
+            .attr('x2', function(d) {
+                return xCircle + z(d) + 20
+            })
+            .attr('y1', function(d) {
+                return z(d)
+            })
+            .attr('y2', function(d) {
+                return z(d)
+            })
+            .attr('stroke', 'black')
+            .style('stroke-dasharray', ('2,2'))
+
+        // Add legend: labels
+        //GHG emissions avoided per year (ktons CO2eq)
+        //svg
+
+        // svg.append("foreignObject").attr("width", 480).attr("height", 500).append("xhtml:div").style("font", "14px 'Helvetica Neue'").html('asd');
+        d3.select('#bubble_chart svg')
+            .append('foreignObject')
+            .attr('x', function(d) {
+                return xCircle - 50
+                    //- z(max_r);
+            })
+            .attr('y', function(d) {
+                return z(max_r) - 10;
+            })
+            .attr("width", '140px').attr("height", '70px')
+            .append("xhtml:div")
+            .style("font-size", "9px")
+
+        //.attr('class', 'legend_radius_circle_title')
+        .html('GHG emissions avoided per year (ktons CO2eq)')
+
+
+        // .attr('x', function(d) {
+        //     return xCircle - 50
+        //         //- z(max_r);
+        // })
+        // .attr('y', function(d) {
+        //     return 10 - z(max_r);
+        // })
+
+        .style("font-size", 9)
+            .style("font-color", 'black')
+            //.attr('alignment-baseline', 'left');
+        circle_legend_container
+            .selectAll("legend")
+            .data(valuesToShow)
+            .enter()
+            .append("text")
+            .attr('x', function(d) {
+                return xCircle + z(d) + 20
+            })
+            .attr('y', function(d) {
+                return z(d)
+            })
+            .text(function(d) {
+                return d
+                    //+ ' avoided Co2 emission';
+            })
+            .style("font-size", 10)
+            .attr('alignment-baseline', 'middle');
+
+        var size = 20
+
+        var pos = $('.internal_g').position();
+        $('#bubble_color_legend,#bubble_selects_div').css('margin-left', pos.left + 'px');
+        //,.upper_tooltip
+        console.log(pos);
+        var c_legend = d3.selectAll('#bubble_color_legend').append("svg")
+            .attr("width", $('.internal_g')[0].getBoundingClientRect().width + 30)
+            .attr("height", $('#bubble_color_legend').height());
+
+        c_legend.selectAll("my_legend_circle_class")
+            .data(scale_values)
+            .enter()
+            .append("circle")
+            .attr('class', 'legend_circle_class')
+            .attr("cx", function(d, i) {
+                if (i == 1)
+                    return (140 * i) + 18
+                else
+                    return (140 * i) + 7
+            })
+            .attr("cy", function(d, i) {
+                //return 10 + i * (size + 5)
+                // return pos.top - 15
+                return 7
+            }) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("r", 5)
+            .style("fill", function(d) {
+                return d.color
+            })
+            .on("mouseover", function(d) {
+
+                console.log(d)
+                highlight(d)
+            })
+            // .on("click", noHighlight)
+            .on("mouseout", function(d) {
+
+                noHighlight(d)
+            })
+
+        // Add labels beside legend dots
+        c_legend.selectAll("mylabels")
+            .data(scale_values)
+            .enter()
+            .append("text")
+            .attr('class', 'main_index_class_legend')
+            .attr("x", function(d, i) {
+
+                if (i == 1)
+                    return (140 * i) + 25
+                else
+                    return (140 * i) + 13 + 7
+
+
+            })
+            .attr("y", function(d, i) {
+                return 7
+            }) // 100 is where the first dot appears. 25 is the distance between dots
+            .style("fill", function(d) {
+                //return d.color
+                return '#0f597c';
+            })
+            .text(function(d) {
+                return d.title
+            })
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle")
+            .on("mouseleave", noHighlight)
+            .on("mouseout", noHighlight)
+            .on("mouseover", function(d) {
+
+                console.log(d)
+                highlight(d)
+            })
+            .on("mouseout", function(d) {
+
+                noHighlight(d)
+            })
+            // ---------------------------//
+            //       HIGHLIGHT GROUP      //
+            // ---------------------------//
+
+        // What to do when one group is hovered
+        var highlight = function(d) {
+            // reduce opacity of all groups
+            d3.selectAll(".bubbles").style("opacity", .3)
+                // expect the one that is hovered
+            console.info(d)
+            d3.selectAll(".main_index_class_" + d.value).style("opacity", 1)
+        }
+
+        // And when it is not hovered anymore
+        var noHighlight = function(d) {
+
+            d3.selectAll(".bubbles").style("opacity", 1)
+            d3.selectAll('.selected').style('stroke', 'white').style('stroke-width', 0.1)
+        }
+
+        var tooltip = d3.select("#bubble_chart")
+            .append("div")
+            .style("opacity", 0)
+            .attr("class", "bubbles_tooltip")
+            .style("background-color", "black")
+            .style("border-radius", "5px")
+            .style("padding", "10px")
+            .style("color", "white")
+
+        // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+        var showTooltip = function(d, _this, elem) {
+
+            /*
+             stroke-width: 0.1px;
+        stroke: white;
+        opacity: .8
+        */
+            var node = elem.node();
+            elem.style('stroke', '#FF5722').style('stroke-width', 2).classed('selected', true)
+            console.log(node)
+            var _data = d;
+
+            //console.log(elem.attr('cx'))
+            //console.warn(d3.mouse(_this))
+            tooltip
+                .transition()
+                .duration(200)
+            tooltip
+                .style("opacity", 1)
+                .style("left", (node + 10) + "px")
+                .style("left", (elem.attr('cx') + 5) - $('.tooltip_container').height() + "px")
+                .style("top", (elem.attr('cy') + 5) - $('.tooltip_container').height() + "px")
+                //.html("Country: " + d.country)
+                .html(function(d) {
+
+                    var up_html = '<div class="tooltip_container"><div class="row"><div class="col s12 country_title t_title">' + _data.country + '</div></div>'
+
+                    up_html += '<div class="row"><div class="col s3 t_title">' + params.x_title + '</div><div class="col s3 t_title">' + params.y_title + '</div>'
+                    up_html += '<div class="col s3 t_title">' + params.r_title + '</div><div class="col s1 t_title">Performance</div></div>';
+                    up_html += '<div class="row data"><div class="col s3">' + _data.x_val + '</div><div class="col s3">' + _data.y_val + '</div>';
+                    up_html += '<div class="col s3">' + _data.r_val + '</div><div class="col s1">Performance</div></div>';
+                    up_html += '</div>'; //closing container
+
+                    setTimeout(function() {
+                        //$('.upper_tooltip').
+                        $('.upper_tooltip').empty().append(up_html);
+                        $('.upper_tooltip').show();
+                    }, 100)
+
+                    console.log(node)
+
+                    return '<span>' + _data.country + '</span>';
+                })
+
+            //.style("left", (node + 10) + "px")
+            .style("left", (elem.attr('cx') + 5) + "px")
+                .style("top", (elem.attr('cy')) + "px")
+                // .style("left", (node + 30) + "px")              
+                // .style("left", (elem.attr('cx') + 30) + "px")
+                // .style("top", (elem.attr('cy') + 30) + "px")
+
+        }
+        var hideTooltip = function(d) {
+            tooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0)
+
+            console.info(d3.selectAll('.selected'))
+            d3.selectAll('.selected').style('stroke', 'white').style('stroke-width', 0.1)
+
+
+        }
+    }
+
+    $('.apply_bubble').click(function() {
+        var params = {};
+        params['x'] = $('#x_bubble_select').find('option:selected').attr('value');
+        params['x_title'] = $('.x_input').find('.select-dropdown li.selected span').text();
+
+        params['y'] = $('#y_bubble_select').find('option:selected').attr('value');
+        params['y_title'] = $('.y_input').find('.select-dropdown li.selected span').text();
+
+        params['r'] = 'co2_tonnes_minigrid';
+        console.warn(params)
+        bubble_chart(params)
+    })
+    bubble_chart({
+        x: 'lcoe_average',
+        y: 'pop_noelect_minigrid',
+        r: 'co2_tonnes_minigrid',
+        x_title: 'LCOE (EUR/kWh)',
+        y_title: 'Market size: decentralized technologies'
+    });
+
+    // setTimeout(function() {
+    //     bubble_chart({
+    //         x: 'npv_cap',
+    //         y: 'pop_noelect_minigrid',
+    //         r: 'co2_tonnes_minigrid'
+    //     })
+    // }, 5000)
+</script>
