@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>JRC Energy</title>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./new_css/energy.css">
+    <link rel="stylesheet" href="./new_css/extra_css.css">
+    <link rel="stylesheet" href="./new_css/media.css">
+    <script src="./data/all_country_data.js"></script>
+    <!-- <script src="./data/main_indexes.js"></script>
+    <script src="./data/fact_sheets.js"></script> -->
+
+    <script src="./js/jquery.js"></script>
+
+    <script src="./js/materialize_v1.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>-->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="./css/materialize.min.css">
+
+    <script src='//unpkg.com/d3@5.0.0/dist/d3.min.js'></script>
+    <script src='./js/popper.min.js'></script>
+    <script src='./js/d3-selection-multi.min.js'></script>
+    <script src="./js/topojson.v1.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <script src="./new_app_js/helpers.js"></script>
+</head>
+
+<body>
+
+    <div id='country_modal' class="modal">
+        <div class="modal-header">
+            <a href="#!" class="modal-close large btn-flat"><i class="material-icons">close</i></a>
+        </div>
+        <div class="modal-content">
+            <div>
+                <div class="profile_div center">
+                    <h3 class='country_name'>Cameroon</h3>
+                    <div class="center" style="font-size:1.1em;">Ranking<span style="font-size: 55%;color:rgb(227, 213, 213)"> over 38 countries</span></div>
+                    <table class="profile-overview ranks">
+
+                        <thead>
+                            <tr>
+                                <td>Overall Score</td>
+                                <td>Environmental</td>
+                                <td>Social</td>
+                                <td>Political</td>
+                                <td>Financial</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="medium">
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                                <td class="medium">
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                                <td class="medium">
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                                <td class="medium">
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                                <td class="medium">
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="country_info" style="display: block;">
+                    <div class="subheader">GENERAL INFORMATION</div>
+                    <ul class="list status_list">
+
+                        <li>
+                            <div class="row summary" info_container="general">
+                                <!-- <div class="country_name col grid s12">Cameroon</div> -->
+
+                                <!-- <div class="region col grid s8 indicator_title">Region</div>
+                                <div class="col grid s3">Central Africa</div> -->
+                                <div class="pop_ghsl col grid s8 indicator_title">Population
+                                </div>
+                                <div class="col grid s3 left">23,010,302</div>
+
+
+                            </div>
+
+
+                        </li>
+
+                    </ul>
+
+                    <div class="subheader">STATUS</div>
+
+                    <ul class="list status_list">
+
+                        <li>
+                            <div class="row summary" info_container="status">
+
+                                <div class="row">
+                                    <div class="er_2014 col grid s8 indicator_title">Electrification rate</div>
+                                    <div class="col grid s3">62.1</div>
+                                    <div class="rer_2014 col grid s8 indicator_title">Rural electrification rate
+                                    </div>
+                                    <div class="col grid s3">23.1</div>
+                                    <div class="rer_2014 col grid s8 indicator_title">Renewable energy share in the total final energy consumption
+                                    </div>
+                                    <div class="col grid s3 left">23.1</div>
+                                </div>
+
+                            </div>
+
+
+                        </li>
+
+                    </ul>
+
+                    <div class="subheader">IMPACTS</div>
+
+
+                    <ul class="list status_list">
+
+                        <li>
+                            <div class="row summary" info_container="impacts">
+
+                                <div class="row">
+                                    <div class="row">Market size: Electricity access ('000 people)</div>
+                                    <div class="pop_noelect_minigrid col grid s8 indicator_title">Market size: decentralized technologies ('000 people)</div>
+                                    <div class="col grid s3">7,078,933</div>
+                                    <div class="pop_minigrid col grid s8 indicator_title">PV mini-grid market size ('000 people)
+                                    </div>
+                                    <div class="col grid s3">6,052,091</div>
+                                    <div class="pop_shs col grid s8 indicator_title">Market size by SHS or nano-solar ('000 people)
+                                    </div>
+                                    <div class="col grid s3 left">1,026,842</div>
+                                </div>
+
+                            </div>
+
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div id='intro_modal' class="modal">
+        <div class="modal-header">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+        <div class="modal-content">
+            <div class="center">
+                <h3>Why?</h3>
+                <div>
+                    There are over 650 million people in Africa who have no access to electricity; this is in sharp contrast to the <b>lack of investments</b> in energy infrastructure and the continent’s <b>untapped
+                        renewable energy potential</b>
+                </div>
+                <h3>What?</h3>
+
+
+                <div>
+                    The PV-DESI index aims to identify the most favourable countries to invest in PV decentralised options (including financial, environmental, and political factors)
+                </div>
+
+                <h3>To whom?</h3>
+                <div>
+                    Designed for private sector, international donors, governments, and philanthropic stakeholders who wants to invest in solar PV decentralised options.
+                </div>
+                <h3>How?</h3>
+                <div>
+                    <p>The index is composed by 52 indicators classified in 4 pillars that effects stakeholder decision-making on PV mini-grid investments: economic, social, financial and environmental considerations
+                    </p>
+                    <p>The financial and political pilars are defined positively when the financial and political situations in a country are stable</p>
+                    <p>The environmental pilar is positive when the environmental conditions are favourable to PV mini-grids implementation </p>
+                    <p>The social pilar is considered positive when the impacts of investing in PV mini-grids results in higher impacts. Therefore, indirectly when social conditions in the country are lower, the “attractiveness” for the different stakeholders
+                        is higher because the impact of bringing electricity can cause higher social impacts. </p>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <nav>
+        <div class="nav-wrapper">
+
+
+            <form>
+
+                <ul class="right zzzhide-on-med-and-down">
+                    <ul id="rank_legend_dropdown" class="rank_legend_dropdown_content dropdown-content">
+                        <li class="main collection-item">
+                            <div class="rank_legend_control">
+                                <div class="rank_legend_control_container">
+
+                                    <div class="matrix_btn row">
+                                        <div class="col s3"><a class="btn-small main_index_val selected">Main index</a></div>
+                                        <div class="col s3"><a class="btn-small env_index_val">Environmental</a></div>
+                                        <div class="col s2"><a class="btn-small social_index_val">Social</a></div>
+                                        <div class="col s2"><a class="btn-small financial_index_val">Financial</a></div>
+                                        <div class="col s2"><a class="btn-small political_index_val">Political</a></div>
+                                    </div>
+
+                                    <svg class="legend_svg"></svg>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul id="legend_dropdown" style="height: 200px !important" class="legend_dropdown_content dropdown-content">
+                        <li class="main collection-item">
+                            <div class="legend_control">
+                                <div class="legend_control_container">
+                                    <div class="legend_control_container_title">Index</div>
+                                    <svg></svg>
+                                    <div class='show_hide_circles_container'><span class="show_hide_circles off">Show ranking number</span></div>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <li>
+                        <a class="dropdown-trigger btn rank_legend_dropdown_button" href="#!" data-target="rank_legend_dropdown">
+                            <i class="material-icons">palette</i>
+
+                        </a>
+
+
+                    </li>
+
+                    <li>
+                        <a class="dropdown-trigger btn legend_dropdown_button" href="#!" data-target="legend_dropdown">
+                            <i class="material-icons">layers</i>
+
+                        </a>
+
+
+                    </li>
+
+
+                    <li><a href="#" data-target="slide-out" class="sidenav-trigger" style="display: block!important;"><i
+                                class="material-icons">view_module</i></a>
+                    </li>
+
+
+                    <li><a href="#" class="light_mode daylight" style="display: block!important;"><i
+                                class="material-icons light_mede_button">highlight</i></a>
+                    </li>
+
+                    <li>
+                        <a class="modal-trigger" href="#intro_modal"><i
+                                    class="material-icons icon_info">info</i></a>
+
+                    </li>
+
+                    <li>
+                        <a class="modal-trigger country_modal_trigger" href="#country_modal"><i
+                                    class="material-icons country_icon_info">info</i></a>
+
+                    </li>
+
+                </ul>
+                <ul class="left">
+                    <li>
+                        <a href="#!" class="jrc-logo"><img src="https://global-surface-water.appspot.com/gsw/newmockup/img/europelogo.png" alt=""></a>
+                        <p class="app-title">PV Decentralised Energy Investment Index </p>
+                    </li>
+                </ul>
+
+
+            </form>
+        </div>
+    </nav>
+    <ul id="slide-out" class="sidenav">
+        <ul class="collapsible">
+
+            <li class='indicators_li'>
+                <div class="card horizontal collapsible-header indicators">
+                    <div class="card-image">
+
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title card-title_country">Indicators</span>
+                            <p class="country_name_header"></p>
+                            <div><i onclick="window.print()" class="material-icons pdf_print">picture_as_pdf</i></div>
+                            <div><i class="material-icons csv_export_all">cloud_download</i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible-body">
+
+                    <!-- <h3 class="subheader">INDICATORS</h3> -->
+                    <ul class="list indicators_list">
+
+                        <li>
+                            <div class="row">
+
+                                <div class="row">
+
+                                    <!-- <div class="row summary" info_container="permanent_lake">
+                                        <div class="col s3">
+                                            <i class="material-icons left highlight layers">layers</i>
+                                            <i class="material-icons left show info">info_outline</i>
+                                        </div>
+                                        <div class="col s9">
+                                            <span class="title show">description</span>
+                                        </div>
+
+                                    </div> -->
+
+
+                                    <div class="col s12">
+
+                                        <div class="indicators_list row">
+                                            <div class='center matrix_indicator_select off'>Index scoreboard
+                                            </div>
+
+                                            <div class='center other_indicator_select off'>Break-down by sub-index
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="col s8 flow-text index_type_description">
+
+                                        <blockquote>
+                                            Break-down by sub-index description
+                                        </blockquote>
+
+                                        <div class="col s9 flow-text other_description">
+                                            <blockquote>
+                                                Break-down by sub-index description
+                                            </blockquote>
+                                        </div> 
+                                    </div> -->
+                                </div>
+                            </div>
+
+                </div>
+                </li>
+
+
+                <li class='country_li main_li'>
+                    <div class="card horizontal collapsible-header country">
+                        <div class="card-image">
+
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <span class="card-title card-title_country">Country Profile</span>
+                                <p class="country_name_header"></p>
+                                <div><i onclick="window.print()" class="material-icons pdf_print">picture_as_pdf</i></div>
+                                <div><i class="material-icons csv_export_all">cloud_download</i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapsible-body">
+                        <div class="center row">
+                            <div class="col s12 ">
+                                <div class="row" id="topbarsearch">
+                                    <div class="input-field col s6 s12">
+                                        <i class="material-icons prefix">search</i>
+                                        <input autocomplete="off" type="text" placeholder="Search for a country" id="autocomplete-input" class="autocomplete white-text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="country_info">
+                            <div class="subheader">GENERAL INFORMATION</div>
+
+                            <ul class="list status_list">
+
+                                <li>
+                                    <div class="row summary" info_container="general">
+                                        <div class="country_name col grid s12"></div>
+
+                                        <div class="region col grid s8 indicator_title">Region</div>
+                                        <div class="col grid s3"></div>
+                                        <div class="pop_ghsl col grid s8 indicator_title">Population
+                                        </div>
+                                        <div class="col grid s3 left"></div>
+
+
+                                    </div>
+
+
+                                </li>
+
+                            </ul>
+
+                            <div class="subheader">STATUS</div>
+
+                            <ul class="list status_list">
+
+                                <li>
+                                    <div class="row summary" info_container="status">
+
+                                        <div class="row">
+                                            <div class="er_2014 col grid s8 indicator_title">Electrification rate</div>
+                                            <div class="col grid s3"></div>
+                                            <div class="rer_2014 col grid s8 indicator_title">Rural electrification rate
+                                            </div>
+                                            <div class="col grid s3"></div>
+                                            <div class="rer_2014 col grid s8 indicator_title">Renewable energy share in the total final energy consumption
+                                            </div>
+                                            <div class="col grid s3 left"></div>
+                                        </div>
+
+                                    </div>
+
+
+                                </li>
+
+                            </ul>
+
+                            <div class="subheader">IMPACTS</div>
+
+
+                            <ul class="list status_list">
+
+                                <li>
+                                    <div class="row summary" info_container="impacts">
+
+                                        <div class="row">
+                                            <div class='row'>Market size: Electricity access ('000 people)</div>
+                                            <div class="pop_noelect_minigrid col grid s8 indicator_title">Market size: decentralized technologies ('000 people)</div>
+                                            <div class="col grid s3"></div>
+                                            <div class="pop_minigrid col grid s8 indicator_title">PV mini-grid market size ('000 people)
+                                            </div>
+                                            <div class="col grid s3"></div>
+                                            <div class="pop_shs col grid s8 indicator_title">Market size by SHS or nano-solar ('000 people)
+                                            </div>
+                                            <div class="col grid s3 left"></div>
+                                        </div>
+
+                                    </div>
+
+
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="print_disclamer">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam obcaecati nobis quam nemo cum, quas amet vel ipsam esse officia, nihil, culpa consequatur labore voluptas impedit qui laborum deserunt error.</div>
+                </li>
+
+                </ul>
+        </ul>
+        <!-- <div id="wrapper"> -->
+        <div id="map"></div>
+        <div id='lollipop_wrapper'>
+            <div class='lollipop_legend_description'>PV-DESI by sub-index</div>
+            <div class='lollipop_graph_legend'><svg></svg></div>
+
+            <div id="lollipop_graph"></div>
+
+        </div>
+        <div id="matrix_wrapper">
+
+            <div id="matrix">
+
+                <div class="heatmap">
+
+                    <svg></svg>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!-- </div> -->
+        <!-- </div> -->
+
+        <script src="./new_app_js/attach_ev.js"></script>
+        <script>
+            var map;
+
+            app.throttle = function(fn, threshhold, scope) {
+                threshhold || (threshhold = 250);
+                var last,
+                    deferTimer;
+                return function() {
+                    var context = scope || this;
+
+                    var now = +new Date,
+                        args = arguments;
+                    if (last && now < last + threshhold) {
+                        // hold on to it
+                        clearTimeout(deferTimer);
+                        deferTimer = setTimeout(function() {
+                            last = now;
+                            fn.apply(context, args);
+                        }, threshhold);
+                    } else {
+                        last = now;
+                        fn.apply(context, args);
+                    }
+                };
+            }
+
+
+
+
+            function get_scale_data(value) {
+                var x = scale_values.filter(function(d) {
+                    // if (d.value == value)
+                    //     console.log(d.value, value)
+                    // else
+                    //     console.warn(d.value, value)
+
+                    // // console.warn(d.value)
+                    // // console.log(d.value==value); //false
+                    // // console.log(value==0); //false
+                    // // console.log(d.value==0); //true
+                    return d.value == value;
+                })[0];
+                //console.info(x);
+                return x;
+            }
+            var all_data = all_country_data.features;
+            app_data.all_data = all_data;
+            app_data.countries = {}
+            all_data.forEach(function(d) {
+                app_data.countries[d.country] = null;
+            })
+
+
+            $('input.autocomplete').autocomplete({
+                data: app_data.countries,
+                onAutocomplete: function(country) {
+                    //var adm_name = txt;
+                    console.info(country)
+                    var path_code = all_data.filter(function(d) {
+                        return d.country == country
+                    })[0].code;
+
+                    $('.country_li').removeClass('expanded')
+                    $('.country_li .input-field').removeClass('expanded')
+
+
+                    app.update_country_profile(path_code);
+
+
+
+                }
+            }).bind('input', function() {
+                console.info('input binding')
+                    //$('.country_li').css('min-height', '300px').find('.input-field').css('min-height', '300px');
+                $('.country_li').addClass('expanded')
+                $('.country_li .input-field').addClass('expanded')
+            });
+
+            d3.json("./data/countries.json").then(mapDraw);
+
+
+            function mapDraw(geojson) {
+                console.log(geojson)
+
+                function get_index_data(name) {
+                    return indexes_info.filter(function(d) {
+                        return d.name == name;
+                    })[0]
+                }
+
+                function sort_by_index(param) {
+
+                    return function(a, b) {
+
+                        //  console.info(a.data[param])  //2,3,1,1...
+                        return a.data_class[param] < b.data_class[param] ? 1 : -1;
+                    }
+
+                }
+
+                app.generate_data = function(param) {
+                    console.warn(param)
+
+                    indexes_arrays.env_index_class_arr = [];
+                    indexes_arrays.main_index_class_arr = [];
+                    indexes_arrays.social_index_class_arr = [];
+                    indexes_arrays.political_index_class_arr = [];
+                    indexes_arrays.financial_index_class_arr = [];
+                    //   console.groupCollapsed('inside_generate_data')
+                    var sorted = app_data.all_data.sort(sort_by_index(param));
+                    console.log(sorted)
+                    sorted.forEach(function(d, i) {
+
+                        //  if (i > 5) return false
+                        /*
+        "data":{
+       env_index_class: 1
+​
+financial_index_class: 5
+​
+main_index_class: 5
+​
+main_index_val: 0.389
+​
+political_index_class: 5
+​
+social_index_class: 3
+        }
+        */
+
+                        var popup = '<div class="popup_country_title">' + d.country + '</h3>';
+
+                        var data_val_arr = d.data_class;
+                        for (var index in d.data_class) {
+                            console.log(index)
+
+                            //main_index_val is on d.data_val
+                            //main_index_class is on d.data_class
+
+
+                            // if (index !== 'main_index_val') {
+                            var index_info = get_index_data(index);
+                            var scale_info = get_scale_data(d.data_class[index]);
+
+                            if (typeof scale_info == 'undefined') {
+                                var scale_info = {
+                                    color: '#2f2e2f'
+                                }
+                            }
+                            var _class = index.split('_class')[0] + '_val';
+                            popup += '<div class="index_country_info ' + _class + '"><i style="background:' + scale_info.color + '"></i>' + index_info.title + '</div>';
+                            console.info(popup)
+                                //var y_elements = ["env_index_class", "financial_index_class", "political_index_class", 'social_index_class', 'main_index_class'];
+                            var arr = indexes_arrays[index + '_arr'];
+
+                            arr.push({
+                                    country: d.country,
+                                    _code: d.code,
+                                    index_type: index,
+                                    index_value: d.data_class[index],
+                                    color: scale_info.color
+                                })
+                                //  }
+                            d.popup = popup;
+
+                        }
+
+                        // $('#countries_popup').append(popup)
+                    });
+                    console.log('sorted', sorted)
+                    var matrix_params = {};
+                    var countries_arr =
+                        sorted.map(function(d) {
+                            return d.code;
+                        });
+                    matrix_params.countries_arr = countries_arr;
+
+                    var all_data_plot = indexes_arrays.env_index_class_arr.concat(indexes_arrays.financial_index_class_arr).concat(indexes_arrays.political_index_class_arr)
+                        .concat(indexes_arrays.social_index_class_arr).concat(indexes_arrays.main_index_class_arr);
+                    console.log('all_data_plot', all_data_plot)
+                        //  console.groupEnd();
+                    app_data.sorted_country_data = sorted;
+                    app_data.all_data_plot = all_data_plot;
+
+                    // matrix_params.all_data_plot = all_data_plot;
+                    matrix_params.index_to_plot = param;
+
+                    if ($('.legend_dropdown_button.dropdown-trigger').is(':visible') == false) {
+
+                        $('.legend_dropdown_button.dropdown-trigger').show();
+                        setTimeout(function() {
+                            $('.legend_dropdown_button.dropdown-trigger i').trigger('click');
+                        }, 700)
+
+
+                    } else {
+                        if ($('.legend_control_container svg').is(':visible') == false) {
+                            $('.legend_dropdown_button.dropdown-trigger').show();
+                            setTimeout(function() {
+                                $('.legend_dropdown_button.dropdown-trigger i').trigger('click');
+                            }, 300)
+
+                        }
+
+                    }
+
+                    generate_matrix(matrix_params);
+
+                    if ($('.heatmap').attr('data-tooltip')) {
+                        $('.heatmap').tooltip("open")
+                    } else {
+
+
+                        $('.heatmap')
+                            .attr('data-tooltip', function() {
+                                return '<div class="div_sel_matrix_order">Scoreboard is ordered by <span class="sel_matrix_order">General Index</span>. Click any other label (Financial, social...) in order to change scoreboard and map</div>';
+                            })
+                            .tooltip({
+                                delay: 50,
+                                delayOut: 1900,
+                                position: 'top',
+                                html: true
+                            });
+                        $('.heatmap').tooltip("open");
+                        setTimeout(function() {
+                            $('.heatmap').tooltip("close");
+                        }, 5000)
+
+                    }
+                    console.log('setting app_state.matrix_indicators = true')
+                }
+
+                var rects;
+
+                function generate_matrix(matrix_params) {
+                    $('.legend_dropdown_button.dropdown-trigger').show();
+                    app_state.matrix_indicators = true;
+                    app_state.lollipop_indicators = false;
+                    app.country_popup.remove();
+
+                    $('.rank_legend_dropdown_button.dropdown-trigger,.rank_legend_control,#lollipop_wrapper').hide();
+                    console.group('matrix_info')
+                    $('.tooltip').remove();
+
+
+                    console.log(matrix_params);
+                    $('.lollipop_tooltip').remove();
+
+                    //alert($('#matrix_wrapper').height())
+
+                    var countries_arr = matrix_params.countries_arr;
+                    var all_data_plot = app_data.all_data_plot;
+                    console.log(all_data_plot)
+
+
+                    //margins from graph inside wrapper!
+                    var margin = {
+                        top: 0,
+                        right: 20,
+                        bottom: 0,
+                        left: 120
+                    };
+
+
+                    var mx_w_h = ($('#map').height() / 5) + 15;
+
+                    var svg_h = $('.heatmap').height();
+
+
+                    var map_w = $('#map').width();
+                    var diff_w = map_w - (map_w / 4)
+
+                    if ($('.heatmap svg g').length == 0) {
+
+                        //-30 is some extra space
+                        var diff_h = $('#map').height() - mx_w_h - 10; // + 50; //- $('.nav-wrapper').height();
+                        var width = diff_w - margin.left - margin.right;
+                        $('#matrix_wrapper').css('margin-left', (map_w / 8) + 'px')
+                            // alert((map_w/8)+'px')
+                        $('.heatmap,#matrix_wrapper').height(mx_w_h).show()
+
+                        var svg_w = width + margin.left + margin.right
+                        console.log(diff_h)
+                    } else {
+                        var diff_h = $('#matrix_wrapper').position().top;
+                        var svg_w = $('.heatmap svg').width()
+                            // var diff_h = $('#map').height() - svg_h + $('.nav-wrapper').height();
+                        $('.heatmap,#matrix_wrapper').height(mx_w_h).show();
+                    }
+
+                    var x_elements = countries_arr;
+                    var buckets = x_elements.length + 1;
+
+                    if ($('.heatmap svg g').length == 0)
+                        $('#matrix_wrapper').css('top', diff_h).css('width', diff_w + 'px')
+                    else
+                        $('#matrix_wrapper').css('top', diff_h).css('width', diff_w + 'px')
+                        //half of half map width!!
+                        .css('margin-left', (map_w / 8))
+                        // .height(150)
+
+                    $('.heatmap svg').empty();
+
+                    //   console.groupCollapsed()
+                    var svg = d3.select('.heatmap svg')
+                        //.append("svg")
+                        .attr("width", svg_w)
+                        .attr("height", mx_w_h) // $('.div_sel_matrix_order').height())
+                        .append("g")
+
+                    .attr("transform",
+                        //  "translate(" + margin.left + "," + margin.top + ")")
+                        "translate(" + margin.left + ",30)")
+
+
+                    var xScale = d3.scaleBand()
+                        .domain(x_elements)
+                        .range([0, svg_w - margin.left - 10])
+                        .padding(0.2)
+
+                    var xAxis = d3.axisBottom()
+                        .scale(xScale)
+                        .tickFormat(function(d) {
+                            return d;
+                        })
+
+                    var yScale = d3.scaleBand()
+                        //d3.scaleBand()
+                        .domain(y_elements)
+                        .range([0, y_elements.length * xScale.bandwidth() + 10])
+                        //.range([0, h])
+                        .padding(0.02)
+
+                    var yAxis = d3.axisLeft()
+                        .scale(yScale)
+                        .tickFormat(function(d) {
+                            //  console.log(d)
+                            return d;
+                        })
+
+                    // .orient("left");
+                    setTimeout(function() {
+                        $('.y.axis').attr('transform', 'translate(0,5)')
+                    }, 800)
+
+
+                    cellSize = xScale.bandwidth();
+                    console.log(cellSize);
+                    console.groupEnd()
+                        //                     value: 1,
+                        //     color: '#e73232',
+                        //     title: 'Lower performance'
+                        // }, {
+                        //     value: 2,
+                        //     color: '#f5621c',
+                        //     title: 'Lower-middle'
+                        // }, {
+                        //     value: 3,
+                        //     color: '#f7c717',
+                        //     title: 'Middle'
+                        // }, {
+                        //     value: 4,
+                        //     color: '#6ee282',
+                        //     title: 'Upper middle'
+                        // }, {
+                        //     value: 5,
+                        //     color: '#2196f3',
+                        //     title: 'Higher performance'
+                        // }
+                    var colorScale = d3.scaleThreshold()
+                        .domain([0, 1, 2, 3, 4])
+                        .range(["#e73232", "#f5621c", "#f7c717", "#6ee282", "#2196f3"]);
+
+
+                    var mouseover_cell = function(d) {
+
+                        console.log(d)
+                        console.info('mousemoving cell')
+
+                        rects.style('opacity', 1)
+                            /*
+                                    _code: "MRT"
+                            ​
+                            color: "#f5621c"
+                            ​
+                            country: "Mauritania"
+                            ​
+                            index_type: "financial_index_class"
+                            ​
+                            index_value: 2
+                            */
+                        var out = rects.filter(function(_d) {
+                            console.log(_d)
+                            return _d._code !== d._code
+                        });
+                        console.log(out)
+                        out.style('opacity', 0.3)
+                        if ($(".country_popup.rect_popup[popup_code=" + d._code + "]").length == 0)
+                            app.country_popup.remove();
+
+                        //if ($('.tooltip[popup_code=' + d._code + ']').length == 0) {
+                        var pos = $(this).position();
+                        var this_info = app_data.sorted_country_data.filter(function(info) {
+                            return info.code == d._code;
+                        })[0];
+
+                        var $html = $.parseHTML(this_info.popup);
+                        console.info('mousemooove cell with no popup ' + d.index_type)
+                            //  tooltip.empty();
+
+                        tooltip
+                            .html('<div popup_code="+d._code+" class="rect_popup"></div>')
+                            .style("left", (pos.left + 30) + "px")
+                            .style("top", (pos.top - 180) + "px")
+                        $('.tooltip .rect_popup').empty().append($html).show()
+                        tooltip.style("opacity", 1);
+                        //yelllow hovering index
+
+                        //main_index_class
+                        var _class = d.index_type.split('_class')[0] + '_val';
+                        console.info("we only change the matrix popup value on mouseovering cell")
+                        $('.popup_cell_selected').removeClass('popup_cell_selected')
+                        $('.tooltip .index_country_info.' + _class).addClass('popup_cell_selected');
+                        // } else {
+                        //     app.country_popup.remove();
+                        //     console.info('mousemooove cell with SOME popup from different country')
+                        //     var _class = d.index_type.split('_class')[0] + '_val';
+                        //     console.info("we only change the matrix popup value on mouseovering cell")
+                        //     $('.popup_cell_selected').removeClass('popup_cell_selected')
+                        //     $('.tooltip .index_country_info.' + _class).addClass('popup_cell_selected');
+                        // }
+
+
+                    }
+
+                    var mouseleave_cell = function(d) {
+                        //if ($('.tooltip[popup_code=' + d._code + ']').length == 0)
+                        // tooltip.style("opacity", 0);
+                        //app.country_popup.
+                    }
+
+                    $('.heatmap').on('mouseenter', function() {
+                            console.log('mousenter heatmap')
+                            if ($(this).attr('data-tooltip')) {
+                                var container = $(".div_sel_matrix_order").parents().closest('.material-tooltip')
+                                console.warn('present')
+                                $(this).tooltip('close');
+                                container.remove()
+                                $(this).removeAttr('data-tooltip');
+                            }
+
+                        })
+                        //                     var mouseleave_svg = function(d) {
+
+                    // d3.select("#map path").attrs(app.sel_country_style)
+                    // console.log('leave')
+                    // rects.style("opacity", 1);
+                    // tooltip.style("opacity", 0)
+                    // }
+                    var cells = svg.selectAll('.heatmap rect')
+
+                    cells.data(all_data_plot)
+
+                    .enter().append('g')
+                        .attr('transform', "translate(0,5)")
+                        //.classed('g_classed', true)
+                        .attr('class', 'rects_container')
+                        .append('rect')
+                        .attr('class', 'cell')
+                        .attr('width', cellSize)
+                        .attr('height', cellSize)
+
+                    // .attr('y', function(d) {
+                    //     return 0;
+                    // })
+                    .attr('y', function(d) {
+                            //  return yScale(d.data.political);
+
+                            return yScale(d.index_type);
+                        })
+                        .attr('x', function(d) {
+                            return xScale(d._code);
+                        })
+                        .attr('opacity', 1)
+                        .style('fill', function(d) {
+                            return d.color;
+                        })
+
+
+
+                    rects = d3.selectAll('.heatmap rect.cell')
+                        //excluding now border_cell
+                        //.on('mouseover', mouseover)
+                        .on('mouseover', mouseover_cell)
+                        .on("mouseleave", mouseleave_cell);
+
+                    var click_label = function(d) {
+
+                        if ($(d3.event.target).parent().hasClass('x_tick')) {
+                            var target = $(d3.event.target).parent();
+                        } else {
+                            if ($(d3.event.target).hasClass('y_tick_text')) {
+                                console.warn(d)
+                                    //political_index_class
+                                app_data.matrix_current_param = d;
+                                // rects.style("opacity", 0.3);
+                                // rects.filter(function(data) {
+                                //     return data.index_type == d;
+                                // }).style("opacity", 1);
+                                // return false;
+                                app.update_by_index(d);
+                            } else
+                                var target = $(d3.event.target);
+                        }
+
+
+                    }
+
+                    var mouseover_label = function(d) {
+                        //console.warn(d) --> the country code
+                        //code
+                        $('.tooltip .rect_popup').hide();
+                        console.info($(d3.event.target))
+                        if ($(d3.event.target).parent().hasClass('x_tick')) {
+
+                            var target = $(d3.event.target).parent();
+                            console.log(d);
+                            console.info(d3.select(this))
+
+                            rects.style("opacity", 0.2);
+                            rects.filter(function(data) {
+                                return data.code == d;
+                            }).style("opacity", 1);
+
+                        } else {
+                            if ($(d3.event.target).hasClass('y_tick_text')) {
+                                rects.style("opacity", 0.2);
+                                rects.filter(function(data) {
+                                    return data.index_type == d;
+                                }).style("opacity", 1);
+                                return false;
+                            } else
+                                var target = $(d3.event.target);
+                        }
+                        if (target) {
+
+
+                            if ($('.country_popup[popup_code=' + d + ']').length > 0) {
+                                console.log('mouseovering same country! no popup')
+                                return false;
+                            }
+
+                            var this_info = app_data.sorted_country_data.filter(function(info) {
+                                return info.code == d;
+                            })[0];
+
+                            $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered')
+
+                            target.addClass('x_mouseovered');
+
+                            rects.style("opacity", 0.2);
+                            var these_rects = rects.filter(function(data) {
+                                if (data._code == d) {
+                                    // console.log(d)
+                                    //country code
+                                }
+                                return data._code == d;
+                            });
+                            d3.selectAll('.border_cell').style('opacity', 0);
+
+                            these_rects.nodes().forEach(function(d, i) {
+
+                                var parent = d.parentNode;
+                                // d3.select(parent).select('.border_cell').style('opacity', 1)
+                            })
+
+                            these_rects.style("opacity", 1);
+
+                            var t = '#map path[code=' + d + ']';
+
+                            var popup_html = '<div popup_code=' + this_info.code + ' class="country_popup rect_popup">' + this_info.popup + '</div>'
+
+
+                            for (var p in markers_obj_arr) {
+                                if (markers_obj_arr[p].code == d) {
+                                    app.country_popup.setLngLat(markers_obj_arr[p].centroid)
+                                    app.country_popup.setHTML(popup_html) //<hr>'+feature.properties.adm_0_name)
+                                        .addTo(map);
+                                }
+                            }
+
+                            setTimeout(function() {
+                                $('.popup_selected').removeClass('popup_selected')
+                                $('.index_country_info.' + app_data.matrix_current_param).addClass('popup_selected')
+
+                            }, 300)
+
+                            d3.selectAll("#map path").attrs(app.unsel_country_style)
+                            var sel_path = d3.selectAll("#map path[code=" + d + "]");
+                            mouseovered_path.ori_color = sel_path.attr('fill')
+                            mouseovered_path.sel_path = sel_path;
+
+
+                            sel_path.transition()
+                                .duration(100)
+                                .attrs(app.sel_country_style)
+                                //.attr('fill', '#ea24d2');
+                                // .attr("stroke", "#ea24d2")
+                                // .attr('stroke-width', 1)
+                                // .attr('opacity', 1)
+                                //.attr
+
+
+                        } else {
+
+                            rects.style("opacity", 0.3);
+                            rects.filter(function(data) {
+                                return data.index_type == d;
+                            }).style("opacity", 1);
+                        }
+                    }
+
+                    var mouseout_label = function(d) {
+
+                        //d3.selectAll('.tick').on('mouseout...........)
+                        //triggered also when moving on the map...
+                        //  app.country_popup.remove();
+                        console.log('mouseout_label')
+                        var cs = d3.selectAll("#map path");
+                        console.log(cs)
+                            //cs.attrs(app.sel_country_style)
+                        cs.attrs(app.normal_country_style)
+                        console.warn($(d3.event.target))
+                        if ($(d3.event.target).parent().hasClass('x_tick')) {
+                            //country names
+                            var target = $(d3.event.target).parent();
+                            // mouseovered_path.sel_path.transition()
+                            //     .duration(100)
+                            //     //.attr('fill', mouseovered_path.ori_color);
+                            //     .attrs(app.unsel_country_style)
+
+                            $('.x_mouseovered', '.heatmap').removeClass('x_mouseovered');
+                        } else {
+                            if ($(d3.event.target).hasClass('y_tick_text')) {
+                                console.log('mouseoutlabel for Y axis')
+                            }
+
+
+                        }
+
+                        rects.style("opacity", 1);
+                    }
+
+                    var mouseleave_svg = function(d) {
+
+                            //d3.select("#map path").attrs(app.sel_country_style)
+                            cs.attrs(app.normal_country_style)
+                            console.log('leave')
+                            rects.style("opacity", 1);
+                            tooltip.style("opacity", 0)
+                        }
+                        // svg.selectAll('g.g_classed').on('mouseover', mouseover)
+                        //     .on('mousemove', mousemove)
+                        //     .on("mouseleave", mouseleave)
+
+                    //.on('mousemove', mousemove_label)
+                    //.on("mouseleave", mouseleave_label)
+
+
+
+                    var tooltip = d3.select("#map")
+                        .append("div")
+
+                    .attr("class", "tooltip")
+                        // .style("background-color", "white")
+                        // .style("border", "solid")
+                        // .style("border-width", "2px")
+                        // .style("border-radius", "5px")
+                        // .style("padding", "5px")
+
+
+                    // cells.on('mouseover', mouseover)
+                    //     .on('mousemove', mousemove)
+                    //     .on("mouseleave", mouseleave)
+
+                    svg.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis)
+                        .selectAll('.tick')
+
+                    .classed('y_tick', true)
+                        .selectAll('text')
+                        //.text('test')
+                        .text(function(d) {
+                            for (var p in indexes_info) {
+                                if (indexes_info[p].name == d)
+                                    return indexes_info[p].title
+                            }
+                        })
+                        .attr('font-weight', 'bolder')
+                        .attr('class', 'y_tick_text')
+                        .style('fill', function(d) {
+                            console.info(d)
+                            if (d == matrix_params.index_to_plot) {
+                                //blueish
+                                return '#f7aa17'
+                            } else {
+                                //blackish
+                                return '#ffffff'
+                            }
+                        })
+
+                    svg.append("g")
+                        .attr("class", "x axis")
+                        .call(xAxis)
+                        .selectAll('.tick')
+                        .classed('x_tick', true)
+                        .selectAll('text')
+                        .classed('default_label', true)
+                        .attr('font-weight', 'normal')
+                        .style('fill', '#ffffff')
+                        .style("text-anchor", "start")
+                        // .attr("dx", ".3em")
+                        .attr("dy", ".5em")
+                        .attr("y", -5)
+                        .attr("transform", function(d) {
+                            return "rotate(-65)";
+                        })
+
+
+                    console.warn(d3.selectAll('.tick'))
+                    d3.selectAll('.tick').on('mouseover', app.throttle(mouseover_label, 300)).on('mouseout', mouseout_label)
+                        .on('click', click_label)
+                        //   d3.selectAll('.heatmap').on('mouseout', mouseleave_svg);
+                }
+                //  map.on('load', function () {
+
+
+                //$('.mapboxgl-map').css("background-color", "rgb(161, 180, 193)");
+
+                //Setup mapbox-gl map
+                map = new mapboxgl.Map({
+                    container: 'map', // container id
+                    //style: 'mapbox://styles/mapbox/streets-v8',
+                    style: {
+                        "version": 8,
+                        "sources": {
+                            "geoserver": {
+                                "type": "vector",
+                                "tiles": [
+                                    "https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=hotspots:gaul_0_simplified&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
+                                ],
+                            }
+                        },
+                        "layers": [{
+                            "id": "gaul_0_simple",
+                            "source": "geoserver",
+                            "source-layer": "gaul_0_simplified",
+                            "type": "fill",
+                            // "minzoom": 4,
+                            // "maxzoom": 6,
+                            'paint': {
+                                "fill-color": "#a2a7ab",
+                                "fill-outline-color": "#87989c",
+                                "fill-opacity": 0.9
+
+                            }
+                        }]
+                    },
+                    center: [2, -12],
+                    maxZoom: 4,
+
+                    //center: [141.15448379999998, 39.702053　],
+                    zoom: 2,
+
+                    attributionControl: false
+                });
+                $(".mapboxgl-map").css('background-color', "#a1b4c1")
+
+                // class map_legend_control {
+                //     onAdd(map) {
+                //         this.map = map;
+                //         this.container = document.createElement('div');
+                //         this.container.className = 'rank_legend_control';
+                //         //this.container.textContent = '<h5>Just a test</h5>';
+                //         return this.container;
+                //     }
+                //     onRemove() {
+                //         this.container.parentNode.removeChild(this.container);
+                //         this.map = undefined;
+                //     }
+                // }
+
+
+                // var legend_control = new map_legend_control();
+                // map.addControl(legend_control, 'top-right');
+                //  console.info('<div class="mapboxgl-ctrl mapboxgl-ctrl-group rank_legend_control_container"> <div class="center title">Map is symbolized by <span class="rank_symbol_label">Main index </span> rank <select id="rank_map_select"> <option value="main_index_val" selected">Main index</option> <option value="social_index_val">Social</option> <option value="env_index_val"">Environmental</option> <option value="financial_index_val">Financial</option> <option value="political_index_val">Political</option> </select> </div><svg class="legend_svg"></svg> </div> ');
+                // $('.rank_legend_control').html('<div class="mapboxgl-ctrl mapboxgl-ctrl-group rank_legend_control_container"> <div class="center title">Map is symbolized by <span class="rank_symbol_label">Main index </span> rank <select id="rank_map_select"> <option value="main_index_val" selected">Main index</option> <option value="social_index_val">Social</option> <option value="env_index_val"">Environmental</option> <option value="financial_index_val">Financial</option> <option value="political_index_val">Political</option> </select> </div><svg class="legend_svg"></svg> </div> ');
+                //<div class="rank_legend_control_container_title"></div>
+
+
+                console.info(map)
+                    // map.addSource('wetlands', {
+                    //     'type': 'raster',
+                    //     'tiles': [
+                    //         'https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wms?service=WMS&version=1.1.0&request=GetMap&layers=africa_platform%3Agwa_250_power_d10m_Africa&{z}/{x}/{y}.png'
+                    //     ],
+                    //     'tileSize': 256
+                    // });
+
+                // map.addLayer(
+                //     {
+                //         'id': 'wetlands',
+                //         'type': 'raster',
+                //         'source': 'wetlands',
+                //         'paint': {}
+                //     }
+                // );
+
+                // https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wms?service=WMS&version=1.1.0&request=GetMap&layers=africa_platform%3Agwa_250_power_d10m_Africa&bbox=-17.515927317807297%2C-46.97673125226917%2C63.49657268219673%2C37.54326874773502&width=736&height=768&srs=EPSG%3A4326&format=application/openlayers
+                // var diff = $('#map').height() - 240;
+                // console.info('diff for 240 is ' + diff)
+
+
+                // $('#matrix_wrapper').css('top', diff)
+
+                app.country_popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: true,
+                    //offset: [20, -20]
+                    offset: {
+                        'bottom': [0, -20],
+                        'top': [0, 15],
+                        'top-left': [0, 0], //[linearOffset, (markerHeight - markerRadius - linearOffset) * -1],
+                        'top-right': [0, 0], //[-linearOffset, (markerHeight - markerRadius - linearOffset) * -1],
+
+                    }
+                });
+                map.addControl(new mapboxgl.NavigationControl());
+
+                // disable map rotation using right click + drag
+                map.dragRotate.disable();
+
+                // disable map rotation using touch rotation gesture
+                map.touchZoomRotate.disableRotation();
+
+                //   Add zoom and rotation controls to the map.
+                //  map.addControl(new mapboxgl.NavigationControl());
+                class MyCustomControl {
+                    onAdd(map) {
+                        this.map = map;
+                        this.container = document.createElement('div');
+                        this.container.className = 'my-custom-control off';
+                        //this.container.textContent = '<h5>Just a test</h5>';
+                        return this.container;
+                    }
+                    onRemove() {
+                        this.container.parentNode.removeChild(this.container);
+                        this.map = undefined;
+                    }
+                }
+
+
+                var legendElementWidth = 20;
+                var legend_svg = d3.select('.legend_control svg')
+
+                console.groupCollapsed('my Legend description Group');
+
+                //.attr("width", legendElementWidth+170)
+                legend_svg.attr("width", 180)
+                    //.attr("height",legendElementWidth*8)
+                    .attr("height", 120)
+
+                var legend = legend_svg.selectAll(".legend")
+                    .data(scale_values, function(d) {
+                        console.log(d)
+                        return d.value;
+                    })
+
+                .enter()
+
+                .append("g")
+                    .attr("class", "legend")
+
+                console.groupEnd();
+                legend.append("rect")
+                    .attr("x", function(d, i) {
+
+                        return 0 * i;
+                    })
+                    //.attr("x",0)
+                    .attr("y", function(d, i) {
+                        return legendElementWidth * i;
+                    })
+                    .attr("width", legendElementWidth)
+                    .attr("height", legendElementWidth)
+                    .style("fill", function(d, i) {
+
+                        return d.color;
+                    })
+                    .attr("stroke", "white")
+                    .attr("value", function(d) {
+                        return d.value;
+                    });
+
+                legend.append("text")
+                    .attr("class", "Montserrat")
+                    .html(function(d) {
+                        // console.warn(d.legend_text)
+                        return d.title; //+'<b>test</b>';
+                    })
+                    .attr("x", function(d, i) {
+                        return legendElementWidth + 10;
+                    })
+                    //.attr("x",0)
+                    .attr("y", function(d, i) {
+                        return ((legendElementWidth * i) + (legendElementWidth / 2) + 7);
+                    })
+
+                .attr("font-size", "13px")
+                    .attr("fill", "white");
+                $('.legend_dropdown_content').height(200);
+
+
+                $('.show_hide_circles').click(function() {
+                    if ($(this).hasClass('off')) {
+                        $(this).text('Hide ranking number').addClass('on').removeClass('off')
+                        $('.my-icon').show()
+                    } else {
+                        $(this).text('Show ranking number').addClass('off').removeClass('on')
+                        $('.my-icon').hide()
+                    }
+
+                })
+
+                function remove_others_actions() {
+                    //$('.dropdown-trigger,#lollipop_wrapper,#matrix_wrapper,.lollipop_tooltip,.tooltip,.rank_legend_control').hide();
+                    $('#lollipop_wrapper,#matrix_wrapper,.lollipop_tooltip,.tooltip,.rank_legend_control').hide();
+                    app.country_popup.remove();
+                    $('.indicators_list.row').find('.on').removeClass('on');
+
+                    $('.heatmap').removeAttr('data-tooltip');
+                    var container = $(".div_sel_matrix_order").parents().closest('.material-tooltip')
+                    container.remove()
+
+                }
+
+                app.update_country_profile = function(path_code)
+
+                {
+
+                    app_state.lollipop_indicators = false;
+                    app_state.matrix_indicators = false;
+                    remove_others_actions();
+
+                    svg.selectAll("path").attrs(app.initial_country_style)
+
+
+                    var _t = all_data.filter(function(d) {
+                        return d.code == path_code
+                    })[0];
+                    // console.log(JSON.stringify(_t))
+
+                    // if ($('.country_li').hasClass('active') == false) {
+                    //     $('.country_li .collapsible-header').trigger('click');
+                    // }
+                    console.warn(_t.data_val)
+                    var tds = $('#country_modal table:first tbody tr td');
+                    var i = 0;
+                    var ranks_text_arr = [];
+                    for (var p in _t.data_ranks) {
+                        tds.eq(i).find('div span:first').html(_t.data_ranks[p] + '<small> /38</small>');
+                        i++;
+                    }
+                    var i = 0;
+                    for (var p in _t.data_val) {
+                        tds.eq(i).find('div span:last').css('font-size', '0.8em!important')
+                        tds.eq(i).find('div span:last').text(_t.data_val[p])
+                        i++;
+                    }
+
+                    //  $('.country_info').show();
+                    for (var p in _t.country_facts[0]) {
+                        if (p !== 'country') {
+                            if (typeof _t.country_facts[0][p] == 'number')
+                                $('.' + p, '#country_modal').next().text(numberWithCommas(_t.country_facts[0][p]))
+                            else
+                                $('.' + p, '#country_modal').next().text(_t.country_facts[0][p])
+                        } else {
+                            $('.country_name', '#country_modal').text(_t.country_facts[0][p])
+                        }
+
+
+                    }
+
+                    // var sel_path = d3.selectAll("#map path[code=" + path_code + "]");
+
+                    // d3.selectAll("#map path.active").transition()
+                    //     .duration(300)
+                    //     .attr('fill', function(d) {
+
+                    //         return d3.select(this).attr('ori_color')
+                    //             //sel_path.attr('ori_color'));
+                    //     })
+
+                    // // mouseovered_path.sel_path = sel_path;
+
+                    // if (sel_path.classed('active') == false) {
+                    //     sel_path.attr('ori_color', sel_path.attr('fill'))
+                    //     sel_path.transition()
+                    //         .duration(300)
+                    //         //pinky
+                    //         .attr('fill', '#ea24d2');
+                    //     sel_path.classed('active', true);
+                    // } else {
+                    //     sel_path.classed('false', true);
+                    //     sel_path.transition()
+                    //         .duration(600)
+                    //         .attr('fill', sel_path.attr('ori_color'));
+                    // }
+
+                    $('.modal-trigger.country_modal_trigger i').trigger('click')
+                }
+
+                var container = map.getCanvasContainer()
+                var svg = d3.select(container).append("svg");
+                var gaul_1;
+
+
+                var transform = d3.geoTransform({
+                    point: projectPoint
+                });
+                var path = d3.geoPath().projection(transform);
+
+
+                var featureElement = svg.selectAll("path")
+                    .data(geojson.features)
+                    .enter()
+                    .append("path")
+                    .classed('country', true)
+                    .attrs(app.initial_country_style)
+
+
+                .attr("code", function(d) {
+
+                        return d.properties.code;
+                    })
+                    .on('click', function(d) {
+                        var path_code = d.properties.code;
+                        //  app.update_country_profile(path_code)
+
+
+
+                        /*
+"country_facts":[
+{
+   "id":8,
+   "isonum":148,
+   "code":"TCD",
+   "country":"Chad",
+   "region":"Central Africa",
+   "pop_ghsl":14028832,
+   "pop_elect":2910575,
+   "pop_noelect_minigrid":11118257,
+   "pop_shs":482987,
+        */
+                        // if (app_state.matrix_indicators == true) {
+
+                        // } else {
+
+                        // }
+                    })
+                    .on('mouseover', app.throttle(function(d) {
+
+                        console.info('mouseovering geo path ' + mouseovered_path.code)
+                        var path_code = d.properties.code;
+
+                        // if (mouseovered_path.code == path_code) {
+                        //     console.warn('NOT passed, ' + mouseovered_path.code + ' / ' + path_code)
+                        //     console.log(path_code)
+                        //     console.warn(mouseovered_path.code)
+                        //         //   mouseovered_path.code = path_code;
+                        //     return false;
+                        // }
+                        //  mouseovered_path.code = path_code;
+                        console.warn('passed, ' + mouseovered_path.code + ' / ' + path_code)
+
+                        //var app_state = { indicators: false, country_facts: false };
+                        if (app_state.matrix_indicators == true) {
+                            //https://github.com/d3/d3-selection-multi#d3-selection-multi
+                            var _sel = rects.filter(function(data) {
+                                //   console.log(data)
+                                return data._code == path_code;
+                            });
+
+                            d3.selectAll('.x_tick').filter(function(data) {
+
+                                if (data === path_code) {
+
+                                    //fx mouseover_label
+                                    d3.select(this).dispatch('mouseover');
+                                }
+                            })
+
+                            d3.selectAll('.sel_cell_from_map')
+                                // .attrs(
+                                //     function(d, i) {
+                                //         return {
+
+                            //             //"stroke": 'white',
+                            //             'stroke-width': 0
+                            //                 //  'stroke-opacity': 0.9
+
+                            //         }
+                            //     }
+                            // )
+                            .classed('sel_cell_from_map', false);
+
+                            _sel
+                            // .attrs(
+                            //     function(d, i) {
+                            //         return {
+                            //             "stroke": 'white',
+                            //             'stroke-width': 1,
+                            //             'stroke-opacity': 0.9
+                            //         }
+                            //     }
+                            // )
+                                .classed('sel_cell_from_map', true);
+
+                        }
+
+                        if (app_state.lollipop_indicators == true) {
+                            d3.selectAll('#lollipop_graph rect').filter(function(data) {
+
+                                if (data.code === path_code) {
+                                    d3.select(this).dispatch('mouseover');
+                                }
+                            })
+                        }
+
+                        //}, 500)
+                    }, 200))
+                    .on('mouseenter', function(d) {
+
+                        console.warn('mousenter ' + d.properties.code)
+                            // var path_code = d.properties.code;
+                            // mouseovered_path.code = path_code;
+                            //   console.info(path_code)
+                    })
+                    .on('mouseout', function(d) {
+                        console.warn('mouseout geo path')
+
+                        mouseovered_path.code = null;
+                        if (app_state.matrix_indicators == true) {
+
+                            d3.selectAll('.sel_cell_from_map')
+                                // .attrs(
+                                //     function(d, i) {
+                                //         return {
+
+                            //             //"stroke": 'white',
+                            //             'stroke-width': 0
+                            //                 //  'stroke-opacity': 0.9
+
+                            //         }
+                            //     }
+                            // )
+                            .classed('sel_cell_from_map', false);
+
+                            d3.selectAll('.x_tick').filter(function(data) {
+
+                                if (data === d.properties.code) {
+                                    // console.log(d3.select(this))
+                                    // var parent = this.parentNode;
+                                    // console.info(parent);
+
+                                    console.info(this)
+                                    d3.select(this).dispatch('mouseout');
+                                }
+                            })
+                        }
+
+                        if (app_state.lollipop_indicators == true) {
+                            d3.selectAll('.myrect').transition()
+                                .duration(10)
+                                .style('opacity', 0)
+                        }
+
+                    })
+
+                function update() {
+                    mouseovered_path.code = null;
+                    featureElement.attr("d", path);
+
+                }
+
+                //
+                map.on("viewreset", update);
+                map.on("movestart", function() {
+                    svg.classed("hidden", true);
+                });
+                map.on("rotate", function() {
+                    svg.classed("hidden", true);
+                });
+                map.on("moveend", function() {
+                    update();
+                    svg.classed("hidden", false);
+                })
+
+
+
+                update();
+
+                /*
+                 var el = document.createElement('circle');
+                            el.setAttribute('r', 50);
+                            el.setAttribute('fill', '#0e44e7');
+                            */
+                console.info(geojson.features)
+
+
+                for (var p in geojson.features) {
+
+                    var d = geojson.features[p];
+
+                    var c = d.properties.centroid.split(' , ');
+                    var lng = round_this(c[0], 2);
+                    var lat = round_this(c[1], 2);
+                    markers_obj_arr.push({
+                        centroid: [lng, lat],
+                        code: d.properties.code,
+                        //  random_num: getRandomInRange(5, 70)
+                    });
+                }
+
+                markers_obj_arr.forEach(function(d) {
+                    // create a HTML element for each feature
+                    var el = document.createElement('div');
+                    el.className = 'animated-icon my-icon';
+                    el.id = 'centroid_' + d.code;
+                    var t_data = all_country_data.features.filter(function(data) {
+                        return data.code == d.code;
+                    })[0]
+
+
+                    if (!t_data) return false;
+                    new mapboxgl.Marker(el)
+                        .setLngLat(d.centroid)
+                        .addTo(map);
+
+                })
+
+                var map_paths = d3.selectAll("#map path.gaul_1");
+
+                function get_color(d, param) {
+                    //     console.log(arguments)
+                    //d comes from the geojson
+                    //param: environmental, etc.
+                    //if (d.properties.code==)
+                    var color;
+                    //   console.log(indexes_arrays)
+                    indexes_arrays[param + '_arr'].forEach(function(data) {
+                        if (data._code == d.properties.code) {
+                            color = data.color;
+                        }
+                    })
+                    return color;
+                }
+
+                function update_circles_by_index(param) {
+                    //financial_index_class
+                    var params_arr = indexes_arrays[param + '_arr'];
+
+                    var circs_values = params_arr.map(function(d) {
+                        return d.index_value;
+                    })
+
+                    var rscale = d3.scaleLinear()
+                        .domain([d3.min(circs_values), d3.max(circs_values)])
+                        .range([15, 40])
+                        // update_by_index('main_index_class');
+
+
+                    markers_obj_arr.forEach(function(d) {
+                        //console.log(d)
+                        var t_data = all_data.filter(function(data) {
+                            return data.code == d.code;
+                        })[0];
+                        if (!t_data) {
+                            return false;
+                        }
+
+
+                        var sel_data = t_data.data_class;
+                        var sel_radius = rscale(sel_data[param]);
+                        var sel_scale_value = scale_values.filter(function(data) {
+                            return data.value == sel_data[param]
+                        })[0];
+                        //   console.log(sel_scale_value)
+                        //{value: 4, color: "#6ee282", title: "4- Good"}
+
+                        var sel_scale_title = indexes_info.filter(function(data) {
+                            return data.title == param
+                        })[0];
+                        // make a marker for each feature and add to the map
+                        setTimeout(function() {
+
+                            var $centroid = $('#centroid_' + d.code);
+
+                            if ($centroid.find('.inner_circle').length == 0)
+                                $centroid.append('<span class="inner_circle">' + sel_data[param] + '</span>');
+                            else
+                                $centroid.find('.inner_circle').text(sel_data[param])
+
+                            $centroid.data(t_data);
+
+                            $centroid.animate({
+                                    //   width: '50px',
+                                    width: sel_radius + 'px',
+                                    height: sel_radius + 'px'
+                                        //  height: '50px'
+                                }
+
+                            ).css(
+                                'background-color',
+                                sel_scale_value.color
+                            )
+
+                            $centroid.find('.inner_circle').animate({
+                                'line-height': sel_radius + 'px',
+                                'font-size': sel_radius / 3
+                            })
+                        }, 300)
+                    })
+                }
+
+                app.update_by_index = function(param) {
+
+                    map.flyTo({
+                        center: [5, -21],
+                        zoom: 2,
+                        speed: 0.4
+                    })
+                    console.warn(param)
+                    app.generate_data(param);
+
+                    for (var p in indexes_info) {
+                        if (indexes_info[p].name == param)
+                            $('.legend_control_container_title').text(indexes_info[p].title)
+
+                    }
+
+                    rects.style("opacity", 0.2);
+                    rects.filter(function(data) {
+
+                        return data.index_type == param;
+                    }).style("opacity", 1);
+                    var map_paths = d3.selectAll("#map path.country");
+
+                    map_paths
+                        .transition()
+                        .duration(1550)
+
+                    .attr("delay", function(d, i) {
+                        return 100 * i
+                    })
+
+                    .attr('fill', function(d) {
+
+                            return get_color(d, param)
+
+                        })
+                        .attrs(app.normal_country_style)
+                        // .on('click', function(d) {
+                        //     console.warn(d)
+                        // })
+                    setTimeout(function() {
+
+                        update_circles_by_index(param)
+
+                        if ($('.show_hide_circles').hasClass('off'))
+                            $('.animated-icon').hide();
+                        else
+                            $('.animated-icon').show();
+                    }, 800)
+                }
+
+
+
+                function projectPoint(lon, lat) {
+                    var point = map.project(new mapboxgl.LngLat(lon, lat));
+                    this.stream.point(point.x, point.y);
+                }
+                // $('#map').on('mousemove', function(e) {
+
+                //     if ($(e.target).hasClass('mapboxgl-popup')) {
+                //         console.warn('mousov country popup')
+                //     }
+                // })
+
+            }
+        </script>
+        <script src="./new_app_js/lollipop.js"></script>
+</body>
