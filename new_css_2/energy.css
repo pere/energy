@@ -1242,3 +1242,7 @@ nav form ul li i.material-icons.on {
 #intro_modal b {
     color: #FF9800;
 }
+
+#country_modal {
+    z-index: 100000!important;
+}
