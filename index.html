@@ -185,8 +185,8 @@
 
                 <div class="row">
                     <div class="col s8">
-                        <p>The PV-DEI index provides a measure of the favourability of investing in decentralised photovoltaic mini-grids in a given country, based on financial, environmental, social and political factors It can be of interest to institutional
-                            and private sector stakeholders: policy makers, international donors, governments and philanthropic investors
+                        <p>The PV-DEI index provides a measure of the <b>favourability of investing</b> in decentralised photovoltaic mini-grids in a given country, based on financial, environmental, social and political factors It can be of interest to
+                            institutional and private sector stakeholders: policy makers, international donors, governments and philanthropic investors
                         </p>
 
                     </div>
@@ -200,24 +200,25 @@
                 <div class="intro_title">Why?</div>
 
                 <div>
-                    <p>650 million people in Africa have no access to electricity. Although the continent has huge untapped renewable energy potential, there is a lack of investment in energy systems. The index highlights good practices as well as challenges.
+                    <p>650 million people in Africa have no access to electricity. Although the continent has huge <b>untapped renewable energy potential</b>, there is a <b>lack of investment</b> in energy systems</p>
+                    <p>The index highlights good practices as well as challenges</p>
                     </p>
                 </div>
 
-                <div class="intro_title">To whom?</div>
+                <!-- <div class="intro_title">To whom?</div>
                 <div>
                     <p>Designed for private sector, international donors, governments, and philanthropic stakeholders who wants to invest in solar PV decentralised options.</p>
 
-                </div>
+                </div> -->
 
                 <div class="intro_title">How?</div>
                 <div>
-                    <p>The index is composed by 52 indicators classified in 4 pillars that effects stakeholder decision-making on PV mini-grid investments: economic, social, financial and environmental considerations
-                    </p>
-                    <p>The financial and political pilars are defined positively when the financial and political situations in a country are stable</p>
-                    <p>The environmental pilar is positive when the environmental conditions are favourable to PV mini-grids implementation </p>
-                    <p>The social pilar is considered positive when the impacts of investing in PV mini-grids results in higher impacts. Therefore, indirectly when social conditions in the country are lower, the “attractiveness” for the different stakeholders
-                        is higher because the impact of bringing electricity can cause higher social impacts. </p>
+
+                    <p>The index uses 52 indicators classified in 4 main pillars: economic, social, financial and environmental</p>
+                    <p>The <b>financial</b> and <b>political</b> indicators are positive if the funding possibilities are favourable and the political/policy situation is stable</p>
+                    <p>The <b>environmental</b> dimension reflects the potential for exploiting local renewable energy resources, in particular with PV mini-grids and minimizing CO2 emissions</p>
+                    <p>The <b>social</b> pillar is positive when investments can bring higher socio-economic impact i.e. electrification can bring greater relative benefits to areas starting from high levels of poverty</p>
+
 
                 </div>
             </div>
@@ -1291,6 +1292,7 @@ social_index_class: 3
                 $(".mapboxgl-map").css('background-color', "#a1b4c1")
 
 
+
                 app.just_name_country_popup = new mapboxgl.Popup({
                     closeButton: false,
                     closeOnClick: true,
@@ -1744,7 +1746,7 @@ social_index_class: 3
                         .attr("fill", "#ffc107")
                 }
 
-                var container = map.getCanvasContainer()
+                var container = map.getCanvasContainer();
                 var svg = d3.select(container).append("svg");
                 var gaul_1;
 
