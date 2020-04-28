@@ -1238,3 +1238,7 @@ nav form ul li i.material-icons.on {
 .indicators_list:hover {
     cursor: pointer;
 }
+
+#intro_modal b {
+    color: #FF9800;
+}
