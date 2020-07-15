@@ -177,6 +177,7 @@
             <a href="#!" class="modal-close waves-effect waves-green btn-flat right"><i class="material-icons">close</i></a>
         </div>
         <div class="modal-content">
+            <h5>PV Decentralised Energy Investment (PV-DESI) Index</h5>
             <div class="left">
                 <div class="intro_title">What?</div>
 
@@ -185,8 +186,9 @@
 
                 <div class="row">
                     <div class="col s8">
-                        <p>The PV-DEI index provides a measure of the <b>favourability of investing</b> in decentralised photovoltaic mini-grids in a given country, based on financial, environmental, social and political factors It can be of interest to
-                            institutional and private sector stakeholders: policy makers, international donors, governments and philanthropic investors
+                        <p>The PV-DEI index provides a measure of the <b>favourability of investing</b> in decentralised photovoltaic mini-grids in a given country, based on financial, environmental, social and political factors</br>
+                            </br>
+                            It can be of interest to institutional and private sector stakeholders: policy makers, international donors, governments and philanthropic investors
                         </p>
 
                     </div>
@@ -214,11 +216,13 @@
                 <div class="intro_title">How?</div>
                 <div>
 
-                    <p>The index uses 52 indicators classified in 4 main pillars: economic, social, financial and environmental</p>
+                    <p>The index uses 52 indicators classified in 4 main pillars: financial, political, social and environmental</p>
                     <p>The <b>financial</b> and <b>political</b> indicators are positive if the funding possibilities are favourable and the political/policy situation is stable</p>
                     <p>The <b>environmental</b> dimension reflects the potential for exploiting local renewable energy resources, in particular with PV mini-grids and minimizing CO2 emissions</p>
                     <p>The <b>social</b> pillar is positive when investments can bring higher socio-economic impact i.e. electrification can bring greater relative benefits to areas starting from high levels of poverty</p>
-
+                    <small style='color:burlywood'>See the JRC publication "A multidimensional high-resolution assessment approach to
+                        boost decentralised energy investments in Sub-Saharan Africa" for detailed
+                        information</small>
 
                 </div>
             </div>
@@ -1484,7 +1488,7 @@ social_index_class: 3
                     }
                     var i = 0;
                     for (var p in _t.data_val) {
-                        tds.eq(i).find('div span:last').css('font-size', '0.8em!important')
+                        tds.eq(i).find('div span:last').css('font-size', '0.8em!important');
                         tds.eq(i).find('div span:last').text(_t.data_val[p])
                         i++;
                     }
@@ -1492,10 +1496,20 @@ social_index_class: 3
                     //  $('.country_info').show();
                     for (var p in _t.country_facts[0]) {
                         if (p !== 'country') {
-                            if (typeof _t.country_facts[0][p] == 'number')
-                                $('.' + p, '#country_modal').next().text(numberWithCommas(_t.country_facts[0][p]))
-                            else
-                                $('.' + p, '#country_modal').next().text(_t.country_facts[0][p])
+                            if (typeof _t.country_facts[0][p] == 'number') {
+
+                                if (p.indexOf('pop_') >= 0 && p !== 'pop_ghsl') {
+
+                                    var val = parseInt(_t.country_facts[0][p] / 1000);
+
+                                } else {
+                                    var val = _t.country_facts[0][p];
+                                }
+                                $('.' + p, '#country_modal').next().text(numberWithCommas(val))
+                            } else {
+                                $('.' + p, '#country_modal').next().text(_t.country_facts[0][p]);
+                            }
+
                         } else {
                             $('.country_name', '#country_modal').text(_t.country_facts[0][p])
                         }
@@ -2009,6 +2023,35 @@ social_index_class: 3
 
                 function update_circles_by_index(param) {
                     //financial_index_class
+                    console.log(param)
+                    switch (param) {
+                        case 'main_index_class':
+                            var rank_code = 'general_rank';
+
+                            break;
+
+                        case 'env_index_class':
+                            var rank_code = 'rank_env';
+
+                            break;
+                        case 'social_index_class':
+                            var rank_code = 'rank_social';
+
+                            break;
+                        case 'political_index_class':
+                            var rank_code = 'rank_political';
+
+                            break;
+
+                        case 'financial_index_class':
+                            var rank_code = 'rank_financial';
+                            break;
+                        default:
+                            break;
+                    }
+
+
+
                     var params_arr = indexes_arrays[param + '_arr'];
 
                     var circs_values = params_arr.map(function(d) {
@@ -2017,7 +2060,7 @@ social_index_class: 3
 
                     var rscale = d3.scaleLinear()
                         .domain([d3.min(circs_values), d3.max(circs_values)])
-                        .range([15, 40])
+                        .range([25, 45])
                         // update_by_index('main_index_class');
 
 
@@ -2026,12 +2069,24 @@ social_index_class: 3
                         var t_data = all_data.filter(function(data) {
                             return data.code == d.code;
                         })[0];
+                        console.log(t_data)
+                            /*
+                        data_ranks:
+                        general_rank: 12
+                        rank_env: 36
+                        rank_financial: 14
+                        rank_political: 6
+                        rank_social: 24
+                        */
                         if (!t_data) {
                             return false;
                         }
 
 
                         var sel_data = t_data.data_class;
+                        var sel_rank = t_data.data_ranks[rank_code];
+
+
                         var sel_radius = rscale(sel_data[param]);
                         var sel_scale_value = scale_values.filter(function(data) {
                             return data.value == sel_data[param]
@@ -2048,9 +2103,9 @@ social_index_class: 3
                             var $centroid = $('#centroid_' + d.code);
 
                             if ($centroid.find('.inner_circle').length == 0)
-                                $centroid.append('<span class="inner_circle">' + sel_data[param] + '</span>');
+                                $centroid.append('<span class="inner_circle">' + sel_rank + '</span>');
                             else
-                                $centroid.find('.inner_circle').text(sel_data[param])
+                                $centroid.find('.inner_circle').text(sel_rank)
 
                             $centroid.data(t_data);
 
@@ -2068,7 +2123,7 @@ social_index_class: 3
 
                             $centroid.find('.inner_circle').animate({
                                 'line-height': sel_radius + 'px',
-                                'font-size': sel_radius / 3
+                                'font-size': sel_radius / 2.5
                             })
                         }, 300)
                     })
