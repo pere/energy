@@ -43,11 +43,11 @@
 
                         <thead>
                             <tr>
-                                <td>Overall Score</td>
-                                <td>Environmental</td>
-                                <td>Social</td>
-                                <td>Political</td>
-                                <td>Financial</td>
+                                <td style='background-color:coral'>Overall Score</td>
+                                <td style='background-color:rgb(167, 99, 215)'>Environmental</td>
+                                <td style='background-color:rgb(47, 163, 125);'>Social</td>
+                                <td style='background-color: rgb(151, 157, 156); '>Political</td>
+                                <td style='background-color:rgb(234, 207, 61)'>Financial</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -1498,7 +1498,9 @@ social_index_class: 3
                         if (p !== 'country') {
                             if (typeof _t.country_facts[0][p] == 'number') {
 
-                                if (p.indexOf('pop_') >= 0 && p !== 'pop_ghsl') {
+                                if (p.indexOf('pop_') >= 0)
+                                //&& p !== 'pop_ghsl') 
+                                {
 
                                     var val = parseInt(_t.country_facts[0][p] / 1000);
 
