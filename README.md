@@ -1,2 +1,2 @@
 # energy
-https://pere.github.io/energy/map_c.html
+https://pere.github.io/energy/
