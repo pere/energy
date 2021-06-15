@@ -1,6 +1,7 @@
 $('.modal').modal({
     opacity: 0.8
 })
+alert($('#main-navigation').length)
 if ($('#main-navigation').length>1)
 {
     alert('in drupal')
