@@ -1,7 +1,10 @@
 $('.modal').modal({
     opacity: 0.8
 })
- alert(window.location.href)
+if ($('#main-navigation').length>1)
+{
+    alert('in drupal')
+}
 $('#intro_modal').modal({
     opacity: 0.8,
     onCloseEnd: function() {
