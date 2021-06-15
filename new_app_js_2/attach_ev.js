@@ -1,7 +1,7 @@
 $('.modal').modal({
     opacity: 0.8
 })
-
+ alert(window.location.href)
 $('#intro_modal').modal({
     opacity: 0.8,
     onCloseEnd: function() {
