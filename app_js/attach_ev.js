@@ -1,4 +1,5 @@
 $('select').formSelect();
+ alert(window.location.href)
 $('.modal').modal({ opacity: 0.8 });
 //$('.country_icon_info').trigger('click');
 $('.other_indicator_select').trigger('click');
